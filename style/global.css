@@ -63,7 +63,6 @@
 
 .btn-wrapper button:hover {
   cursor: pointer;
-  transform: translateY(5px);
 }
 
 .btn-wrapper button i {
@@ -72,4 +71,66 @@
   font-size: 20px;
   height: 20px;
   width: 20px;
+}
+
+/* modals */
+.error-messages {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+}
+
+.modal {
+  height: 100%;
+  width: 290px;
+  z-index: 1;
+  padding: 12px 8px;
+  margin: -20px 0 0 15px;
+  background: ghostwhite;
+  border-radius: 4px;
+  display: none;
+  font-size: 14px;
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.06);
+  animation: zoom-in-out 0.4s ease-in-out, otilo 0.4s 2s ease-in-out forwards;
+}
+
+.modal:hover {
+  cursor: pointer;
+  animation-play-state: paused;
+}
+
+.error {
+  color: red;
+  border-left: 4px solid red;
+}
+
+.success {
+  color: green;
+  border-left: 4px solid green;
+}
+
+@keyframes zoom-in-out {
+  0% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes otilo {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(0);
+  }
 }
