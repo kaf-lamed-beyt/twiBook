@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TwiBook</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./style/global.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&family=Tilt+Neon&family=Tilt+Warp&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/d9e33f69d6.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- <div class="og-image">
+      <h1>twi<span>Book</span></h1>
+      <p>
+        Save tweets. Come back and <span>"</span>quote<span>"</span> them later.
+      </p>
+    </div> -->
+
+    <main id="root" class="root">
+      <h1 class="app-name">twiBook</h1>
+      <div class="insert-tweet">
+        <form class="app-form">
+          <label for="tweet title">
+            Title
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value=""
+              placeholder="give me a title"
+            />
+          </label>
+          <label for="tweet link">
+            Link
+            <input
+              type="text"
+              name="link"
+              id="link"
+              value=""
+              placeholder="enter link"
+            />
+          </label>
+
+          <div class="btn-wrapper">
+            <button class="save-tweet">Save</button>
+          </div>
+        </form>
+      </div>
+      <!-- results component -->
+      <div class="saved-tweets-container">
+        <form class="search-tweets">
+          <input
+            id="search"
+            type="text"
+            name="search"
+            value=""
+            placeholder="search for tweets"
+          />
+        </form>
+
+        <div class="tweets"></div>
+      </div>
+    </main>
+    <script src="./index.js"></script>
+  </body>
+</html>
