@@ -190,6 +190,8 @@
 
 /* show the form to add tweet when plus button is clicked */
 .come-down {
+  margin: 0;
+  z-index: 3;
   transition: all 0.4s ease-in-out forwards;
   animation: otilo-fade-reverse 0.4s ease-in-out forwards;
   animation-delay: 0.2s;

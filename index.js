@@ -80,6 +80,33 @@ function toggleButtonState() {
   }
 }
 
+function search() {
+  const results = document.querySelector(".tweets");
+  const searchTerm = document.querySelector("#search").value;
+  const tweets = JSON.parse(localStorage.getItem("tweets"));
+
+  const filteredTweets = tweets.filter(({ title }) =>
+    title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  console.log(filteredTweets);
+
+  // Render filtered tweets
+  const cards = filteredTweets?.map(({ id, link, title }) => {
+    return `
+        <a href="${link}" target="__blank">
+          <div class="tweet-card">
+            <p class="tweet-title">
+              ${title}
+            </p>
+          </div>
+        </a>
+      `;
+  });
+
+  results.innerHTML += cards.join("");
+}
+
 // check if there's a localStorage object containing an array of tweets
 (function checkForTweets() {
   const tweets = JSON.parse(localStorage.getItem("tweets"));
@@ -127,29 +154,13 @@ function saveToLocalStorage() {
   });
 }
 
-// search for tweets
-function search() {
-  const searchTerm = document.querySelector("#search").value;
-  const tweets = JSON.parse(localStorage.getItem("tweets"));
-
-  const filteredTweets = tweets.filter(({ title }) =>
-    title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  console.log(filteredTweets);
-
-  filteredTweets.map(({ id, link, title }) => {
-    return (SAVED_TWEETS.innerHTML += `
-    <a href="${link}" target="__blank" key=${id}>
-    <div class="tweet-card">
-      <p class="tweet-title">
-        ${title}
-      </p>
-    </div>
-  </a>`);
-  });
+function addTweet() {
+  INSERT_TWEET.removeAttribute("style");
+  INSERT_TWEET.classList.add("come-down");
 }
 
+NEW_TWEET.addEventListener("click", addTweet);
+SEARCHBOX.addEventListener("input", search);
 toggleButtonState();
 TITLE_FEILD.addEventListener("input", toggleButtonState);
 LINK_FEILD.addEventListener("input", toggleButtonState);
@@ -159,5 +170,3 @@ INSERT_TWEET.addEventListener("submit", function (e) {
 
   saveToLocalStorage();
 });
-
-SEARCHBOX.addEventListener("input", search);
