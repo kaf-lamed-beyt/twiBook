@@ -157,6 +157,7 @@ function saveToLocalStorage() {
 function addTweet() {
   INSERT_TWEET.removeAttribute("style");
   INSERT_TWEET.classList.add("come-down");
+  TWEETS_CONTAINER.style.display = "none";
 }
 
 NEW_TWEET.addEventListener("click", addTweet);
@@ -169,4 +170,5 @@ INSERT_TWEET.addEventListener("submit", function (e) {
   e.preventDefault();
 
   saveToLocalStorage();
+  checkForTweets();
 });
