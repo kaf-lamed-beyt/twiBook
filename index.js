@@ -32,7 +32,7 @@ window.onload = function () {
 };
 
 function showForm() {
-  INSERT_TWEET.removeAttribute("style");
+  INSERT_TWEET.style.display = "flex";
   INSERT_TWEET.classList.add("come-down");
   TWEETS_CONTAINER.style.display = "none";
 }
@@ -42,6 +42,7 @@ function hideForm() {
   INSERT_TWEET.addEventListener("animationend", function () {
     INSERT_TWEET.parentNode.removeChild(INSERT_TWEET);
   });
+  TWEETS_CONTAINER.classList.add("appear");
 }
 
 function toggleButtonState() {
@@ -60,16 +61,31 @@ function validateInputs() {
   const tweetTitle = TITLE_FEILD.value;
   const tweetLink = LINK_FEILD.value;
 
-  if (!tweetLink || !tweetTitle) {
+  if (!tweetLink && !tweetTitle) {
     ERROR_MODAL.innerHTML =
       "Don't anger the gods! Please enter a tweet link and the title.";
     ERROR_MODAL.style.display = "block";
     return false;
   }
 
-  if (!tweetLink.includes("twitter.com")) {
+  if (tweetTitle && !tweetLink.includes("twitter.com")) {
     ERROR_MODAL.style.display = "block";
     ERROR_MODAL.innerHTML = "The link you entered is invalid";
+    return false;
+  }
+
+  if (!tweetLink.includes("twitter.com") && !tweetTitle) {
+    ERROR_MODAL.style.display = "block";
+    ERROR_MODAL.innerHTML =
+      "The link you entered is invalid. And please add a title";
+    TITLE_FEILD.focus();
+    return false;
+  }
+
+  if (!tweetLink.includes("twitter.com")) {
+    ERROR_MODAL.style.display = "block";
+    ERROR_MODAL.innerHTML = "invalid Tweet link";
+    LINK_FEILD.focus();
     return false;
   }
 
@@ -77,10 +93,22 @@ function validateInputs() {
     ERROR_MODAL.innerHTML =
       "I know you have a retentive memory, but won't it be nice to search for these links with their titles?";
     ERROR_MODAL.style.display = "block";
+    TITLE_FEILD.focus();
     return false;
   }
 
-  return true;
+  if (!tweetLink) {
+    ERROR_MODAL.innerHTML = "I think you forgot to add a tweet link";
+    ERROR_MODAL.style.display = "block";
+    LINK_FEILD.focus();
+    return false;
+  }
+
+  if (tweetLink && tweetTitle) {
+    SUCCESS_MODAL.innerHTML = "Great work saving your tweet!";
+    SUCCESS_MODAL.style.display = "block";
+    return false;
+  }
 }
 
 function searchTweets(query, tweets) {
@@ -121,11 +149,7 @@ function renderTweets() {
 }
 
 function saveToLocalStorage() {
-  const valid = validateInputs();
-
-  if (!valid) {
-    return;
-  }
+  validateInputs();
 
   const title = TITLE_FEILD.value;
   const link = LINK_FEILD.value;
@@ -137,7 +161,6 @@ function saveToLocalStorage() {
   tweets.push({ id, title, link });
   localStorage.setItem("tweets", JSON.stringify(tweets));
 
-  hideForm();
   renderTweets();
   TITLE_FEILD.value = "";
   LINK_FEILD.value = "";

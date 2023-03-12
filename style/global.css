@@ -198,6 +198,7 @@
 
 /* show the form to add tweet when plus button is clicked */
 .come-down {
+  display: block;
   opacity: 0;
   animation: fade-in 0.4s ease-in-out forwards;
   animation-delay: 0.2s;
