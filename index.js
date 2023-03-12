@@ -7,6 +7,7 @@ const SAVED_TWEETS = document.querySelector(".tweets");
 const MORE_BTN = document.querySelector(".see-more");
 const TWEETS_CONTAINER = document.querySelector(".saved-tweets-container");
 const NEW_TWEET = document.querySelector(".add-tweet");
+const SEARCHBOX = document.querySelector("#search");
 
 // modals
 const ERROR_MODAL = document.querySelector(".error");
@@ -79,6 +80,32 @@ function toggleButtonState() {
   }
 }
 
+// check if there's a localStorage object containing an array of tweets
+(function checkForTweets() {
+  const tweets = JSON.parse(localStorage.getItem("tweets"));
+
+  if (tweets) {
+    INSERT_TWEET.style.display = "none";
+    TWEETS_CONTAINER.style.display = "block";
+    TWEETS_CONTAINER.classList.add("appear");
+  }
+
+  // render available tweets
+  const cards = tweets?.reverse().map(({ id, link, title }, index) => {
+    const delay = `${BASE_ANIME_DELAY * index}s`;
+
+    return (SAVED_TWEETS.innerHTML += `
+      <a href="${link}" target="__blank" key=${id}>
+      <div class="tweet-card" style="--animation-delay: ${delay}">
+        <p class="tweet-title">
+          ${title}
+        </p>
+      </div>
+    </a>
+      `);
+  });
+})();
+
 function saveToLocalStorage() {
   validateInputs();
 
@@ -98,44 +125,29 @@ function saveToLocalStorage() {
   INSERT_TWEET.addEventListener("animationend", function () {
     INSERT_TWEET.parentNode.removeChild(INSERT_TWEET);
   });
-
-  // fade tweets container into viewport
-  TWEETS_CONTAINER.classList.add("appear");
 }
 
-// check if there's a localStorage object containing an array of tweets
-(function checkForTweets() {
+// search for tweets
+function search() {
+  const searchTerm = document.querySelector("#search").value;
   const tweets = JSON.parse(localStorage.getItem("tweets"));
 
-  if (tweets) {
-    INSERT_TWEET.style.display = "none";
-    TWEETS_CONTAINER.style.display = "block";
-  }
+  const filteredTweets = tweets.filter(({ title }) =>
+    title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  // render available tweets
-  const cards = tweets?.reverse().map(({ id, link, title }, index) => {
-    const delay = `${BASE_ANIME_DELAY * index}s`;
+  console.log(filteredTweets);
 
+  filteredTweets.map(({ id, link, title }) => {
     return (SAVED_TWEETS.innerHTML += `
     <a href="${link}" target="__blank" key=${id}>
-    <div class="tweet-card" style="--animation-delay: ${delay}">
+    <div class="tweet-card">
       <p class="tweet-title">
         ${title}
       </p>
     </div>
-  </a>
-    `);
+  </a>`);
   });
-})();
-
-checkForTweets();
-
-// add new tweet
-function addTweet() {
-  INSERT_TWEET.classList.remove("disappear");
-  INSERT_TWEET.style.display = "block";
-
-  console.log("click");
 }
 
 toggleButtonState();
@@ -148,4 +160,4 @@ INSERT_TWEET.addEventListener("submit", function (e) {
   saveToLocalStorage();
 });
 
-NEW_TWEET.addEventListener("click", addTweet);
+SEARCHBOX.addEventListener("input", search);

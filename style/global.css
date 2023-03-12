@@ -85,7 +85,7 @@
   display: none;
   font-size: 14px;
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.06);
-  animation: zoom-in-out 0.4s ease-in-out, otilo 0.4s 2s ease-in-out forwards;
+  animation: zoom-in-out 0.4s ease-in-out, otilo 0.6s 4s ease-in-out forwards;
 }
 
 .modal:hover {
@@ -111,11 +111,6 @@
   height: 100%;
   display: none;
   transition: all 0.4s ease-in-out;
-}
-
-.appear {
-  opacity: 0;
-  animation: enter 0.4s ease-in-out forwards;
 }
 
 .saved-tweets-container form {
@@ -184,8 +179,13 @@
 /* remove form whenever user successfully adds a tweet */
 .disappear {
   transition: all 0.4s ease-in-out forwards;
-  animation: otilo-fade 0.4s ease-in-out forwards;
-  animation-delay: 0.2s;
+  animation: otilo-fade 0.4s ease-in-out;
+  animation-delay: 6s;
+}
+
+.appear {
+  opacity: 0;
+  animation: enter 0.4s ease-in-out forwards;
 }
 
 /* show the form to add tweet when plus button is clicked */
