@@ -80,8 +80,12 @@ function toggleButtonState() {
   }
 }
 
-function search(item) {
-  const filteredTweets = item.filter(({ title }) =>
+function search() {
+  const searchTerm = SEARCHBOX.value;
+  const tweets = JSON.parse(localStorage.getItem("tweets"));
+  const results = document.querySelector(".tweets");
+
+  const filteredTweets = tweets?.filter(({ title }) =>
     title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -100,14 +104,12 @@ function search(item) {
     `;
   });
 
-  results.innerHTML = cards.join("");
+  results.innerHTML += cards;
 }
 
 // check if there's a localStorage object containing an array of tweets
 function checkForTweets() {
   const tweets = JSON.parse(localStorage.getItem("tweets"));
-
-  // search(tweets);
 
   if (tweets) {
     INSERT_TWEET.style.display = "none";
@@ -148,7 +150,7 @@ function saveToLocalStorage() {
 
   INSERT_TWEET.classList.add("disappear");
   INSERT_TWEET.addEventListener("animationend", function () {
-    INSERT_TWEET.parentNode.removeChild(INSERT_TWEET);
+    INSERT_TWEET.parentNode.remove(INSERT_TWEET);
   });
 
   checkForTweets();
