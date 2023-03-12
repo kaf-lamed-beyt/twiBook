@@ -1,6 +1,6 @@
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
-    navigator.serviceWorker.register("/service-worker.js");
+    navigator.serviceWorker.register("./service-worker.js");
   });
 }
 
@@ -26,3 +26,34 @@ self.addEventListener("fetch", function (event) {
     })
   );
 });
+
+// // check if there's a localStorage object containing an array of tweets
+// function checkForTweets() {
+//   const tweets = JSON.parse(localStorage.getItem("tweets"));
+//   const searchParam = SEARCHBOX.value;
+
+//   const filteredList = search(searchParam, tweets);
+
+//   console.log(filteredList);
+
+//   if (tweets) {
+//     INSERT_TWEET.style.display = "none";
+//     // TWEETS_CONTAINER.style.display = "block";
+//     TWEETS_CONTAINER.classList.add("appear");
+//   }
+
+//   // render available tweets
+//   const cards = tweets?.reverse().map(({ id, link, title }, index) => {
+//     const delay = `${BASE_ANIME_DELAY * index}s`;
+
+//     return (SAVED_TWEETS.innerHTML += `
+//       <a href="${link}" target="__blank" key=${id}>
+//       <div class="tweet-card" style="--animation-delay: ${delay}">
+//         <p class="tweet-title">
+//           ${title}
+//         </p>
+//       </div>
+//     </a>
+//       `);
+//   });
+// }

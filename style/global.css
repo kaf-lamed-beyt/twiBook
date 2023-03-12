@@ -192,6 +192,7 @@
 
 .appear {
   opacity: 0;
+  display: block;
   animation: enter 0.4s ease-in-out forwards;
 }
 

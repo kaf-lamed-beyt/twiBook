@@ -4,68 +4,44 @@ const SAVE_BUTTON = document.querySelector(".save-tweet");
 const TITLE_FEILD = document.querySelector("#title");
 const LINK_FEILD = document.querySelector("#link");
 const SAVED_TWEETS = document.querySelector(".tweets");
-const MORE_BTN = document.querySelector(".see-more");
 const TWEETS_CONTAINER = document.querySelector(".saved-tweets-container");
 const NEW_TWEET = document.querySelector(".add-tweet");
 const SEARCHBOX = document.querySelector("#search");
+const SAVE_BTN = document.querySelector(".save-tweet");
 
 // modals
 const ERROR_MODAL = document.querySelector(".error");
 const SUCCESS_MODAL = document.querySelector(".success");
 
-// validate input fields
-function validateInputs() {
-  const tweetTitle = document.querySelector("#title").value;
-  const tweetLink = document.querySelector("#link").value;
+// check if there's a localStorage object containing an array of tweets
+function checkForTweets() {
+  const tweets = JSON.parse(localStorage.getItem("tweets"));
 
-  if (!tweetLink && !tweetTitle) {
-    ERROR_MODAL.innerHTML =
-      "Don't anger the gods! Please enter a tweet link and the title.";
-    ERROR_MODAL.style.display = "block";
-    return false;
+  if (tweets && tweets.length) {
+    TWEETS_CONTAINER.classList.add("appear");
+    INSERT_TWEET.style.display = "none";
+    renderTweets(tweets);
+  } else {
+    showForm();
   }
+}
 
-  if (tweetTitle && !tweetLink.includes("twitter.com")) {
-    ERROR_MODAL.style.display = "block";
-    ERROR_MODAL.innerHTML = "The link you entered is invalid";
-    return false;
-  }
+// onload, check for available tweets
+window.onload = function () {
+  checkForTweets();
+};
 
-  if (!tweetLink.includes("twitter.com") && !tweetTitle) {
-    ERROR_MODAL.style.display = "block";
-    ERROR_MODAL.innerHTML =
-      "The link you entered is invalid. And please add a title";
-    TITLE_FEILD.focus();
-    return false;
-  }
+function showForm() {
+  INSERT_TWEET.removeAttribute("style");
+  INSERT_TWEET.classList.add("come-down");
+  TWEETS_CONTAINER.style.display = "none";
+}
 
-  if (!tweetLink.includes("twitter.com")) {
-    ERROR_MODAL.style.display = "block";
-    ERROR_MODAL.innerHTML = "invalid Tweet link";
-    LINK_FEILD.focus();
-    return false;
-  }
-
-  if (!tweetTitle) {
-    ERROR_MODAL.innerHTML =
-      "I know you have a retentive memory, but won't it be nice to search for these links with their titles?";
-    ERROR_MODAL.style.display = "block";
-    TITLE_FEILD.focus();
-    return false;
-  }
-
-  if (!tweetLink) {
-    ERROR_MODAL.innerHTML = "I think you forgot to add a tweet link";
-    ERROR_MODAL.style.display = "block";
-    LINK_FEILD.focus();
-    return false;
-  }
-
-  if (tweetLink && tweetTitle) {
-    SUCCESS_MODAL.innerHTML = "Great work saving your tweet!";
-    SUCCESS_MODAL.style.display = "block";
-    return false;
-  }
+function hideForm() {
+  INSERT_TWEET.classList.add("disappear");
+  INSERT_TWEET.addEventListener("animationend", function () {
+    INSERT_TWEET.parentNode.removeChild(INSERT_TWEET);
+  });
 }
 
 function toggleButtonState() {
@@ -80,66 +56,79 @@ function toggleButtonState() {
   }
 }
 
-function search() {
-  const searchTerm = SEARCHBOX.value;
-  const tweets = JSON.parse(localStorage.getItem("tweets"));
-  const results = document.querySelector(".tweets");
+function validateInputs() {
+  const tweetTitle = TITLE_FEILD.value;
+  const tweetLink = LINK_FEILD.value;
 
-  const filteredTweets = tweets?.filter(({ title }) =>
-    title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  if (!tweetLink || !tweetTitle) {
+    ERROR_MODAL.innerHTML =
+      "Don't anger the gods! Please enter a tweet link and the title.";
+    ERROR_MODAL.style.display = "block";
+    return false;
+  }
+
+  if (!tweetLink.includes("twitter.com")) {
+    ERROR_MODAL.style.display = "block";
+    ERROR_MODAL.innerHTML = "The link you entered is invalid";
+    return false;
+  }
+
+  if (!tweetTitle) {
+    ERROR_MODAL.innerHTML =
+      "I know you have a retentive memory, but won't it be nice to search for these links with their titles?";
+    ERROR_MODAL.style.display = "block";
+    return false;
+  }
+
+  return true;
+}
+
+function searchTweets(query, tweets) {
+  const searchTerm = query.value.toLowerCase();
+
+  if (!searchTerm) {
+    return tweets;
+  }
+
+  return tweets.filter(({ title }) => title.toLowerCase().includes(searchTerm));
+}
+
+function renderTweets() {
+  const tweets = JSON.parse(localStorage.getItem("tweets")) || [];
+  const filteredTweets = searchTweets(SEARCHBOX, tweets);
 
   console.log(filteredTweets);
 
-  // Render filtered tweets
-  const cards = filteredTweets?.map(({ id, link, title }) => {
-    return `
-      <a href="${link}" target="__blank">
-        <div class="tweet-card">
+  SAVED_TWEETS.innerHTML = "";
+
+  const cards = filteredTweets.reverse().map(({ id, link, title }, index) => {
+    const delay = `${BASE_ANIME_DELAY * index}s`;
+
+    return (SAVED_TWEETS.innerHTML += `
+      <a href="${link}" target="__blank" key=${id}>
+        <div class="tweet-card" style="--animation-delay: ${delay}">
           <p class="tweet-title">
             ${title}
           </p>
         </div>
       </a>
-    `;
+    `);
   });
 
-  results.innerHTML += cards;
-}
-
-// check if there's a localStorage object containing an array of tweets
-function checkForTweets() {
-  const tweets = JSON.parse(localStorage.getItem("tweets"));
-
-  if (tweets) {
-    INSERT_TWEET.style.display = "none";
-    TWEETS_CONTAINER.style.display = "block";
-    TWEETS_CONTAINER.classList.add("appear");
+  if (cards.length === 0) {
+    SAVED_TWEETS.innerText = "no result found";
   }
-
-  // render available tweets
-  const cards = tweets?.reverse().map(({ id, link, title }, index) => {
-    const delay = `${BASE_ANIME_DELAY * index}s`;
-
-    return (SAVED_TWEETS.innerHTML += `
-      <a href="${link}" target="__blank" key=${id}>
-      <div class="tweet-card" style="--animation-delay: ${delay}">
-        <p class="tweet-title">
-          ${title}
-        </p>
-      </div>
-    </a>
-      `);
-  });
 }
-
-checkForTweets();
 
 function saveToLocalStorage() {
-  validateInputs();
+  const valid = validateInputs();
 
-  const title = document.querySelector("#title").value;
-  const link = document.querySelector("#link").value;
+  if (!valid) {
+    return;
+  }
+
+  const title = TITLE_FEILD.value;
+  const link = LINK_FEILD.value;
   const id = Math.floor(Math.random() * 60000) + 10000;
   let tweets = JSON.parse(localStorage.getItem("tweets"));
 
@@ -148,23 +137,15 @@ function saveToLocalStorage() {
   tweets.push({ id, title, link });
   localStorage.setItem("tweets", JSON.stringify(tweets));
 
-  INSERT_TWEET.classList.add("disappear");
-  INSERT_TWEET.addEventListener("animationend", function () {
-    INSERT_TWEET.parentNode.remove(INSERT_TWEET);
-  });
-
-  checkForTweets();
+  hideForm();
+  renderTweets();
+  TITLE_FEILD.value = "";
+  LINK_FEILD.value = "";
 }
 
-function addTweet() {
-  INSERT_TWEET.removeAttribute("style");
-  INSERT_TWEET.classList.add("come-down");
-  TWEETS_CONTAINER.style.display = "none";
-}
-
-NEW_TWEET.addEventListener("click", addTweet);
-SEARCHBOX.addEventListener("input", search);
 toggleButtonState();
+NEW_TWEET.addEventListener("click", showForm);
+SEARCHBOX.addEventListener("input", renderTweets);
 TITLE_FEILD.addEventListener("input", toggleButtonState);
 LINK_FEILD.addEventListener("input", toggleButtonState);
 
