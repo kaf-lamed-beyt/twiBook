@@ -5,7 +5,7 @@ const TITLE_FEILD = document.querySelector("#title");
 const LINK_FEILD = document.querySelector("#link");
 const SAVED_TWEETS = document.querySelector(".tweets");
 const MORE_BTN = document.querySelector(".see-more");
-const TWEETS_CONTAINER = document.querySelector(".save-tweets-container");
+const TWEETS_CONTAINER = document.querySelector(".saved-tweets-container");
 const NEW_TWEET = document.querySelector(".add-tweet");
 
 // modals
@@ -59,6 +59,12 @@ function validateInputs() {
     LINK_FEILD.focus();
     return false;
   }
+
+  if (tweetLink && tweetTitle) {
+    SUCCESS_MODAL.innerHTML = "Great work saving your tweet!";
+    SUCCESS_MODAL.style.display = "block";
+    return false;
+  }
 }
 
 function toggleButtonState() {
@@ -103,6 +109,7 @@ function saveToLocalStorage() {
 
   if (tweets) {
     INSERT_TWEET.style.display = "none";
+    TWEETS_CONTAINER.style.display = "block";
   }
 
   // render available tweets
@@ -120,6 +127,8 @@ function saveToLocalStorage() {
     `);
   });
 })();
+
+checkForTweets();
 
 // add new tweet
 function addTweet() {

@@ -65,14 +65,6 @@
   cursor: pointer;
 }
 
-.btn-wrapper button i {
-  color: #fff;
-  border: 1px solid red;
-  font-size: 20px;
-  height: 20px;
-  width: 20px;
-}
-
 /* modals */
 .error-messages {
   position: absolute;
@@ -211,6 +203,15 @@
 
   .tweets {
     padding: 0;
+  }
+
+  .insert-tweet {
+    width: 100%;
+    padding: 10px 20px;
+  }
+
+  .insert-tweet input {
+    width: 100%;
   }
 }
 
