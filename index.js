@@ -94,21 +94,21 @@ function search() {
   // Render filtered tweets
   const cards = filteredTweets?.map(({ id, link, title }) => {
     return `
-        <a href="${link}" target="__blank">
-          <div class="tweet-card">
-            <p class="tweet-title">
-              ${title}
-            </p>
-          </div>
-        </a>
-      `;
+      <a href="${link}" target="__blank">
+        <div class="tweet-card">
+          <p class="tweet-title">
+            ${title}
+          </p>
+        </div>
+      </a>
+    `;
   });
 
-  results.innerHTML += cards.join("");
+  results.innerHTML = cards.join("");
 }
 
 // check if there's a localStorage object containing an array of tweets
-(function checkForTweets() {
+function checkForTweets() {
   const tweets = JSON.parse(localStorage.getItem("tweets"));
 
   if (tweets) {
@@ -131,7 +131,9 @@ function search() {
     </a>
       `);
   });
-})();
+}
+
+checkForTweets();
 
 function saveToLocalStorage() {
   validateInputs();
@@ -146,12 +148,12 @@ function saveToLocalStorage() {
   tweets.push({ id, title, link });
   localStorage.setItem("tweets", JSON.stringify(tweets));
 
-  console.log(tweets);
-
   INSERT_TWEET.classList.add("disappear");
   INSERT_TWEET.addEventListener("animationend", function () {
     INSERT_TWEET.parentNode.removeChild(INSERT_TWEET);
   });
+
+  checkForTweets();
 }
 
 function addTweet() {
@@ -170,5 +172,4 @@ INSERT_TWEET.addEventListener("submit", function (e) {
   e.preventDefault();
 
   saveToLocalStorage();
-  checkForTweets();
 });
