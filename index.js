@@ -124,6 +124,7 @@ function saveToLocalStorage() {
 // add new tweet
 function addTweet() {
   INSERT_TWEET.classList.remove("disappear");
+  INSERT_TWEET.style.display = "block";
 
   console.log("click");
 }
