@@ -1,4 +1,5 @@
 @import "./_variables.css";
+@import "./color-scheme.css";
 
 * {
   padding: 0;
@@ -190,7 +191,6 @@
 
 /* show the form to add tweet when plus button is clicked */
 .come-down {
-  /* transition: all 0.4s ease-in-out forwards; */
   opacity: 0;
   animation: fade-in 0.4s ease-in-out forwards;
   animation-delay: 0.2s;

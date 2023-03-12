@@ -80,12 +80,8 @@ function toggleButtonState() {
   }
 }
 
-function search() {
-  const results = document.querySelector(".tweets");
-  const searchTerm = document.querySelector("#search").value;
-  const tweets = JSON.parse(localStorage.getItem("tweets"));
-
-  const filteredTweets = tweets.filter(({ title }) =>
+function search(item) {
+  const filteredTweets = item.filter(({ title }) =>
     title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -110,6 +106,8 @@ function search() {
 // check if there's a localStorage object containing an array of tweets
 function checkForTweets() {
   const tweets = JSON.parse(localStorage.getItem("tweets"));
+
+  // search(tweets);
 
   if (tweets) {
     INSERT_TWEET.style.display = "none";
