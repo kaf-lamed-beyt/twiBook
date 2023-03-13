@@ -127,7 +127,7 @@ function renderTweets() {
     const delay = `${BASE_ANIME_DELAY * index}s`;
 
     return (SAVED_TWEETS.innerHTML += `
-      <a href="${link}" target="__blank" key=${id}>
+      <a href="${link}" key=${id}>
         <div class="tweet-card" style="--animation-delay: ${delay}">
           <p class="tweet-title">
             ${title}
@@ -176,21 +176,3 @@ INSERT_TWEET.addEventListener("submit", function (e) {
   saveToLocalStorage();
   renderTweets();
 });
-
-// [
-//   {
-//     id: 66785,
-//     title: "N3RD said wakapass instead of wakatime",
-//     link: "https://twitter.com/web_n3rd/status/1634356266725171201?s=20",
-//   },
-//   {
-//     id: 54967,
-//     title: "One chap rants about package.json",
-//     link: "https://twitter.com/AndaristRake/status/1623278298821283840?t=JumXVo0oPU21rmGEqMIwIw&s=19",
-//   },
-//   {
-//     id: 39716,
-//     title: "now you can search for tweets",
-//     link: "https://twitter.com/calebolojo/status/1635048595874521088?s=20",
-//   },
-// ];
