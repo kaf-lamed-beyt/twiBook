@@ -15,6 +15,14 @@
   flex-flow: column;
 }
 
+.smirk {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 46px;
+  transform: scale(1.04);
+  transition: all ease-in-out 0.4s;
+}
+
 .app-name {
   text-align: center;
   font-size: 40px;
@@ -28,10 +36,16 @@
   font-family: var(--tilt-warp);
 }
 
+.sub-text {
+  text-align: center;
+  margin-top: -20px;
+}
+
 .app-form {
   width: 100%;
   display: flex;
   flex-flow: column;
+  margin-top: 40px;
 }
 
 .app-form input {
@@ -92,7 +106,7 @@
   display: none;
   font-size: 14px;
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.06);
-  animation: zoom-in-out 0.4s ease-in-out, otilo 0.6s 4s ease-in-out forwards;
+  animation: zoom-in-out 0.4s ease-in-out, otilo 0.2s 1s ease-in-out forwards;
 }
 
 .modal:hover {

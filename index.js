@@ -1,13 +1,13 @@
 const BASE_ANIME_DELAY = 0.2;
+const LINK_FEILD = document.querySelector("#link");
+const SEARCHBOX = document.querySelector("#search");
+const TITLE_FEILD = document.querySelector("#title");
+const SAVED_TWEETS = document.querySelector(".tweets");
+const NEW_TWEET = document.querySelector(".add-tweet");
+const SAVE_BTN = document.querySelector(".save-tweet");
 const INSERT_TWEET = document.querySelector(".app-form");
 const SAVE_BUTTON = document.querySelector(".save-tweet");
-const TITLE_FEILD = document.querySelector("#title");
-const LINK_FEILD = document.querySelector("#link");
-const SAVED_TWEETS = document.querySelector(".tweets");
 const TWEETS_CONTAINER = document.querySelector(".saved-tweets-container");
-const NEW_TWEET = document.querySelector(".add-tweet");
-const SEARCHBOX = document.querySelector("#search");
-const SAVE_BTN = document.querySelector(".save-tweet");
 
 // modals
 const ERROR_MODAL = document.querySelector(".error");
@@ -18,31 +18,25 @@ function checkForTweets() {
   const tweets = JSON.parse(localStorage.getItem("tweets"));
 
   if (tweets && tweets.length) {
-    TWEETS_CONTAINER.classList.add("appear");
     INSERT_TWEET.style.display = "none";
+    // INSERT_TWEET.parentNode.removeChild(INSERT_TWEET);
+    TWEETS_CONTAINER.classList.add("appear");
     renderTweets(tweets);
-  } else {
-    showForm();
   }
+
+  window.removeEventListener("load", checkForTweets);
 }
 
 // onload, check for available tweets
-window.onload = function () {
-  checkForTweets();
-};
+window.addEventListener("load", checkForTweets);
 
 function showForm() {
-  INSERT_TWEET.style.display = "flex";
-  INSERT_TWEET.classList.add("come-down");
   TWEETS_CONTAINER.style.display = "none";
-}
 
-function hideForm() {
-  INSERT_TWEET.classList.add("disappear");
-  INSERT_TWEET.addEventListener("animationend", function () {
-    INSERT_TWEET.parentNode.removeChild(INSERT_TWEET);
-  });
-  TWEETS_CONTAINER.classList.add("appear");
+  // Show form
+  INSERT_TWEET.removeAttribute("style");
+  INSERT_TWEET.style.display = "flex";
+  INSERT_TWEET.classList.add("appear");
 }
 
 function toggleButtonState() {
@@ -107,7 +101,7 @@ function validateInputs() {
   if (tweetLink && tweetTitle) {
     SUCCESS_MODAL.innerHTML = "Great work saving your tweet!";
     SUCCESS_MODAL.style.display = "block";
-    return false;
+    return true;
   }
 }
 
@@ -144,7 +138,7 @@ function renderTweets() {
   });
 
   if (cards.length === 0) {
-    SAVED_TWEETS.innerText = "no result found";
+    SAVED_TWEETS.innerHTML = `<p class="smirk">😏</p>`;
   }
 }
 
@@ -161,9 +155,13 @@ function saveToLocalStorage() {
   tweets.push({ id, title, link });
   localStorage.setItem("tweets", JSON.stringify(tweets));
 
-  renderTweets();
   TITLE_FEILD.value = "";
   LINK_FEILD.value = "";
+
+  INSERT_TWEET.style.display = "none";
+  INSERT_TWEET.classList.remove("appear");
+  INSERT_TWEET.classList.add("disappear");
+  TWEETS_CONTAINER.style.display = "block";
 }
 
 toggleButtonState();
@@ -176,4 +174,23 @@ INSERT_TWEET.addEventListener("submit", function (e) {
   e.preventDefault();
 
   saveToLocalStorage();
+  renderTweets();
 });
+
+// [
+//   {
+//     id: 66785,
+//     title: "N3RD said wakapass instead of wakatime",
+//     link: "https://twitter.com/web_n3rd/status/1634356266725171201?s=20",
+//   },
+//   {
+//     id: 54967,
+//     title: "One chap rants about package.json",
+//     link: "https://twitter.com/AndaristRake/status/1623278298821283840?t=JumXVo0oPU21rmGEqMIwIw&s=19",
+//   },
+//   {
+//     id: 39716,
+//     title: "now you can search for tweets",
+//     link: "https://twitter.com/calebolojo/status/1635048595874521088?s=20",
+//   },
+// ];
