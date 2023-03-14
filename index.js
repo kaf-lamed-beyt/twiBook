@@ -119,8 +119,6 @@ function renderTweets() {
   const tweets = JSON.parse(localStorage.getItem("tweets")) || [];
   const filteredTweets = searchTweets(SEARCHBOX, tweets);
 
-  console.log(filteredTweets);
-
   SAVED_TWEETS.innerHTML = "";
 
   const cards = filteredTweets.reverse().map(({ id, link, title }, index) => {
@@ -147,7 +145,7 @@ function saveToLocalStorage() {
 
   const title = TITLE_FEILD.value;
   const link = LINK_FEILD.value;
-  const id = Math.floor(Math.random() * 60000) + 10000;
+  const id = crypto.randomUUID();
   let tweets = JSON.parse(localStorage.getItem("tweets"));
 
   !tweets ? (tweets = []) : null;
