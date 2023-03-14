@@ -24,7 +24,7 @@ function checkForTweets() {
     renderTweets(tweets);
   }
 
-  window.removeEventListener("load", checkForTweets);
+  // window.removeEventListener("load", checkForTweets);
 }
 
 // onload, check for available tweets
