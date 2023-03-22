@@ -5,6 +5,7 @@ const TITLE_FEILD = document.querySelector("#title");
 const SAVED_TWEETS = document.querySelector(".tweets");
 const NEW_TWEET = document.querySelector(".add-tweet");
 const SAVE_BTN = document.querySelector(".save-tweet");
+const TWEET = document.querySelector(".tweet__link");
 const INSERT_TWEET = document.querySelector(".app-form");
 const SAVE_BUTTON = document.querySelector(".save-tweet");
 const TWEETS_CONTAINER = document.querySelector(".saved-tweets-container");
@@ -12,6 +13,14 @@ const TWEETS_CONTAINER = document.querySelector(".saved-tweets-container");
 // modals
 const ERROR_MODAL = document.querySelector(".error");
 const SUCCESS_MODAL = document.querySelector(".success");
+
+function getId() {
+  const tweets = JSON.parse(localStorage.getItem("tweets"));
+
+  const tweetsId = tweets.map(({ id }) => id);
+
+  console.log(tweetsId);
+}
 
 // check if there's a localStorage object containing an array of tweets
 function checkForTweets() {
@@ -23,6 +32,8 @@ function checkForTweets() {
     TWEETS_CONTAINER.classList.add("appear");
     renderTweets(tweets);
   }
+
+  getId();
 
   // window.removeEventListener("load", checkForTweets);
 }
@@ -125,7 +136,7 @@ function renderTweets() {
     const delay = `${BASE_ANIME_DELAY * index}s`;
 
     return (SAVED_TWEETS.innerHTML += `
-      <a href="${link}" key=${id}>
+      <a href="#" key=${id} class="tweet__link">
         <div class="tweet-card" style="--animation-delay: ${delay}">
           <p class="tweet-title">
             ${title}
