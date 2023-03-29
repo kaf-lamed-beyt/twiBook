@@ -10,6 +10,10 @@ const INSERT_TWEET = document.querySelector(".app-form");
 const SAVE_BUTTON = document.querySelector(".save-tweet");
 const TWEETS_CONTAINER = document.querySelector(".saved-tweets-container");
 
+const total = JSON.parse(localStorage.getItem("tweets"));
+const totalTweets = document.querySelector(".app-name__totalTweets");
+totalTweets.innerText = total.length;
+
 // modals
 const ERROR_MODAL = document.querySelector(".error");
 const SUCCESS_MODAL = document.querySelector(".success");
