@@ -241,6 +241,11 @@
     padding: 5px 12px;
   }
 
+  .app-name__totalTweets {
+    top: 33px;
+    right: 90px;
+  }
+
   .tweets {
     padding: 0;
   }
