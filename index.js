@@ -15,7 +15,7 @@ const totalTweets = document.querySelector(".app-name__totalTweets");
 totalTweets.innerText = total.length;
 
 if (total.length === 0) {
-  document.body.removeChild(totalTweets);
+  totalTweets.style.display = "none";
 }
 
 // modals

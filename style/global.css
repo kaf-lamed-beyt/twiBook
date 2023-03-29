@@ -170,7 +170,7 @@
 }
 
 .add-tweet {
-  position: relative;
+  position: fixed;
   bottom: 30px;
   right: 0;
   z-index: 2;
