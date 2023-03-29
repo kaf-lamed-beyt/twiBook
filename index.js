@@ -14,6 +14,10 @@ const total = JSON.parse(localStorage.getItem("tweets"));
 const totalTweets = document.querySelector(".app-name__totalTweets");
 totalTweets.innerText = total.length;
 
+if (total.length === 0) {
+  document.body.removeChild(totalTweets);
+}
+
 // modals
 const ERROR_MODAL = document.querySelector(".error");
 const SUCCESS_MODAL = document.querySelector(".success");
