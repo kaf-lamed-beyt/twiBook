@@ -36,17 +36,21 @@
   font-family: var(--tilt-warp);
 }
 
+.app-name__container {
+  display: flex;
+}
+
 .app-name__totalTweets {
-  position: absolute;
-  top: 33px;
-  right: 550px;
   font-size: 14px;
-  padding-top: 3px;
   height: 25px;
   width: 25px;
-  border-radius: 50%;
-  background: var(--light-purple);
   color: #fff;
+  padding-top: 3px;
+  text-align: center;
+  margin: 30px -30px 0 0;
+  border-radius: 50%;
+  font-weight: bolder;
+  background: var(--light-purple);
 }
 
 .sub-text {
@@ -241,10 +245,10 @@
     padding: 5px 12px;
   }
 
-  .app-name__totalTweets {
+  /* .app-name__totalTweets {
     top: 33px;
     right: 90px;
-  }
+  } */
 
   .tweets {
     padding: 0;
