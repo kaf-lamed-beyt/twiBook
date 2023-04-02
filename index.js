@@ -22,14 +22,6 @@ if (total.length === 0) {
 const ERROR_MODAL = document.querySelector(".error");
 const SUCCESS_MODAL = document.querySelector(".success");
 
-function getId() {
-  const tweets = JSON.parse(localStorage.getItem("tweets"));
-
-  const tweetsId = tweets.map(({ id }) => id);
-
-  console.log(tweetsId);
-}
-
 // check if there's a localStorage object containing an array of tweets
 function checkForTweets() {
   const tweets = JSON.parse(localStorage.getItem("tweets"));
@@ -40,10 +32,6 @@ function checkForTweets() {
     TWEETS_CONTAINER.classList.add("appear");
     renderTweets(tweets);
   }
-
-  getId();
-
-  // window.removeEventListener("load", checkForTweets);
 }
 
 // onload, check for available tweets
@@ -124,6 +112,26 @@ function validateInputs() {
   }
 }
 
+// function updateTweets() {
+//   const tweets = JSON.parse(localStorage.getItem("tweets")) || [];
+//   const tweetsContainer = document.querySelector(".tweets");
+//   tweetsContainer.innerHTML = renderTweets(tweets);
+// }
+
+// function getIdAndDelete(index) {
+//   const tweets = JSON.parse(localStorage.getItem("tweets"));
+//   const revTweets = [...tweets];
+//   const tweetId = revTweets[index].id;
+
+//   localStorage.removeItem(tweetId);
+//   const updatedTweets = tweets.filter((tweet) => tweet.id !== tweetId);
+
+//   // store the updated tweets array in localStorage
+//   localStorage.setItem("tweets", JSON.stringify(updatedTweets));
+
+//   updateTweets();
+// }
+
 function searchTweets(query, tweets) {
   const searchTerm = query.value.toLowerCase();
 
@@ -143,8 +151,12 @@ function renderTweets() {
   const cards = filteredTweets.reverse().map(({ id, link, title }, index) => {
     const delay = `${BASE_ANIME_DELAY * index}s`;
 
+    // <p class="tweet-title" onclick="getIdAndDelete(${index})">
+    //   ${title}
+    // </p>
+
     return (SAVED_TWEETS.innerHTML += `
-      <a href="#" key=${id} class="tweet__link">
+      <a href=${link} key=${id} class="tweet__link">
         <div class="tweet-card" style="--animation-delay: ${delay}">
           <p class="tweet-title">
             ${title}
@@ -179,6 +191,8 @@ function saveToLocalStorage() {
   INSERT_TWEET.classList.remove("appear");
   INSERT_TWEET.classList.add("disappear");
   TWEETS_CONTAINER.style.display = "block";
+
+  updateTweets();
 }
 
 toggleButtonState();
