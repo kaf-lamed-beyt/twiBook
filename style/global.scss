@@ -6,6 +6,24 @@
   margin: 0;
   color: #fff;
   box-sizing: border-box;
-  background: var(--primary);
   font-family: var(--lato);
+  background: var(--primary);
+}
+
+.moveX {
+  width: 0px;
+  transition: all 0.4s ease-in;
+  animation: moveX 0.4s ease-in-out infinite;
+}
+
+@keyframes moveX {
+  0% {
+    width: 0px;
+  }
+  50% {
+    width: 50px;
+  }
+  100% {
+    width: 100px;
+  }
 }

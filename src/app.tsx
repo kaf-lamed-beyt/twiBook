@@ -1,11 +1,58 @@
-import { Center, Text } from "@chakra-ui/react";
+import { Center, Text, Box } from "@chakra-ui/react";
+import { CustomButton } from "./components/button";
+import { MoveRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
+
   return (
     <Center height="100vh">
-      <Text as="h1" textAlign="center" fontSize="80px" fontWeight="900">
-        Hello twiBook v2.0
-      </Text>
+      <Box>
+        <Text
+          as="h1"
+          textAlign="center"
+          fontSize={{ base: "28px", md: "45px", lg: "100px" }}
+          fontWeight="900"
+        >
+          Twitter{" "}
+          <Text
+            as="span"
+            px=".2em"
+            py=".1em"
+            background="var(--true-purple-500)"
+          >
+            bookmarks
+          </Text>{" "}
+          on steroids.
+        </Text>
+
+        <Text
+          textAlign="center"
+          fontSize={{ base: "18px", md: "22px", lg: "36px" }}
+          py=".5em"
+        >
+          Save tweets. Come back and quote them later.
+        </Text>
+
+        <Box textAlign="center" mt={{ base: "1em", md: "3em", lg: "3em" }}>
+          <CustomButton
+            hoverBg="var(--true-purple)"
+            background="var(--true-purple)"
+            onClick={() => navigate("/signup")}
+            rightIcon={
+              <MoveRight
+                size="25px"
+                style={{
+                  background: "var(--true-purple)",
+                }}
+              />
+            }
+          >
+            get started
+          </CustomButton>
+        </Box>
+      </Box>
     </Center>
   );
 }
