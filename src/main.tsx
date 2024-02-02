@@ -5,6 +5,7 @@ import { Signup } from "./pages/signup.tsx";
 import "../style/global.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Dashboard } from "./pages/dashboard/index.tsx";
 
 const routes = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const routes = createBrowserRouter([
   {
     path: "signup",
     element: <Signup />,
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
   },
 ]);
 

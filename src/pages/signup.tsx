@@ -1,7 +1,10 @@
 import { Center, Box, Input } from "@chakra-ui/react";
 import { CustomButton } from "../components/button";
+import { useNavigate } from "react-router-dom";
 
 export const Signup = () => {
+  const navigate = useNavigate();
+
   return (
     <Center height="100vh">
       <Box height="fit-content" width="fit-content" px=".6em" py=".6em">
@@ -20,6 +23,7 @@ export const Signup = () => {
           fontSize="20px"
           background="var(--true-purple)"
           hoverBg="var(--true-purple)"
+          onClick={() => navigate("/dashboard")}
         >
           sign in
         </CustomButton>
