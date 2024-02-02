@@ -16,14 +16,14 @@ function App() {
           fontWeight="900"
         >
           Twitter{" "}
-          <Text
+          <Box
             as="span"
             px=".2em"
             py=".1em"
             background="var(--true-purple-500)"
           >
             bookmarks
-          </Text>{" "}
+          </Box>{" "}
           on steroids.
         </Text>
 
