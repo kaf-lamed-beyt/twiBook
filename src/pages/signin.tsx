@@ -36,7 +36,7 @@ export const SignIn = () => {
   };
 
   const otp = (
-    <Box transform="translateX(-20px)" transition="all .1s ease-in">
+    <Box className="slide-in-right" transition="all .1s ease-in">
       <HStack
         py=".6em"
         spacing={2}
