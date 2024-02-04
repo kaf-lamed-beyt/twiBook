@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./app.tsx";
-import { Signup } from "./pages/signup.tsx";
+import { SignIn } from "./pages/signin.tsx";
 import "../style/global.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -13,8 +13,8 @@ const routes = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "signup",
-    element: <Signup />,
+    path: "signin",
+    element: <SignIn />,
   },
   {
     path: "dashboard",

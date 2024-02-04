@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital;wght@0;100;0;300;0;400;0;700;0;900;1;400&family=Quicksand:wght@300;400;500;600;700&display=swap");
 @import "./variables";
 
 * {
@@ -10,7 +10,7 @@
 }
 
 #root {
-  background: var(--primary);
+  background: #000;
 }
 
 .moveX {
@@ -29,4 +29,49 @@
   100% {
     width: 100px;
   }
+}
+
+// interactions
+
+.shake {
+  border: 1px solid var(--danger);
+  animation: shake 0.52s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+// dashboard sidebar
+.sidebar-item {
+  background: var(--true-purple-500);
+}
+
+.sidebar-item::after {
+  position: absolute;
+  content: "";
+  left: 284px;
+  height: 40px;
+  margin-top: -9px;
+  border-radius: 3px;
+  border: 3px solid var(--true-purple);
+  transform: translateY(0px);
+  transition: all 0.3s ease-in 0.5s;
 }

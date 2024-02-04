@@ -12,10 +12,14 @@ interface ButtonProps {
   rightIcon?: React.ReactElement;
   hoverBg: string;
   onClick?: () => void;
+  loading?: boolean;
+  loadingText?: string;
+  type: "button" | "reset" | "submit";
 }
 
 export const CustomButton = ({
   background,
+  loading,
   children,
   fontSize,
   leftIcon,
@@ -24,10 +28,13 @@ export const CustomButton = ({
   width,
   hoverBg,
   rightIcon,
+  loadingText,
   onClick,
+  type,
 }: ButtonProps) => {
   return (
     <Button
+      type={type}
       textTransform="capitalize"
       background={background}
       height={height ? height : { lg: "60px", base: "40px", md: "45px" }}
@@ -38,6 +45,8 @@ export const CustomButton = ({
       rightIcon={rightIcon}
       _hover={{ bg: hoverBg }}
       onClick={onClick}
+      isLoading={loading}
+      loadingText={loadingText}
     >
       {children}
     </Button>

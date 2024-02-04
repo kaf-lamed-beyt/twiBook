@@ -7,14 +7,24 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { CustomButton } from "../../components/button";
-import { Book } from "lucide-react";
+import { LibraryBig, User } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const SIDEBAR_NAV = [
+  { name: "books", icon: <LibraryBig size="25" />, path: "/dashboard" },
+  { name: "profile", icon: <User size="25" />, path: "/account" },
+];
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname;
+
   return (
     <Flex>
       <Flex
-        className="sidebar"
-        borderRight="1px solid #333"
+        className="sidebar-nav"
+        borderRight="1px solid var(--matte-black)"
         height="100vh"
         width="15%"
         py="1em"
@@ -23,7 +33,7 @@ export const Dashboard = () => {
         justifyContent="space-between"
       >
         <Box>
-          <Text as="h3" fontSize="28px" fontWeight="600">
+          <Text as="h3" fontSize="30px" fontWeight="600">
             twi
             <Text
               as="span"
@@ -35,29 +45,39 @@ export const Dashboard = () => {
           </Text>
 
           <Box as="nav" mt="4em">
-            <UnorderedList>
-              <ListItem listStyleType="none">
-                <Flex
-                  width="100%"
-                  py=".6em"
-                  gap=".6em"
-                  pl=".2em"
-                  borderRadius="6px"
-                  _hover={{
-                    cursor: "pointer",
-                    background: "var(--true-purple-400)",
-                  }}
-                  transition="all .3s ease-in"
-                >
-                  <Book size="25" />
-                  <Text>Books</Text>
-                </Flex>
-              </ListItem>
+            <UnorderedList pl=".6em">
+              {SIDEBAR_NAV?.map(({ name, path, icon }, index) => {
+                return (
+                  <ListItem listStyleType="none" key={index} py=".6em">
+                    <Flex
+                      className={pathname === path ? "sidebar-item" : ""}
+                      onClick={() => navigate(path)}
+                      width="100%"
+                      py=".6em"
+                      gap=".4em"
+                      pl=".6em"
+                      borderRadius="6px"
+                      color={pathname === path ? "#fff" : "#000"}
+                      _hover={{
+                        cursor: "pointer",
+                        background: "var(--true-purple-400)",
+                      }}
+                      transition="all .3s ease-in"
+                    >
+                      {icon}
+                      <Text my="auto" textTransform="capitalize">
+                        {name}
+                      </Text>
+                    </Flex>
+                  </ListItem>
+                );
+              })}
             </UnorderedList>
           </Box>
         </Box>
 
         <CustomButton
+          type="button"
           background="var(--success)"
           hoverBg="var(--success)"
           height="50px"

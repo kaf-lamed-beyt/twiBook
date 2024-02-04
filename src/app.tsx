@@ -37,9 +37,10 @@ function App() {
 
         <Box textAlign="center" mt={{ base: "1em", md: "3em", lg: "3em" }}>
           <CustomButton
+            type="button"
             hoverBg="var(--true-purple)"
             background="var(--true-purple)"
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/signin")}
             rightIcon={
               <MoveRight
                 size="25px"
