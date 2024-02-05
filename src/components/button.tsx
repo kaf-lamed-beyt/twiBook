@@ -15,6 +15,9 @@ interface ButtonProps {
   loading?: boolean;
   loadingText?: string;
   type: "button" | "reset" | "submit";
+  fontWeight?: string;
+  variant?: string;
+  transform?: undefined;
 }
 
 export const CustomButton = ({
@@ -31,15 +34,15 @@ export const CustomButton = ({
   loadingText,
   onClick,
   type,
+  fontWeight,
+  variant,
+  transform,
 }: ButtonProps) => {
   return (
     <Button
+      variant={variant}
       type={type}
-      textTransform="capitalize"
       background={background}
-      height={height ? height : { lg: "60px", base: "40px", md: "45px" }}
-      width={width ? width : { lg: "250px", md: "200px", base: "150px" }}
-      fontSize={fontSize ? fontSize : { lg: "25px", md: "20px", base: "16px" }}
       color={color ? color : "#fff"}
       leftIcon={leftIcon}
       rightIcon={rightIcon}
@@ -47,6 +50,12 @@ export const CustomButton = ({
       onClick={onClick}
       isLoading={loading}
       loadingText={loadingText}
+      fontWeight={fontWeight}
+      textTransform={transform ? transform : "capitalize"}
+      border={variant === "outline" ? "1px solid #333" : ""}
+      height={height ? height : { lg: "60px", base: "40px", md: "45px" }}
+      width={width ? width : { lg: "250px", md: "200px", base: "150px" }}
+      fontSize={fontSize ? fontSize : { lg: "25px", md: "20px", base: "16px" }}
     >
       {children}
     </Button>

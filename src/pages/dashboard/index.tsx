@@ -50,17 +50,18 @@ export const Dashboard = () => {
                 return (
                   <ListItem listStyleType="none" key={index} py=".6em">
                     <Flex
-                      className={pathname === path ? "sidebar-item" : ""}
-                      onClick={() => navigate(path)}
-                      width="100%"
                       py=".6em"
                       gap=".4em"
                       pl=".6em"
+                      width="100%"
                       borderRadius="6px"
-                      color={pathname === path ? "#fff" : "#000"}
+                      onClick={() => navigate(path)}
+                      className={pathname === path ? "sidebar-item" : ""}
+                      color={pathname === path ? "#fff" : "var(--alt-text)"}
                       _hover={{
                         cursor: "pointer",
-                        background: "var(--true-purple-400)",
+                        color: "#fff",
+                        background: "var(--matte-black)",
                       }}
                       transition="all .3s ease-in"
                     >
