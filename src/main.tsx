@@ -6,34 +6,42 @@ import "../style/global.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Dashboard } from "./pages/dashboard/index.tsx";
-import { DashboardLayout } from "./pages/dashboard/components/layout.tsx";
 import { Profile } from "@pages/dashboard/profile.tsx";
 import { RouteErrorComponent } from "./error.tsx";
+import { ToastProvider } from "./context/toast-provider.tsx";
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ToastProvider>
+        <App />
+      </ToastProvider>
+    ),
     errorElement: <RouteErrorComponent />,
   },
   {
     path: "signin",
-    element: <SignIn />,
+    element: (
+      <ToastProvider>
+        <SignIn />
+      </ToastProvider>
+    ),
   },
   {
     path: "dashboard",
     element: (
-      <DashboardLayout>
+      <ToastProvider>
         <Dashboard />
-      </DashboardLayout>
+      </ToastProvider>
     ),
   },
   {
     path: "/dashboard/account",
     element: (
-      <DashboardLayout>
+      <ToastProvider>
         <Profile />
-      </DashboardLayout>
+      </ToastProvider>
     ),
   },
 ]);

@@ -12,6 +12,7 @@ import {
 import { supabase } from "@utils/supabase";
 import { LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useToastContext } from "@context/toast";
 
 export const DashboardContent = ({
   children,
@@ -19,11 +20,13 @@ export const DashboardContent = ({
   children: React.ReactNode;
 }) => {
   const navigate = useNavigate();
+  const { openToast } = useToastContext();
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
 
     if (!error) {
+      openToast("Logged out successfully!", "success");
       navigate("/signin");
     }
   };

@@ -22,6 +22,7 @@ import { db } from "@utils/db";
 import { users } from "@utils/schema";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "cookies-next";
+import { useToastContext } from "../context/toast";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ export const SignIn = () => {
   });
   const [otpScreen, setOtpScreen] = React.useState<boolean>(false);
   const [isVerifyLoading, setVerifyLoading] = React.useState<boolean>(false);
+  const { openToast } = useToastContext();
 
   const onPinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -60,6 +62,7 @@ export const SignIn = () => {
 
     if (!error && data.session === null) {
       localStorage.setItem("email", email);
+      openToast("Check your mail", "success");
       setOtpScreen(true);
     }
   };
@@ -85,12 +88,16 @@ export const SignIn = () => {
         email: session?.user?.email,
         books: [],
       });
+      openToast("You are logged in.", "success");
 
-      setCookie("session", session, {
+      setCookie("_at", session?.access_token, {
         path: "/",
+        maxAge: 60 * 6 * 24,
       });
       setVerifyLoading(false);
       navigate("/dashboard");
+    } else {
+      openToast(error?.message, "error");
     }
   };
 

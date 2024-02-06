@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
           __dirname,
           "src/pages/dashboard/components/"
         ),
+        "@context": path.resolve(__dirname, "src/context"),
       },
     },
     plugins: [react()],

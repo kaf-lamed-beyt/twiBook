@@ -26,6 +26,7 @@
       "@utils/*": ["src/utils/*"],
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
+      "@context/*": ["src/context/*"],
       "@dashboard-components/*": ["src/pages/dashboard/components/*"]
     }
   },
