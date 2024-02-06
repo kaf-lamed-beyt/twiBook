@@ -71,6 +71,8 @@ export const Sidebar = () => {
         hoverBg="var(--true-purple)"
         height="50px"
         fontSize="20px"
+        fontWeight="500"
+        width="100%"
       >
         upgrade
       </CustomButton>

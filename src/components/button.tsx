@@ -18,6 +18,7 @@ interface ButtonProps {
   fontWeight?: string;
   variant?: string;
   transform?: undefined;
+  rounded?: boolean;
 }
 
 export const CustomButton = ({
@@ -37,6 +38,7 @@ export const CustomButton = ({
   fontWeight,
   variant,
   transform,
+  rounded,
 }: ButtonProps) => {
   return (
     <Button
@@ -56,6 +58,7 @@ export const CustomButton = ({
       height={height ? height : { lg: "60px", base: "40px", md: "45px" }}
       width={width ? width : { lg: "250px", md: "200px", base: "150px" }}
       fontSize={fontSize ? fontSize : { lg: "25px", md: "20px", base: "16px" }}
+      borderRadius={rounded ? "50%" : "6px"}
     >
       {children}
     </Button>
