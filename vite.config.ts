@@ -14,7 +14,12 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@utils": path.resolve(__dirname, "src/utils/"),
+        "@pages": path.resolve(__dirname, "src/pages"),
         "@components": path.resolve(__dirname, "src/components/"),
+        "@dashboard-components/": path.resolve(
+          __dirname,
+          "src/pages/dashboard/components/"
+        ),
       },
     },
     plugins: [react()],

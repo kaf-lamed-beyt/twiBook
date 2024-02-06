@@ -27,7 +27,10 @@ export const InputField = ({
         border="1px solid #333"
         color="var(--alt-text)"
         _hover={{ border: "1px solid #333" }}
-        _focusVisible={{ border: "2px solid var(--true-purple)" }}
+        _focusVisible={{
+          border: "2px solid var(--true-purple)",
+          background: "none",
+        }}
         className={meta.touched && meta.error ? "shake" : ""}
         {...props}
         {...field}

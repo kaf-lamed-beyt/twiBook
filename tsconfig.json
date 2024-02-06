@@ -24,7 +24,9 @@
     "baseUrl": "./",
     "paths": {
       "@utils/*": ["src/utils/*"],
-      "@components/*": ["src/components/*"]
+      "@pages/*": ["src/pages/*"],
+      "@components/*": ["src/components/*"],
+      "@dashboard-components/*": ["src/pages/dashboard/components/*"]
     }
   },
   "include": ["src"],

@@ -21,6 +21,7 @@ import { BsGithub } from "react-icons/bs";
 import { db } from "@utils/db";
 import { users } from "@utils/schema";
 import { useNavigate } from "react-router-dom";
+import { setCookie } from "cookies-next";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -35,21 +36,6 @@ export const SignIn = () => {
   const [otpScreen, setOtpScreen] = React.useState<boolean>(false);
   const [isVerifyLoading, setVerifyLoading] = React.useState<boolean>(false);
 
-  const onEmailSignIn = async (email: string) => {
-    const { data, error } = await supabase.auth.signInWithOtp({
-      email: email,
-      options: {
-        emailRedirectTo: "localhost:5173/otp",
-      },
-    });
-
-    if (!error) {
-      localStorage.setItem("email", email);
-      localStorage.setItem("user-data", JSON.stringify(data));
-      setOtpScreen(true);
-    }
-  };
-
   const onPinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -63,6 +49,20 @@ export const SignIn = () => {
     .map((pin) => pin)
     .slice(0, 6)
     .join("");
+
+  const onEmailSignIn = async (email: string) => {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: "localhost:5173",
+      },
+    });
+
+    if (!error && data.session === null) {
+      localStorage.setItem("email", email);
+      setOtpScreen(true);
+    }
+  };
 
   const verifyEmailAndLogin = async () => {
     setVerifyLoading(true);
@@ -84,6 +84,10 @@ export const SignIn = () => {
         hasLicense: false,
         email: session?.user?.email,
         books: [],
+      });
+
+      setCookie("session", session, {
+        path: "/",
       });
       setVerifyLoading(false);
       navigate("/dashboard");
@@ -143,12 +147,12 @@ export const SignIn = () => {
       <CustomButton
         height="50px"
         width="100%"
-        fontWeight="400"
+        type="button"
         fontSize="18px"
+        fontWeight="400"
+        loading={isVerifyLoading}
         hoverBg="var(--true-purple)"
         background="var(--true-purple)"
-        type="button"
-        loading={isVerifyLoading}
         onClick={() => verifyEmailAndLogin()}
       >
         verify email
