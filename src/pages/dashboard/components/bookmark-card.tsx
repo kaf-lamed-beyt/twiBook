@@ -31,6 +31,8 @@ export const BookmarkCard = ({
       borderRadius="8px"
       py=".8em"
       px=".6em"
+      _hover={{ cursor: "pointer", transform: "scale(1.04)" }}
+      transition="all .3s ease-in"
     >
       <HStack justifyContent="space-between">
         <Text color="var(--alt-text)" fontSize="14px">

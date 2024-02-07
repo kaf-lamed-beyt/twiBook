@@ -3,12 +3,14 @@ import { useField } from "formik";
 
 interface InputFieldProps {
   name: string;
+  type: string;
   variant?: string;
   placeholder: string;
 }
 
 export const InputField = ({
   name,
+  type,
   placeholder,
   variant,
   ...props
@@ -20,9 +22,10 @@ export const InputField = ({
       <Input
         mb=".5em"
         height="50px"
-        type="email"
+        type={type}
         variant={variant}
         placeholder={placeholder}
+        _placeholder={{ color: "var(--alt-text)" }}
         textOverflow="ellipsis"
         border="1px solid #333"
         color="var(--alt-text)"

@@ -189,7 +189,7 @@ export const SignIn = () => {
               {(formik) => (
                 <Form>
                   <Box>
-                    <InputField name="email" placeholder="email" />
+                    <InputField type="email" name="email" placeholder="email" />
 
                     <Box mt="1.4em">
                       <CustomButton
