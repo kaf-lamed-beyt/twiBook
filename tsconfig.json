@@ -24,9 +24,10 @@
     "baseUrl": "./",
     "paths": {
       "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"],
       "@pages/*": ["src/pages/*"],
-      "@components/*": ["src/components/*"],
       "@context/*": ["src/context/*"],
+      "@components/*": ["src/components/*"],
       "@dashboard-components/*": ["src/pages/dashboard/components/*"]
     }
   },

@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
           "src/pages/dashboard/components/"
         ),
         "@context": path.resolve(__dirname, "src/context"),
+        "@hooks": path.resolve(__dirname, "src/hooks"),
       },
     },
     plugins: [react()],

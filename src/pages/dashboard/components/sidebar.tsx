@@ -15,13 +15,15 @@ export const Sidebar = () => {
 
   return (
     <Flex
-      className="sidebar-nav"
-      borderRight="1px solid var(--matte-black)"
-      minHeight="100vh"
-      width={{ lg: "15%", md: "15%", base: "15%" }}
       py="1em"
+      top="0"
+      height="100vh"
       flexFlow="column"
+      position="sticky"
+      className="sidebar-nav"
       justifyContent="space-between"
+      borderRight="1px solid var(--matte-black)"
+      width={{ lg: "15%", md: "15%", base: "15%" }}
     >
       <Box>
         <Text

@@ -22,7 +22,7 @@ import { db } from "@utils/db";
 import { users } from "@utils/schema";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "cookies-next";
-import { useToastContext } from "../context/toast";
+import { useToastContext } from "../hooks/toast";
 
 export const SignIn = () => {
   const navigate = useNavigate();

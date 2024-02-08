@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { Sidebar } from "./sidebar";
-import { DashboardContent } from "./header";
+import { DashboardContent } from "./dashboard-content";
 
 export const DashboardLayout = ({
   children,

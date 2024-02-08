@@ -12,7 +12,8 @@ import {
 import { supabase } from "@utils/supabase";
 import { LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useToastContext } from "@context/toast";
+import { useGreeting } from "@hooks/greeting";
+import { useToastContext } from "@hooks/toast";
 
 export const DashboardContent = ({
   children,
@@ -32,10 +33,19 @@ export const DashboardContent = ({
     }
   };
 
+  const message = useGreeting();
+
   return (
-    <Box className="dashboard" width="85%" py=".8em">
+    <>
       <Flex
         pb=".8em"
+        py=".8em"
+        right="0"
+        width="85%"
+        position="fixed"
+        className="header"
+        zIndex="3"
+        background="var(--vampire-black)"
         px={{ lg: "1.6em", md: "1em", base: ".6em" }}
         justifyContent="space-between"
         borderBottom={{
@@ -44,9 +54,16 @@ export const DashboardContent = ({
           lg: "none",
         }}
       >
-        <Text my="auto" fontSize="20px" fontWeight="700">
-          Hello, Seven
-        </Text>
+        <Box>
+          <Text my="auto" fontSize="20px" fontWeight="700">
+            Hello, Seven
+          </Text>
+          <Box>
+            <Text color="var(--alt-text)" fontSize="16px" className="enter-b">
+              {message}
+            </Text>
+          </Box>
+        </Box>
         <Menu isLazy>
           <MenuButton>
             <Avatar
@@ -83,7 +100,9 @@ export const DashboardContent = ({
         </Menu>
       </Flex>
 
-      <Box px={{ lg: "1.6em", md: "1em", base: ".6em" }}>{children}</Box>
-    </Box>
+      <Box mt="5em" width="85%" px={{ lg: "1.6em", md: "1em", base: ".6em" }}>
+        {children}
+      </Box>
+    </>
   );
 };

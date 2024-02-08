@@ -12,9 +12,10 @@ import { DashboardLayout } from "../components/layout";
 import { CalendarClock, LibraryBig, Settings } from "lucide-react";
 import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
-import { useToastContext } from "@context/toast";
+import { useToastContext } from "@hooks/toast";
 import { CustomButton } from "@components/button";
 import { updateProfileSchema } from "@utils/validators/update-profile";
+import { Hint } from "@components/hint";
 
 export const Profile = () => {
   const { openToast } = useToastContext();
@@ -74,16 +75,19 @@ export const Profile = () => {
                     as="span"
                     fontSize="25px"
                     ml="-12px"
-                    _hover={{ cursor: "help" }}
+                    _hover={{ cursor: "pointer" }}
                   >
                     <Tooltip
                       width="276px"
                       borderRadius="8px"
-                      label="On the free plan, you can only create 15 bookmarks per month"
-                      border="1px solid var(--matte-black)"
                       background="var(--eerie-black)"
+                      border="1px solid var(--matte-black)"
+                      color="var(--alt-text)"
+                      label="On the free plan, you can only create 15 bookmarks per month"
                     >
-                      /15
+                      <Box as="span">
+                        /15 <Hint />
+                      </Box>
                     </Tooltip>
                   </Box>
                 </Text>

@@ -1,6 +1,7 @@
 import { Box, Text, Tooltip, Center, Link, Flex } from "@chakra-ui/react";
 import { Library, LibraryBig } from "lucide-react";
 import { CustomButton } from "@components/button";
+import { Hint } from "@components/hint";
 
 export const NoBookmarks = () => {
   return (
@@ -26,12 +27,7 @@ export const NoBookmarks = () => {
             chrome extension
           </Link>{" "}
           to create a{" "}
-          <Box
-            as="span"
-            _hover={{ cursor: "help" }}
-            color="#fff"
-            textDecoration="underline"
-          >
+          <Box as="span" _hover={{ cursor: "help" }}>
             <Tooltip
               placement="top"
               border="1px solid var(--matte-black)"
@@ -40,16 +36,13 @@ export const NoBookmarks = () => {
               color="var(--alt-text)"
               label="includes tweet content such as: tweet author, date etc."
             >
-              detailed
+              <Box as="span">
+                detailed <Hint />
+              </Box>
             </Tooltip>
           </Box>{" "}
           bookmark or use the button below to create a{" "}
-          <Box
-            as="span"
-            color="#fff"
-            textDecoration="underline"
-            _hover={{ cursor: "help" }}
-          >
+          <Box as="span" _hover={{ cursor: "help" }}>
             <Tooltip
               placement="right"
               width="280px"
@@ -61,7 +54,9 @@ export const NoBookmarks = () => {
               background="var(--eerie-black)"
               border="1px solid var(--matte-black)"
             >
-              simple
+              <Box as="span">
+                simple <Hint />
+              </Box>
             </Tooltip>
           </Box>{" "}
           one.

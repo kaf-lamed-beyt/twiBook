@@ -16,7 +16,7 @@ import { ModalLayout } from "@components/modal-layout";
 import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
 import { createBookmarkSchema } from "@utils/validators/create-bookmark-schema";
-import { useToastContext } from "@context/toast";
+import { useToastContext } from "@hooks/toast";
 
 export const Dashboard = () => {
   const { openToast } = useToastContext();
