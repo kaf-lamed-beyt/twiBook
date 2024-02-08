@@ -5,7 +5,7 @@ interface ButtonProps {
   background: string;
   height?: string;
   width?: string;
-  fontSize?: string;
+  fontSize?: string | object;
   leftIcon?: React.ReactElement;
   children: React.ReactNode;
   color?: string;

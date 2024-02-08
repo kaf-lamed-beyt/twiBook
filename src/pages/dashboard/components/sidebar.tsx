@@ -17,34 +17,61 @@ export const Sidebar = () => {
     <Flex
       className="sidebar-nav"
       borderRight="1px solid var(--matte-black)"
-      height="100vh"
-      width="15%"
+      minHeight="100vh"
+      width={{ lg: "15%", md: "15%", base: "15%" }}
       py="1em"
-      px=".8em"
       flexFlow="column"
       justifyContent="space-between"
     >
       <Box>
-        <Text as="h3" fontSize="30px" fontWeight="600">
+        <Text
+          as="h3"
+          px=".8em"
+          fontSize={{ lg: "27px", md: "25px" }}
+          fontWeight="600"
+          display={{ lg: "block", md: "none", base: "none" }}
+        >
           twi
           <Text as="span" color="var(--true-purple)" textDecoration="underline">
             Book
           </Text>
         </Text>
 
-        <Box as="nav" mt="4em">
-          <UnorderedList pl=".6em">
+        <Box
+          height="40px"
+          width="40px"
+          ml={{ base: "-.2em", lg: "4em", md: "" }}
+          borderRadius="4px"
+          background="var(--true-purple)"
+          display={{ lg: "none", md: "flex", base: "flex" }}
+          justifyContent="center"
+          alignItems="center"
+          mx="auto"
+        >
+          <LibraryBig size="28" />
+        </Box>
+
+        <Box as="nav" mt="4em" mx={{ md: "auto" }}>
+          <UnorderedList pl="1.4em">
             {SIDEBAR_NAV?.map(({ name, path, icon }, index) => {
               return (
-                <ListItem listStyleType="none" key={index} py=".6em">
+                <ListItem
+                  py=".6em"
+                  key={index}
+                  listStyleType="none"
+                  className={pathname === path ? "sidebar-item" : ""}
+                  marginLeft={{ md: "-28px", lg: "0px", base: "3px" }}
+                >
                   <Flex
                     py=".6em"
                     gap=".4em"
-                    pl=".6em"
-                    width="100%"
+                    ml={{ base: "-2em", md: "-2em", lg: "-.8em" }}
+                    pl={{ lg: ".6em", md: ".7em", base: ".5em" }}
+                    width={{ base: "42px", lg: "100%", md: "48px" }}
+                    mx={{ md: "auto" }}
                     borderRadius="6px"
+                    background={pathname == path ? "var(--matte-black)" : ""}
                     onClick={() => navigate(path)}
-                    className={pathname === path ? "sidebar-item" : ""}
                     color={pathname === path ? "#fff" : "var(--alt-text)"}
                     _hover={{
                       cursor: "pointer",
@@ -54,7 +81,11 @@ export const Sidebar = () => {
                     transition="all .3s ease-in"
                   >
                     {icon}
-                    <Text my="auto" textTransform="capitalize">
+                    <Text
+                      my="auto"
+                      textTransform="capitalize"
+                      display={{ lg: "block", md: "none", base: "none" }}
+                    >
                       {name}
                     </Text>
                   </Flex>
@@ -65,17 +96,19 @@ export const Sidebar = () => {
         </Box>
       </Box>
 
-      <CustomButton
-        type="button"
-        background="var(--true-purple)"
-        hoverBg="var(--true-purple)"
-        height="50px"
-        fontSize="20px"
-        fontWeight="500"
-        width="100%"
-      >
-        upgrade
-      </CustomButton>
+      <Box display={{ lg: "block", md: "block", base: "none" }} px=".8em">
+        <CustomButton
+          type="button"
+          background="var(--true-purple)"
+          hoverBg="var(--true-purple)"
+          height="50px"
+          fontSize={{ md: "18px", lg: "20px" }}
+          fontWeight="500"
+          width="100%"
+        >
+          upgrade
+        </CustomButton>
+      </Box>
     </Flex>
   );
 };

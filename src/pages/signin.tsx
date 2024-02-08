@@ -168,9 +168,18 @@ export const SignIn = () => {
   );
 
   return (
-    <Center height="100vh">
+    <Center height="100vh" px={{ base: ".5em" }}>
       {!otpScreen ? (
-        <Box height="fit-content" width="fit-content" px=".6em" py=".6em">
+        <Box
+          height="fit-content"
+          width="fit-content"
+          px=".6em"
+          py=".6em"
+          background="var(--eerie-black)"
+          border="1px solid var(--matte-black)"
+          pb="1.4em"
+          borderRadius="6px"
+        >
           <Text py=".5em" fontSize="x-large">
             Sign In.
           </Text>
@@ -211,11 +220,11 @@ export const SignIn = () => {
           </Box>
 
           <Box my="1.4em" position="relative" padding="4">
-            <Divider color="var(--matte-black)" />
+            <Divider borderColor="var(--alt-text)" />
             <AbsoluteCenter
               px="4"
               color="var(--alt-text)"
-              background="var(--primary)"
+              background="var(--eerie-black)"
             >
               OR
             </AbsoluteCenter>

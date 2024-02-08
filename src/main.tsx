@@ -6,7 +6,7 @@ import "../style/global.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Dashboard } from "./pages/dashboard/index.tsx";
-import { Profile } from "@pages/dashboard/profile.tsx";
+import { Profile } from "@pages/dashboard/profile/index.tsx";
 import { RouteErrorComponent } from "./error.tsx";
 import { ToastProvider } from "./context/toast-provider.tsx";
 

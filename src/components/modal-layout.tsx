@@ -34,18 +34,23 @@ export const ModalLayout = ({
   children,
 }: ModalLayoutProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size} isCentered>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={{ base: "sm", md: size, lg: size }}
+      isCentered
+    >
       <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
       <ModalContent
-        background="var(--eerie-black)"
-        border="1px solid var(--matte-black)"
+        background="var(--alte-black)"
+        border="1px solid var(--alte-grey)"
       >
         <ModalHeader
           fontWeight="normal"
           color="var(--alt-text)"
           px=".8em"
           py=".8em"
-          border="1px solid var(--matte-black)"
+          borderBottom="1px solid var(--matte-black)"
         >
           {title}
         </ModalHeader>

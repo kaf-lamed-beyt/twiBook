@@ -27,26 +27,30 @@ export const BookmarkCard = ({
       background="var(--eerie-black)"
       border="1px solid var(--matte-black)"
       height="fit-content"
-      width="380px"
+      width={{ lg: "380px", md: "48%", xl: "24.1%", base: "100%" }}
       borderRadius="8px"
       py=".8em"
       px=".6em"
-      _hover={{ cursor: "pointer", transform: "scale(1.04)" }}
-      transition="all .3s ease-in"
+      _hover={{
+        cursor: "pointer",
+        transform: "scale(1.04)",
+        transition: "all .3s ease-in",
+      }}
     >
       <HStack justifyContent="space-between">
         <Text color="var(--alt-text)" fontSize="14px">
           Added {createdAt} ago
         </Text>
         <Badge
+          height="18px"
+          borderRadius="4px"
           color={type === "detailed" ? "var(--success)" : "var(--warn)"}
-          borderRadius="10px"
           background={
             type === "detailed" ? "var(--success-400)" : "var(--warn-400)"
           }
-          border={`1px solid ${
-            type === "detailed" ? "var(--success)" : "var(--warn)"
-          }`}
+          // border={`1px solid ${
+          //   type === "detailed" ? "var(--success)" : "var(--warn)"
+          // }`}
         >
           <HStack spacing={1}>
             {type === "detailed" ? (

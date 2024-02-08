@@ -138,7 +138,7 @@ export const Dashboard = () => {
                   fontWeight="400"
                   hoverBg="var(--true-purple)"
                   loading={formik.isSubmitting}
-                  background="var(--true-purple-400)"
+                  background="var(--true-purple)"
                   loadingText="creating bookmark..."
                 >
                   create bookmark

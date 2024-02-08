@@ -24,6 +24,7 @@ export const DashboardContent = ({
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
+    // deleteCookie("_at")
 
     if (!error) {
       openToast("Logged out successfully!", "success");
@@ -32,16 +33,25 @@ export const DashboardContent = ({
   };
 
   return (
-    <Box className="dashboard" width="85%" py=".8em" px="1.6em">
-      <Flex justifyContent="space-between">
+    <Box className="dashboard" width="85%" py=".8em">
+      <Flex
+        pb=".8em"
+        px={{ lg: "1.6em", md: "1em", base: ".6em" }}
+        justifyContent="space-between"
+        borderBottom={{
+          base: "1px solid var(--matte-black)",
+          md: "1px solid var(--matte-black)",
+          lg: "none",
+        }}
+      >
         <Text my="auto" fontSize="20px" fontWeight="700">
           Hello, Seven
         </Text>
         <Menu isLazy>
           <MenuButton>
             <Avatar
-              name="Beven"
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Beven&backgroundColor=ffdfbf"
+              name="Seven"
+              src="https://api.dicebear.com/7.x/avataaars/svg?seed=seven&backgroundColor=ffdfbf"
             />
           </MenuButton>
           <MenuList
@@ -54,7 +64,7 @@ export const DashboardContent = ({
               background="none"
               icon={<User size="25" color="var(--alt-text)" />}
             >
-              <Text color="var(--alt-text)">Beven</Text>
+              <Text color="var(--alt-text)">Seven</Text>
             </MenuItem>
             <MenuDivider color="var(--alt-text)" />
 
@@ -73,7 +83,7 @@ export const DashboardContent = ({
         </Menu>
       </Flex>
 
-      {children}
+      <Box px={{ lg: "1.6em", md: "1em", base: ".6em" }}>{children}</Box>
     </Box>
   );
 };
