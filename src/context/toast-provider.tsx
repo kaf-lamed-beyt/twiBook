@@ -50,7 +50,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
                 style={{ marginTop: "3px" }}
               />
             )}
-            <Text color="var(--alt-text)" fontSize="16px">
+            <Text color="var(--alt-text)" fontSize="16px" mt=".16em">
               {message}
             </Text>
           </Flex>

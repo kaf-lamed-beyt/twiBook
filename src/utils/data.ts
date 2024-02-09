@@ -9,12 +9,6 @@ export const Bookmarks: BookmarkCardProps[] = [
   },
   {
     id: crypto.randomUUID(),
-    title: "Dan Abramov - HMR Stuff",
-    type: "detailed",
-    createdAt: "30 mins",
-  },
-  {
-    id: crypto.randomUUID(),
     title: "Gitsecure's launch",
     type: "detailed",
     createdAt: "5 months",
@@ -40,8 +34,7 @@ export const Bookmarks: BookmarkCardProps[] = [
   },
   {
     id: crypto.randomUUID(),
-    title:
-      "Misconceptions about re-renders - Nadia Makarevich oolao ataha yyta agaata atar wtw ta atwwewr avaja sha ahshshsha ahahay ehay",
+    title: "Misconceptions about re-renders - Nadia Makarevich",
     type: "simple",
     createdAt: "4 days",
   },
@@ -62,5 +55,11 @@ export const Bookmarks: BookmarkCardProps[] = [
     title: "Logs - A subtle idea behind binary search",
     type: "detailed",
     createdAt: "1 month",
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "Dan Abramov - HMR Stuff",
+    type: "detailed",
+    createdAt: "30 mins",
   },
 ];

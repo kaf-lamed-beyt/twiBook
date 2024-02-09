@@ -23,6 +23,7 @@ import { users } from "@utils/schema";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "cookies-next";
 import { useToastContext } from "../hooks/toast";
+import { useAuthContext } from "@hooks/auth";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const SignIn = () => {
   const [otpScreen, setOtpScreen] = React.useState<boolean>(false);
   const [isVerifyLoading, setVerifyLoading] = React.useState<boolean>(false);
   const { openToast } = useToastContext();
+  const { authenticator } = useAuthContext();
 
   const onPinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -89,6 +91,8 @@ export const SignIn = () => {
         books: [],
       });
       openToast("You are logged in.", "success");
+
+      authenticator(true, session?.user);
 
       setCookie("_at", session?.access_token, {
         path: "/",

@@ -15,15 +15,16 @@ function App() {
           fontSize={{ base: "28px", md: "45px", lg: "100px" }}
           fontWeight="900"
         >
-          Twitter{" "}
+          Twitter
           <Box
             as="span"
+            mx=".2em"
             px=".2em"
             py=".1em"
-            background="var(--true-purple-500)"
+            background="var(--true-purple)"
           >
             bookmarks
-          </Box>{" "}
+          </Box>
           on steroids.
         </Text>
 
