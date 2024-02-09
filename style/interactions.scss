@@ -38,7 +38,7 @@
 }
 
 .enter-b {
-  animation: enter-bottom 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  animation: enter-bottom 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
   animation-delay: 0.45s;
   transition: all 0.3s ease-in;
 }

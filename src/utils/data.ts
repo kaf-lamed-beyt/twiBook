@@ -3,15 +3,15 @@ import { BookmarkCardProps } from "@pages/dashboard/components/bookmark-card";
 export const Bookmarks: BookmarkCardProps[] = [
   {
     id: crypto.randomUUID(),
-    title: "Dan Abramov's talk debuting HMR",
-    type: "detailed",
-    createdAt: "30 mins",
-  },
-  {
-    id: crypto.randomUUID(),
     title: "Weird musings around Vite",
     type: "simple",
     createdAt: "1 month",
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "Dan Abramov - HMR Stuff",
+    type: "detailed",
+    createdAt: "30 mins",
   },
   {
     id: crypto.randomUUID(),
@@ -40,7 +40,8 @@ export const Bookmarks: BookmarkCardProps[] = [
   },
   {
     id: crypto.randomUUID(),
-    title: "Misconceptions about re-renders - Nadia M.",
+    title:
+      "Misconceptions about re-renders - Nadia Makarevich oolao ataha yyta agaata atar wtw ta atwwewr avaja sha ahshshsha ahahay ehay",
     type: "simple",
     createdAt: "4 days",
   },

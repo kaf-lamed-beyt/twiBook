@@ -13,7 +13,7 @@ export const useGreeting = () => {
   } else if (hours > 15 && hours <= 20) {
     message = "Today went well, yeah? 🤗";
   } else if (hours > 20 && hours <= 23) {
-    message = "You should be in bed 👀";
+    message = "Shouldn't you be in bed? 👀";
   }
 
   return message;

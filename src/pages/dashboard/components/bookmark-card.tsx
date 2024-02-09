@@ -1,5 +1,18 @@
-import { Badge, Box, HStack, Text } from "@chakra-ui/react";
-import { ChevronDown, Flame, ShieldAlert, Trash2 } from "lucide-react";
+import {
+  Accordion,
+  AccordionIcon,
+  AccordionButton,
+  AccordionItem,
+  Badge,
+  Box,
+  HStack,
+  Image,
+  Text,
+  AccordionPanel,
+  VStack,
+  Link,
+} from "@chakra-ui/react";
+import { ExternalLink, Flame, ShieldAlert, Trash2 } from "lucide-react";
 
 export interface BookmarkCardProps {
   id: string;
@@ -21,6 +34,9 @@ export const BookmarkCard = ({
   title,
   createdAt,
 }: BookmarkCardProps) => {
+  const truncated =
+    title.length > 38 ? `${title.split("").slice(0, 38).join("")}...` : title;
+
   return (
     <Box
       id={id}
@@ -31,9 +47,9 @@ export const BookmarkCard = ({
       borderRadius="8px"
       py=".8em"
       px=".6em"
+      transition="all .3s ease-in"
       _hover={{
         cursor: "pointer",
-        transform: "scale(1.04)",
         transition: "all .3s ease-in",
       }}
     >
@@ -64,19 +80,81 @@ export const BookmarkCard = ({
           </HStack>
         </Badge>
       </HStack>
-      <HStack justifyContent="space-between" mt=".8em">
-        <Text>{title}</Text>
-        {type === "detailed" ? (
-          <ChevronDown size="20" color="var(--alt-text)" />
-        ) : (
+
+      {type === "detailed" ? (
+        <Accordion allowToggle mt="1.2em">
+          <AccordionItem border="none">
+            <Text>
+              <AccordionButton
+                px="0"
+                py="0"
+                _expanded={{ color: "var(--alt-text)" }}
+              >
+                <Box as="span" flex="1" textAlign="left" py=".2em">
+                  {truncated}
+                </Box>
+                <AccordionIcon color="var(--alt-text)" />
+              </AccordionButton>
+            </Text>
+
+            <AccordionPanel
+              pb={0.5}
+              px="0"
+              pt=".4em"
+              borderTop="1px solid var(--matte-black)"
+            >
+              <Box>
+                <HStack>
+                  <Box boxSize="50px">
+                    <Image
+                      alt="dan's photo"
+                      borderRadius="full"
+                      src="https://pbs.twimg.com/profile_images/1735469911843983360/sZ-i1kYG_400x400.jpg"
+                    />
+                  </Box>
+                  <VStack spacing=".3">
+                    <Text fontWeight="bold" ml="-2.3em">
+                      dan's alt
+                    </Text>
+                    <Text color="var(--alt-text)" fontSize="15px">
+                      @dan_abramov
+                    </Text>
+                  </VStack>
+                </HStack>
+
+                <Text className="tweet" color="#fff" mt=".8em">
+                  However to answer your question — no I wouldn’t expect this
+                  issue to affect HMR later.
+                </Text>
+              </Box>
+
+              <HStack
+                justifyContent="space-between"
+                mt=".5em"
+                color="var(--alt-text)"
+              >
+                <Text flex="1" pt=".4em" fontSize="15px">
+                  Jun 29, 2019
+                </Text>
+                <Link href="https://twitter.com/kafLamed" isExternal>
+                  <ExternalLink size="20" color="var(--alt-text)" />
+                </Link>
+                <Trash2 size="20" />
+              </HStack>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      ) : (
+        <HStack justifyContent="space-between" mt="1.2em">
+          <Text py=".2em" flex="1">
+            {truncated}
+          </Text>
+          <Link href="https://twitter.com/kafLamed" isExternal>
+            <ExternalLink size="20" color="var(--alt-text)" />
+          </Link>
           <Trash2 size="20" color="var(--alt-text)" />
-        )}
-      </HStack>
-      {/* <Flex justifyContent="flex-end">
-        <Box _hover={{ cursor: "pointer", color: "#fff" }}>
-          <Trash2 size="23" color="var(--alt-text)" />
-        </Box>
-      </Flex> */}
+        </HStack>
+      )}
     </Box>
   );
 };

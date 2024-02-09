@@ -70,7 +70,7 @@ export const Dashboard = () => {
           justifyContent="flex-end"
           mb="1.4em"
           position="fixed"
-          bottom="10px"
+          bottom="-16px"
           right="20px"
         >
           <CustomButton

@@ -1,7 +1,8 @@
-import { UnorderedList, ListItem, Text, Box, Flex } from "@chakra-ui/react";
+import { UnorderedList, Text, Box, Flex } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CustomButton } from "@components/button";
 import { LibraryBig, User } from "lucide-react";
+import { Animated } from "@externals/index";
 
 const SIDEBAR_NAV = [
   { name: "books", icon: <LibraryBig size="25" />, path: "/dashboard" },
@@ -12,6 +13,28 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
+
+  // const [springs, api] = useSpring(() => ({
+  //   from: {
+  //     y: 80,
+  //   },
+  //   to: {
+  //     y: 0,
+  //   },
+  // }));
+
+  // const onSelect = (path: string, index: number) => {
+  //   navigate(path);
+
+  //   api.start({
+  //     from: {
+  //       y: 0,
+  //     },
+  //     to: {
+  //       y: index * 40,
+  //     },
+  //   });
+  // };
 
   return (
     <Flex
@@ -57,10 +80,11 @@ export const Sidebar = () => {
           <UnorderedList pl="1.4em">
             {SIDEBAR_NAV?.map(({ name, path, icon }, index) => {
               return (
-                <ListItem
+                <Animated.ListItem
                   py=".6em"
                   key={index}
                   listStyleType="none"
+                  // onClick={() => onSelect(path, index)}
                   className={pathname === path ? "sidebar-item" : ""}
                   marginLeft={{ md: "-28px", lg: "0px", base: "3px" }}
                 >
@@ -73,7 +97,6 @@ export const Sidebar = () => {
                     mx={{ md: "auto" }}
                     borderRadius="6px"
                     background={pathname == path ? "var(--matte-black)" : ""}
-                    onClick={() => navigate(path)}
                     color={pathname === path ? "#fff" : "var(--alt-text)"}
                     _hover={{
                       cursor: "pointer",
@@ -81,6 +104,7 @@ export const Sidebar = () => {
                       background: "var(--matte-black)",
                     }}
                     transition="all .3s ease-in"
+                    onClick={() => navigate(path)}
                   >
                     {icon}
                     <Text
@@ -91,7 +115,7 @@ export const Sidebar = () => {
                       {name}
                     </Text>
                   </Flex>
-                </ListItem>
+                </Animated.ListItem>
               );
             })}
           </UnorderedList>

@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { Sidebar } from "./sidebar";
 import { DashboardContent } from "./dashboard-content";
+import { DashboardHeader } from "./header";
 
 export const DashboardLayout = ({
   children,
@@ -10,7 +11,10 @@ export const DashboardLayout = ({
   return (
     <Flex>
       <Sidebar />
-      <DashboardContent children={children} />
+      <>
+        <DashboardHeader />
+        <DashboardContent>{children}</DashboardContent>
+      </>
     </Flex>
   );
 };

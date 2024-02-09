@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
         ),
         "@context": path.resolve(__dirname, "src/context"),
         "@hooks": path.resolve(__dirname, "src/hooks"),
+        "@externals": path.resolve(__dirname, "src/externals"),
       },
     },
     plugins: [react()],

@@ -46,3 +46,8 @@
   border-radius: 3px;
   border: 3px solid var(--true-purple);
 }
+
+.sidebar-item.active::after {
+  transform: translateY(40px);
+  transition: all 0.3s ease-in;
+}
