@@ -9,26 +9,27 @@ import {
   Text,
   MenuDivider,
 } from "@chakra-ui/react";
-import { useToastContext } from "@hooks/toast";
-import { supabase } from "@utils/supabase";
-import { useNavigate } from "react-router-dom";
 import { LogOut, User } from "lucide-react";
 import { useGreeting } from "@hooks/greeting";
+import { useAuthContext } from "@hooks/auth";
 
 export const DashboardHeader = () => {
   const message = useGreeting();
-  const navigate = useNavigate();
-  const { openToast } = useToastContext();
+  const { user, logout } = useAuthContext();
 
-  const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    // deleteCookie("_at")
+  // use the first part of their email if they don't have a username
+  let username;
+  let avatarUrl;
+  const identity = user?.identities?.[0];
 
-    if (!error) {
-      openToast("Logged out successfully!", "success");
-      navigate("/signin");
-    }
-  };
+  if (identity) {
+    username = identity?.identity_data?.user_name;
+    avatarUrl = identity?.identity_data?.avatar_url;
+  } else {
+    username = user?.email;
+  }
+
+  const fallbackU = localStorage.getItem("twbu");
 
   return (
     <Flex
@@ -50,7 +51,7 @@ export const DashboardHeader = () => {
     >
       <Box>
         <Text my="auto" fontSize="20px" fontWeight="700">
-          Hello, Seven
+          Hello, {username !== "undefined" ? username : fallbackU}
         </Text>
         <Box>
           <Text color="var(--alt-text)" fontSize="16px">
@@ -61,8 +62,13 @@ export const DashboardHeader = () => {
       <Menu isLazy>
         <MenuButton>
           <Avatar
-            name="Seven"
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=seven&backgroundColor=ffdfbf"
+            name={username}
+            textTransform="uppercase"
+            src={
+              avatarUrl
+                ? avatarUrl
+                : `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}&backgroundColor=ffdfbf`
+            }
           />
         </MenuButton>
         <MenuList
@@ -75,7 +81,7 @@ export const DashboardHeader = () => {
             background="none"
             icon={<User size="25" color="var(--alt-text)" />}
           >
-            <Text color="var(--alt-text)">Seven</Text>
+            <Text color="var(--alt-text)">{username}</Text>
           </MenuItem>
           <MenuDivider color="var(--alt-text)" />
 

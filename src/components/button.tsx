@@ -37,8 +37,8 @@ export const CustomButton = ({
   type,
   fontWeight,
   variant,
-  transform,
   rounded,
+  ...props
 }: ButtonProps) => {
   return (
     <Button
@@ -53,12 +53,12 @@ export const CustomButton = ({
       isLoading={loading}
       loadingText={loadingText}
       fontWeight={fontWeight}
-      textTransform={transform ? transform : "capitalize"}
       border={variant === "outline" ? "1px solid #333" : ""}
       height={height ? height : { lg: "60px", base: "40px", md: "45px" }}
       width={width ? width : { lg: "250px", md: "200px", base: "150px" }}
       fontSize={fontSize ? fontSize : { lg: "25px", md: "20px", base: "16px" }}
       borderRadius={rounded ? "50%" : "6px"}
+      {...props}
     >
       {children}
     </Button>

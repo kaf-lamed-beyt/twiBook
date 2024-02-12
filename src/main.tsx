@@ -10,6 +10,7 @@ import { Profile } from "@pages/dashboard/profile/index.tsx";
 import { RouteErrorComponent } from "./error.tsx";
 import { ToastProvider } from "./context/toast-provider.tsx";
 import { AuthProvider } from "@context/auth-provider.tsx";
+import { Oauth } from "@pages/oauth.tsx";
 
 const routes = createBrowserRouter([
   {
@@ -45,7 +46,19 @@ const routes = createBrowserRouter([
     path: "/dashboard/account",
     element: (
       <ToastProvider>
-        <Profile />
+        <AuthProvider>
+          <Profile />
+        </AuthProvider>
+      </ToastProvider>
+    ),
+  },
+  {
+    path: "/oauth",
+    element: (
+      <ToastProvider>
+        <AuthProvider>
+          <Oauth />
+        </AuthProvider>
       </ToastProvider>
     ),
   },

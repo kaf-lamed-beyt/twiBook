@@ -2,13 +2,13 @@ export const useGreeting = () => {
   let message;
 
   const date = new Date();
-  const hours = date.getUTCHours();
+  const hours = date.getHours();
 
   if (hours <= 5) {
     message = "No sleep for the wicked! 🫵🏼";
-  } else if (hours > 6 && hours <= 11) {
+  } else if (hours >= 6 && hours <= 11) {
     message = "Top of the morning! 🚀";
-  } else if (hours > 12 && hours <= 15) {
+  } else if (hours >= 12 && hours <= 15) {
     message = "How's the day treating ya?";
   } else if (hours > 15 && hours <= 20) {
     message = "Today went well, yeah? 🤗";

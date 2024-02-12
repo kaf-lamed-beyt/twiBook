@@ -21,9 +21,11 @@ import { BsGithub } from "react-icons/bs";
 import { db } from "@utils/db";
 import { users } from "@utils/schema";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "cookies-next";
 import { useToastContext } from "../hooks/toast";
 import { useAuthContext } from "@hooks/auth";
+import { setCookie } from "cookies-next";
+
+// http://localhost:5173/#access_token=eyJhbGciOiJIUzI1NiIsImtpZCI6ImY3UnRHaEJVWHVDTnBuck4iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzA3NDk2MjAxLCJpYXQiOjE3MDc0OTI2MDEsImlzcyI6Imh0dHBzOi8veHJncWtpc2NwdXl1bml0bXpvaGouc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6Ijk3ZDE1NjQxLWRlODItNDZiYi1iNGI4LWNjOWU3OWVkZjRhZiIsImVtYWlsIjoiYmVsYWMzMzVAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6e30sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoib3RwIiwidGltZXN0YW1wIjoxNzA3NDkyNjAxfV0sInNlc3Npb25faWQiOiI5ZjI2OGE5NS1iYjZiLTQ2YTMtYThmMC1hZmQwODQ4ZDkyNDMifQ.oe3_74C-P__WvxBNc-ngwDd4Ta_mHA_wA52ODfYVYOI&expires_at=1707496201&expires_in=3600&refresh_token=t6nHxFvFOc37cIZlnKj1Uw&token_type=bearer&type=magiclink
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -58,7 +60,7 @@ export const SignIn = () => {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: "localhost:5173",
+        emailRedirectTo: "localhost:5173/signin",
       },
     });
 
@@ -66,6 +68,21 @@ export const SignIn = () => {
       localStorage.setItem("email", email);
       openToast("Check your mail", "success");
       setOtpScreen(true);
+    }
+  };
+
+  const onGithubSignIn = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: "http://localhost:5173/oauth",
+      },
+    });
+
+    authenticator(true);
+
+    if (!error) {
+      openToast("Preparing...", "success");
     }
   };
 
@@ -80,8 +97,6 @@ export const SignIn = () => {
       type: "email",
     });
 
-    console.log(session);
-
     if (!error) {
       db.insert(users).values({
         fullName: "",
@@ -91,19 +106,23 @@ export const SignIn = () => {
         books: [],
       });
       openToast("You are logged in.", "success");
+      localStorage.setItem("twbu", (session?.user?.email as string) ?? "");
 
       authenticator(true, session?.user);
-
       setCookie("_at", session?.access_token, {
         path: "/",
-        maxAge: 60 * 6 * 24,
+        maxAge: 24 * 24 * 60,
       });
+
       setVerifyLoading(false);
       navigate("/dashboard");
     } else {
       openToast(error?.message, "error");
+      setVerifyLoading(false);
     }
   };
+
+  const decryptedEmail = localStorage.getItem("email");
 
   const otp = (
     <Box className="slide-in-right" transition="all .1s ease-in">
@@ -123,7 +142,7 @@ export const SignIn = () => {
       >
         Enter the OTP we sent to{" "}
         <Text as="span" fontWeight="700" color="#fff">
-          {localStorage.getItem("email")}
+          {decryptedEmail}
         </Text>
       </Text>
       <Text fontSize="14px" color="var(--alt-text)">
@@ -187,7 +206,7 @@ export const SignIn = () => {
           <Text py=".5em" fontSize="x-large">
             Sign In.
           </Text>
-          <Text pb="1em" size="sm" color="var(--alt-text)">
+          <Text pb="1em" fontSize="15px" color="var(--alt-text)">
             Don't worry, we'll create an account for you automatically.
           </Text>
           <Box mb=".6em">
@@ -209,12 +228,13 @@ export const SignIn = () => {
                         type="submit"
                         height="50px"
                         width="100%"
-                        fontSize="20px"
+                        fontSize="16px"
+                        fontWeight="normal"
                         background="var(--true-purple)"
                         hoverBg="var(--true-purple)"
                         loading={formik.isSubmitting}
                       >
-                        sign in
+                        Continue with Email
                       </CustomButton>
                     </Box>
                   </Box>
@@ -246,7 +266,7 @@ export const SignIn = () => {
               hoverBg="var(--matte-black)"
               background="var(--matte-black)"
             >
-              continue with google
+              Continue with Google
             </CustomButton>
 
             <CustomButton
@@ -259,8 +279,9 @@ export const SignIn = () => {
               leftIcon={<BsGithub size="25" />}
               hoverBg="var(--matte-black)"
               background="var(--matte-black)"
+              onClick={() => onGithubSignIn()}
             >
-              continue with gitHub
+              Continue with GitHub
             </CustomButton>
           </VStack>
         </Box>

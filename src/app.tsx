@@ -25,7 +25,7 @@ function App() {
           >
             bookmarks
           </Box>
-          on steroids.
+          alternative
         </Text>
 
         <Text
