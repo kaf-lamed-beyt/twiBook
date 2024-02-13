@@ -25,7 +25,6 @@ export const Bookmarks: BookmarkCardProps[] = [
     type: "detailed",
     createdAt: "15 mins",
   },
-
   {
     id: crypto.randomUUID(),
     title: "Kent C. Dodds - When to memo",

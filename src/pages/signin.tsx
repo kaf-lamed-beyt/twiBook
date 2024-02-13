@@ -17,8 +17,6 @@ import { InputField } from "@components/input-field";
 import { signInSchema } from "@utils/validators/auth-schema";
 import { MoveLeft } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
-import { db } from "@utils/db";
-import { users } from "@utils/schema";
 import { useNavigate } from "react-router-dom";
 import { useToastContext } from "../hooks/toast";
 import { useAuthContext } from "@hooks/auth";
@@ -103,13 +101,6 @@ export const SignIn = () => {
     });
 
     if (!error) {
-      db.insert(users).values({
-        fullName: "",
-        userId: crypto.randomUUID(),
-        hasLicense: false,
-        email: session?.user?.email,
-        books: [],
-      });
       openToast("You are logged in.", "success");
       localStorage.setItem("twbu", (session?.user?.email as string) ?? "");
 
