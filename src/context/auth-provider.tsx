@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   ) => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("auth state change data", session);
+
       if (event === "SIGNED_IN") {
         setAuthState({
           user: session?.user || user,
@@ -104,6 +105,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     if (
+      authState.isAuthenticated === true ||
+      authState.user?.role === "authenticated"
+    ) {
+      navigate("/dashboard");
+    } else if (
       (pathname.startsWith("/dashboard") && hasCookie("_as") === false) ||
       (pathname.startsWith("/dashboard") && hasCookie("_gat") === false)
     ) {

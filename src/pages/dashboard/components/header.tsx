@@ -22,11 +22,18 @@ export const DashboardHeader = () => {
   let avatarUrl;
   const identity = user?.identities?.[0];
 
-  if (identity) {
+  if (identity?.provider === "email") {
+    username = identity?.identity_data?.email.split("@")[0];
+  }
+
+  if (identity?.provider === "twitter") {
+    username = identity?.identity_data?.name;
+    avatarUrl = identity?.identity_data?.avatar_url;
+  }
+
+  if (identity?.provider === "github") {
     username = identity?.identity_data?.user_name;
     avatarUrl = identity?.identity_data?.avatar_url;
-  } else {
-    username = user?.email;
   }
 
   const fallbackU = localStorage.getItem("twbu");
@@ -64,6 +71,7 @@ export const DashboardHeader = () => {
           <Avatar
             name={username}
             textTransform="uppercase"
+            border="2px solid var(--true-purple-500)"
             src={
               avatarUrl
                 ? avatarUrl

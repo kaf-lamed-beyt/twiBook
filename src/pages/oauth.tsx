@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useToastContext } from "@hooks/toast";
 import { authCookieOptions } from "@utils/misc";
 import { useAuthContext } from "@hooks/auth";
+import { supabase } from "@utils/supabase";
 
 export const Oauth = () => {
   const location = useLocation();
@@ -12,26 +13,41 @@ export const Oauth = () => {
   const { openToast } = useToastContext();
   const { authenticator } = useAuthContext();
 
+  const exchange = async (token: string) => {
+    const { data } = await supabase.auth.getUser(token);
+
+    return data?.user;
+  };
+
   React.useEffect(() => {
-    const params = new URLSearchParams(location.hash.slice(1));
-    const accessToken = params.get("access_token");
+    const exchangeTokenForUser = async () => {
+      const params = new URLSearchParams(location.hash.slice(1));
+      const accessToken = params.get("access_token");
 
-    try {
-      if (accessToken) {
-        setCookie("_gat", accessToken, {
-          ...authCookieOptions,
-        });
+      try {
+        if (accessToken) {
+          setCookie("_gat", accessToken, {
+            ...authCookieOptions,
+          });
 
-        openToast("Logged in successfully!", "success");
-        navigate("/dashboard");
-      } else {
-        navigate("/signin");
-        openToast("something went wrong! Try again.", "error");
+          const user = await exchange(accessToken);
+          console.log("user from oauth: ", user);
+
+          authenticator(true, user);
+
+          openToast("Logged in successfully!", "success");
+          navigate("/dashboard");
+        } else {
+          navigate("/signin");
+          openToast("something went wrong! Try again.", "error");
+        }
+      } catch (error) {
+        openToast(`${error}`, "error");
       }
-    } catch (error) {
-      openToast(`${error}`, "error");
-    }
-  }, [authenticator, location, navigate, openToast]);
+    };
+
+    exchangeTokenForUser();
+  }, [authenticator, location.hash, navigate, openToast]);
 
   return (
     <Center height="100vh">

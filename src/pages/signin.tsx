@@ -17,15 +17,14 @@ import { InputField } from "@components/input-field";
 import { signInSchema } from "@utils/validators/auth-schema";
 import { MoveLeft } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
-import { BsGithub } from "react-icons/bs";
 import { db } from "@utils/db";
 import { users } from "@utils/schema";
 import { useNavigate } from "react-router-dom";
 import { useToastContext } from "../hooks/toast";
 import { useAuthContext } from "@hooks/auth";
 import { setCookie } from "cookies-next";
-
-// http://localhost:5173/#access_token=eyJhbGciOiJIUzI1NiIsImtpZCI6ImY3UnRHaEJVWHVDTnBuck4iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzA3NDk2MjAxLCJpYXQiOjE3MDc0OTI2MDEsImlzcyI6Imh0dHBzOi8veHJncWtpc2NwdXl1bml0bXpvaGouc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6Ijk3ZDE1NjQxLWRlODItNDZiYi1iNGI4LWNjOWU3OWVkZjRhZiIsImVtYWlsIjoiYmVsYWMzMzVAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6e30sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoib3RwIiwidGltZXN0YW1wIjoxNzA3NDkyNjAxfV0sInNlc3Npb25faWQiOiI5ZjI2OGE5NS1iYjZiLTQ2YTMtYThmMC1hZmQwODQ4ZDkyNDMifQ.oe3_74C-P__WvxBNc-ngwDd4Ta_mHA_wA52ODfYVYOI&expires_at=1707496201&expires_in=3600&refresh_token=t6nHxFvFOc37cIZlnKj1Uw&token_type=bearer&type=magiclink
+import { GrTwitter } from "react-icons/gr";
+import { BsGithub } from "react-icons/bs";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -82,7 +81,24 @@ export const SignIn = () => {
     authenticator(true);
 
     if (!error) {
-      openToast("Preparing...", "success");
+      openToast("Processing...", "success");
+    }
+  };
+
+  const onTwitterSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "twitter",
+      options: {
+        redirectTo: "http://localhost:5173/oauth",
+      },
+    });
+
+    authenticator(true);
+
+    console.log("data from signin", data);
+
+    if (!error) {
+      openToast("Processing...", "success");
     }
   };
 
@@ -255,6 +271,21 @@ export const SignIn = () => {
           </Box>
 
           <VStack spacing={6}>
+            <CustomButton
+              type="button"
+              height="50px"
+              width="100%"
+              fontWeight="normal"
+              variant="outline"
+              fontSize="16px"
+              leftIcon={<GrTwitter size="25" color="#26a7de" />}
+              hoverBg="var(--matte-black)"
+              background="var(--matte-black)"
+              onClick={() => onTwitterSignIn()}
+            >
+              Continue with Twitter
+            </CustomButton>
+
             <CustomButton
               type="button"
               height="50px"
