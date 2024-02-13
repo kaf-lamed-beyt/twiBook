@@ -12,6 +12,7 @@ import {
 import { LogOut, User } from "lucide-react";
 import { useGreeting } from "@hooks/greeting";
 import { useAuthContext } from "@hooks/auth";
+import { authProviderFromSignIn } from "@utils/misc";
 
 export const DashboardHeader = () => {
   const message = useGreeting();
@@ -20,7 +21,9 @@ export const DashboardHeader = () => {
   // use the first part of their email if they don't have a username
   let username;
   let avatarUrl;
-  const identity = user?.identities?.[0];
+  const identity = user?.identities?.find(
+    (user) => user.provider === authProviderFromSignIn
+  );
 
   if (identity?.provider === "email") {
     username = identity?.identity_data?.email.split("@")[0];
@@ -33,6 +36,11 @@ export const DashboardHeader = () => {
 
   if (identity?.provider === "github") {
     username = identity?.identity_data?.user_name;
+    avatarUrl = identity?.identity_data?.avatar_url;
+  }
+
+  if (identity?.provider === "google") {
+    username = identity?.identity_data?.full_name.split(" ")[0];
     avatarUrl = identity?.identity_data?.avatar_url;
   }
 

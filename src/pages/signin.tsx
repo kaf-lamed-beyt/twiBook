@@ -24,7 +24,8 @@ import { useToastContext } from "../hooks/toast";
 import { useAuthContext } from "@hooks/auth";
 import { setCookie } from "cookies-next";
 import { GrTwitter } from "react-icons/gr";
-import { BsGithub } from "react-icons/bs";
+import { authCookieOptions } from "@utils/misc";
+import { Provider } from "@supabase/supabase-js";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -70,36 +71,24 @@ export const SignIn = () => {
     }
   };
 
-  const onGithubSignIn = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: "http://localhost:5173/oauth",
-      },
-    });
-
-    authenticator(true);
-
-    if (!error) {
-      openToast("Processing...", "success");
-    }
-  };
-
-  const onTwitterSignIn = async () => {
+  const OAuthSignIn = async (provider: Provider) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "twitter",
+      provider: provider,
       options: {
         redirectTo: "http://localhost:5173/oauth",
       },
     });
 
-    authenticator(true);
-
-    console.log("data from signin", data);
-
     if (!error) {
+      authenticator(true);
+      setCookie("_prov", data.provider, {
+        ...authCookieOptions,
+      });
+
       openToast("Processing...", "success");
     }
+
+    openToast("Something went wrong! Try again.", "error");
   };
 
   const verifyEmailAndLogin = async () => {
@@ -281,7 +270,7 @@ export const SignIn = () => {
               leftIcon={<GrTwitter size="25" color="#26a7de" />}
               hoverBg="var(--matte-black)"
               background="var(--matte-black)"
-              onClick={() => onTwitterSignIn()}
+              onClick={() => OAuthSignIn("twitter")}
             >
               Continue with Twitter
             </CustomButton>
@@ -296,11 +285,12 @@ export const SignIn = () => {
               leftIcon={<FcGoogle size="25" />}
               hoverBg="var(--matte-black)"
               background="var(--matte-black)"
+              onClick={() => OAuthSignIn("google")}
             >
               Continue with Google
             </CustomButton>
 
-            <CustomButton
+            {/* <CustomButton
               type="button"
               height="50px"
               width="100%"
@@ -313,7 +303,7 @@ export const SignIn = () => {
               onClick={() => onGithubSignIn()}
             >
               Continue with GitHub
-            </CustomButton>
+            </CustomButton> */}
           </VStack>
         </Box>
       ) : (

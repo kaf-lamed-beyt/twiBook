@@ -88,6 +88,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       ...authCookieOptions,
     });
 
+    deleteCookie("_prov", {
+      ...authCookieOptions,
+    });
+
     authenticateUser(false, undefined);
     localStorage.clear();
 
