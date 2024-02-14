@@ -11,11 +11,18 @@ export const NoBookmarks = () => {
           <LibraryBig size="80" color="var(--alt-text)" />
         </Center>
 
-        <Text color="var(--alt-text)" fontSize="22px">
+        <Text
+          color="var(--alt-text)"
+          fontSize={{ lg: "22px", md: "18px", base: "16px" }}
+        >
           You don't have any bookmarks yet.
         </Text>
 
-        <Text color="var(--alt-text)" fontSize="22px" py=".3em">
+        <Text
+          color="var(--alt-text)"
+          py=".3em"
+          fontSize={{ lg: "22px", md: "18px", base: "16px" }}
+        >
           Use our{" "}
           <Link
             isExternal
@@ -67,12 +74,11 @@ export const NoBookmarks = () => {
             type="button"
             hoverBg="var(--true-purple)"
             background="var(--true-purple)"
-            height="50px"
             fontWeight="500"
-            fontSize="20px"
+            fontSize={{ lg: "22px", md: "18px", base: "16px" }}
           >
-            <Flex gap="1.5em">
-              <Text>create bookmark</Text>
+            <Flex gap={{ lg: "1.5em", md: "1.2em", base: ".4em" }}>
+              <Text my="auto">Create bookmark</Text>
               <Library size="23" />
             </Flex>
           </CustomButton>

@@ -34,9 +34,8 @@ export const Oauth = () => {
           console.log("user from oauth: ", user);
 
           authenticator(true, user);
-
-          openToast("Logged in successfully!", "success");
           navigate("/dashboard");
+          openToast("Logged in successfully!", "success");
         } else {
           navigate("/signin");
           openToast("something went wrong! Try again.", "error");
@@ -47,7 +46,7 @@ export const Oauth = () => {
     };
 
     exchangeTokenForUser();
-  }, [authenticator, location.hash, navigate, openToast]);
+  }, [authenticator, location.hash, navigate]);
 
   return (
     <Center height="100vh">

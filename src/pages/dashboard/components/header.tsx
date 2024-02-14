@@ -25,8 +25,11 @@ export const DashboardHeader = () => {
     (user) => user.provider === authProviderFromSignIn
   );
 
-  if (identity?.provider === "email") {
-    username = identity?.identity_data?.email.split("@")[0];
+  const fallbackU = localStorage.getItem("twbu");
+
+  if (!identity) {
+    const usr = user?.email?.split("@")[0];
+    username = usr ? usr : fallbackU;
   }
 
   if (identity?.provider === "twitter") {
@@ -43,8 +46,6 @@ export const DashboardHeader = () => {
     username = identity?.identity_data?.full_name.split(" ")[0];
     avatarUrl = identity?.identity_data?.avatar_url;
   }
-
-  const fallbackU = localStorage.getItem("twbu");
 
   return (
     <Flex

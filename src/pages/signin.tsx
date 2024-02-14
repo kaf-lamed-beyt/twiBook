@@ -58,7 +58,9 @@ export const SignIn = () => {
     const { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        emailRedirectTo: "localhost:5173/signin",
+        data: {
+          email: email,
+        },
       },
     });
 
@@ -84,9 +86,9 @@ export const SignIn = () => {
       });
 
       openToast("Processing...", "success");
+    } else {
+      openToast("Something went wrong! Try again.", "error");
     }
-
-    openToast("Something went wrong! Try again.", "error");
   };
 
   const verifyEmailAndLogin = async () => {
@@ -181,7 +183,7 @@ export const SignIn = () => {
         background="var(--true-purple)"
         onClick={() => verifyEmailAndLogin()}
       >
-        verify email
+        Verify Email
       </CustomButton>
     </Box>
   );

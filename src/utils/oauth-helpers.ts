@@ -8,7 +8,8 @@ import { authCookieOptions } from "./misc";
 type authenticator = AuthContextValues["authenticator"];
 type openToast = ToastContextValues["openToast"];
 
-// current implementatio of the OAuth handlers are too tight-coupled with the toastContext.
+// current implementation of the OAuth handlers
+// are too tight-coupled with the toastContext.
 // decouple it.
 
 export const OAuthSignIn = (
