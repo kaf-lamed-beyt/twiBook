@@ -14,6 +14,7 @@
   --success: rgba(22, 219, 101, 1);
   --warn: rgba(255, 214, 10, 1);
   --danger: rgba(255, 0, 0, 1);
+
   // --true-purple: rgba(106, 13, 173, 1);
   --true-purple: var(--purple-500);
   --light-purple: rgba(177, 151, 252, 1);
@@ -31,6 +32,10 @@
   --warn-600: rgba(255, 214, 10, 0.6);
   --warn-500: rgba(255, 214, 10, 0.5);
   --warn-400: rgba(255, 214, 10, 0.4);
+
+  --danger-600: rgba(255, 0, 0, 0.6);
+  --danger-500: rgba(255, 0, 0, 0.5);
+  --danger-400: rgba(255, 0, 0, 0.4);
 
   --purple-50: #f5f0ff;
   --purple-100: #e6d9ff;

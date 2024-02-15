@@ -28,7 +28,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
           <Box
             px=".8em"
             width="350px"
-            height="50px"
+            height="fit-content"
             borderTop="1px solid var(--matte-black)"
             borderRight="1px solid var(--matte-black)"
             borderBottom="1px solid var(--matte-black)"

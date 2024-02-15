@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Flex,
@@ -14,23 +15,24 @@ import { Plus, Search } from "lucide-react";
 import { ModalLayout } from "@components/modal-layout";
 import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
-import { createBookmarkSchema } from "@utils/validators/create-bookmark-schema";
 import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase";
 import { useAuthContext } from "@hooks/auth";
-import React from "react";
+import { dateFromNow } from "@utils/misc";
 import { NoBookmarks } from "./components/no-bookmarks";
+import { createBookmarkSchema } from "@utils/validators/create-bookmark-schema";
 
 export const Dashboard = () => {
   const { openToast } = useToastContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
   const { user } = useAuthContext();
 
-  const [books, setBooks] = React.useState<[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [books, setBooks] = React.useState<any[]>([]);
 
   const createSimpleBookmark = async (title: string, link?: string) => {
     const { error } = await supabase.from("books").insert({
-      id: user?.id,
+      id: `${user?.id}`,
       title: title,
       book_link: link,
       book_type: "simple",
@@ -45,22 +47,34 @@ export const Dashboard = () => {
     }
   };
 
+  const deleteBook = async (id: string) => {
+    const { error } = await supabase.from("books").delete().eq("book_id", id);
+
+    if (!error) {
+      openToast("Bookmark deleted successfully!", "success");
+      onClose();
+      setBooks(books.filter((book) => book.book_id !== id));
+    } else {
+      openToast(error.message, "error");
+    }
+  };
+
+  const getBooks = async () => {
+    const { data, error } = await supabase.from("books").select();
+
+    if (!error) {
+      setBooks(data);
+    }
+  };
+
   React.useEffect(() => {
-    async () => {
-      const { data, error } = await supabase.from("books").select();
-
-      if (!error) {
-        setBooks(data);
-      }
-    };
+    getBooks();
   }, []);
-
-  console.log(books);
 
   return (
     <DashboardLayout>
       {books.length === 0 ? (
-        <NoBookmarks />
+        <NoBookmarks openModal={onOpen} />
       ) : (
         <Box py=".8em">
           <InputGroup my="1.4em" border="none">
@@ -83,29 +97,36 @@ export const Dashboard = () => {
           </InputGroup>
 
           {/* <Flex gap="1em" flexWrap="wrap" my="2em">
-          {Bookmarks.map(({ id, type, title, createdAt }, index) => {
-            return (
-              <BookmarkCard
-                key={`book-${index}-${id}`}
-                id={id}
-                type={type}
-                title={title}
-                createdAt={createdAt}
-              />
-            );
-          })}
-        </Flex> */}
+            {Bookmarks.map(({ id, type, title, createdAt }, index) => {
+              return (
+                <BookmarkCard
+                  key={`book-${index}-${id}`}
+                  id={id}
+                  type={type}
+                  title={title}
+                  createdAt={createdAt}
+                  bookLink={""}
+                />
+              );
+            })}
+          </Flex> */}
 
           <Flex gap="1em" flexWrap="wrap" my="2em">
             {books.map(
-              ({ book_id, book_type, title, book_created_at }, index) => {
+              (
+                { book_id, book_type, title, book_link, book_created_at },
+                index
+              ) => {
                 return (
                   <BookmarkCard
                     title={title}
                     id={book_id}
                     type={book_type}
-                    createdAt={book_created_at}
+                    bookLink={book_link}
+                    bookId={book_id}
                     key={`book-${index}-${book_id}`}
+                    onDelete={() => deleteBook(book_id)}
+                    createdAt={dateFromNow(book_created_at)}
                   />
                 );
               }
@@ -188,7 +209,7 @@ export const Dashboard = () => {
                   background="var(--true-purple)"
                   loadingText="creating bookmark..."
                 >
-                  create bookmark
+                  Create bookmark
                 </CustomButton>
               </Box>
             </Form>

@@ -62,7 +62,7 @@ export const DashboardHeader = () => {
       borderBottom={{
         base: "1px solid var(--matte-black)",
         md: "1px solid var(--matte-black)",
-        lg: "none",
+        lg: "1px solid var(--matte-black)",
       }}
     >
       <Box>

@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./app.tsx";
 import { SignIn } from "./pages/signin.tsx";
@@ -65,9 +64,7 @@ const routes = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={routes} />
-    </ChakraProvider>
-  </React.StrictMode>
+  <ChakraProvider>
+    <RouterProvider router={routes} />
+  </ChakraProvider>
 );

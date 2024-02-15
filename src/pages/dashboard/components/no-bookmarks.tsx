@@ -3,7 +3,11 @@ import { Library, LibraryBig } from "lucide-react";
 import { CustomButton } from "@components/button";
 import { Hint } from "@components/hint";
 
-export const NoBookmarks = () => {
+export type NoBookmarksProps = {
+  openModal: () => void;
+};
+
+export const NoBookmarks = ({ openModal }: NoBookmarksProps) => {
   return (
     <Center height="80vh">
       <Box maxW="700px" textAlign="center">
@@ -76,10 +80,13 @@ export const NoBookmarks = () => {
             background="var(--true-purple)"
             fontWeight="500"
             fontSize={{ lg: "22px", md: "18px", base: "16px" }}
+            onClick={openModal}
           >
-            <Flex gap={{ lg: "1.5em", md: "1.2em", base: ".4em" }}>
+            <Flex gap={{ lg: "1.5em", md: "1.2em", base: "0em" }}>
               <Text my="auto">Create bookmark</Text>
-              <Library size="23" />
+              <Box display={{ lg: "block", md: "block", base: "none" }}>
+                <Library size="25" />
+              </Box>
             </Flex>
           </CustomButton>
         </Box>
