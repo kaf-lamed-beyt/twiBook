@@ -6,6 +6,7 @@ import {
   InputGroup,
   InputLeftElement,
   Tooltip,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { DashboardLayout } from "./components/layout";
@@ -19,8 +20,8 @@ import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase";
 import { useAuthContext } from "@hooks/auth";
 import { dateFromNow } from "@utils/misc";
-import { NoBookmarks } from "./components/no-bookmarks";
 import { createBookmarkSchema } from "@utils/validators/create-bookmark-schema";
+import debounce from "lodash.debounce";
 
 export const Dashboard = () => {
   const { openToast } = useToastContext();
@@ -29,6 +30,22 @@ export const Dashboard = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [books, setBooks] = React.useState<any[]>([]);
+  const [, setSearchTerm] = React.useState<string>("");
+  const [searchError, setSearchError] = React.useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [filteredBooks, setFilteredBooks] = React.useState<any[]>([]);
+
+  const getBooks = React.useCallback(async () => {
+    const { data, error } = await supabase.from("books").select();
+
+    if (!error) {
+      setBooks(data);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    getBooks();
+  }, [getBooks]);
 
   const createSimpleBookmark = async (title: string, link?: string) => {
     const { error } = await supabase.from("books").insert({
@@ -42,6 +59,7 @@ export const Dashboard = () => {
 
     if (!error) {
       openToast(`Bookmarked successfully!"`, "success");
+      getBooks();
     } else {
       openToast(error.message, "error");
     }
@@ -59,44 +77,55 @@ export const Dashboard = () => {
     }
   };
 
-  const getBooks = async () => {
-    const { data, error } = await supabase.from("books").select();
+  const debouncedSearch = debounce((searchQuery: string) => {
+    setSearchTerm(searchQuery.toLowerCase());
 
-    if (!error) {
-      setBooks(data);
+    const filtered = books.filter((book) =>
+      book.title?.toLowerCase().includes(searchQuery)
+    );
+
+    setFilteredBooks(filtered);
+
+    if (filtered.length === 0) {
+      setSearchError("No bookmarks with this title exist.");
+    } else {
+      setSearchError("");
     }
-  };
+  }, 300);
 
-  React.useEffect(() => {
-    getBooks();
-  }, []);
+  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+    debouncedSearch(query);
+  };
 
   return (
     <DashboardLayout>
-      {books.length === 0 ? (
-        <NoBookmarks openModal={onOpen} />
-      ) : (
-        <Box py=".8em">
-          <InputGroup my="1.4em" border="none">
-            <InputLeftElement mt=".3em">
-              <Search size="25" color="var(--alt-text)" />
-            </InputLeftElement>
-            <Input
-              py="1.2em"
-              px="1.8em"
-              height="50px"
-              width="100%"
-              color="var(--alt-text)"
-              background="var(--eerie-black)"
-              placeholder="Search bookmarks..."
-              _focusVisible={{ border: "none" }}
-              border="1px solid var(--matte-black)"
-              _placeholder={{ color: "var(--alt-text)" }}
-              _hover={{ border: "2px solid var(--matte-black)" }}
-            />
-          </InputGroup>
+      <Box py=".8em">
+        <InputGroup my="1.4em" border="none">
+          <InputLeftElement mt=".3em">
+            <Search size="25" color="var(--alt-text)" />
+          </InputLeftElement>
+          <Input
+            py="1.2em"
+            px="1.8em"
+            height="50px"
+            width="100%"
+            color="var(--alt-text)"
+            onChange={(e) => onSearch(e)}
+            background="var(--eerie-black)"
+            placeholder="Search bookmarks..."
+            _focusVisible={{ border: "none" }}
+            border="1px solid var(--matte-black)"
+            _placeholder={{ color: "var(--alt-text)" }}
+            _hover={{ border: "2px solid var(--matte-black)" }}
+          />
+        </InputGroup>
 
-          {/* <Flex gap="1em" flexWrap="wrap" my="2em">
+        {searchError !== "" ? (
+          <Text color="var(--alt-text)">{searchError}</Text>
+        ) : null}
+
+        {/* <Flex gap="1em" flexWrap="wrap" my="2em">
             {Bookmarks.map(({ id, type, title, createdAt }, index) => {
               return (
                 <BookmarkCard
@@ -111,56 +140,55 @@ export const Dashboard = () => {
             })}
           </Flex> */}
 
-          <Flex gap="1em" flexWrap="wrap" my="2em">
-            {books.map(
-              (
-                { book_id, book_type, title, book_link, book_created_at },
-                index
-              ) => {
-                return (
-                  <BookmarkCard
-                    title={title}
-                    id={book_id}
-                    type={book_type}
-                    bookLink={book_link}
-                    bookId={book_id}
-                    key={`book-${index}-${book_id}`}
-                    onDelete={() => deleteBook(book_id)}
-                    createdAt={dateFromNow(book_created_at)}
-                  />
-                );
-              }
-            )}
-          </Flex>
+        <Flex gap="1em" flexWrap="wrap" my="2em">
+          {filteredBooks.map(
+            (
+              { book_id, book_type, title, book_link, book_created_at },
+              index
+            ) => {
+              return (
+                <BookmarkCard
+                  title={title}
+                  id={book_id}
+                  type={book_type}
+                  bookLink={book_link}
+                  bookId={book_id}
+                  key={`book-${index}-${book_id}`}
+                  onDelete={() => deleteBook(book_id)}
+                  createdAt={dateFromNow(book_created_at)}
+                />
+              );
+            }
+          )}
+        </Flex>
 
-          <Flex
-            justifyContent="flex-end"
-            mb="1.4em"
-            position="fixed"
-            bottom="-16px"
-            right="20px"
+        <Flex
+          justifyContent="flex-end"
+          mb="1.4em"
+          position="fixed"
+          bottom="-16px"
+          right="20px"
+        >
+          <CustomButton
+            rounded
+            type="button"
+            width="50px"
+            height="50px"
+            onClick={onOpen}
+            hoverBg="var(--true-purple)"
+            background="var(--true-purple)"
           >
-            <CustomButton
-              rounded
-              type="button"
-              width="50px"
-              height="50px"
-              onClick={onOpen}
-              hoverBg="var(--true-purple)"
-              background="var(--true-purple)"
+            <Tooltip
+              placement="left"
+              label="create a simple bookmark"
+              background="var(--eerie-black)"
+              border="1px solid var(--matte-black)"
             >
-              <Tooltip
-                placement="left"
-                label="create a simple bookmark"
-                background="var(--eerie-black)"
-                border="1px solid var(--matte-black)"
-              >
-                <Plus size="55" />
-              </Tooltip>
-            </CustomButton>
-          </Flex>
-        </Box>
-      )}
+              <Plus size="55" />
+            </Tooltip>
+          </CustomButton>
+        </Flex>
+      </Box>
 
       <ModalLayout
         size="md"
