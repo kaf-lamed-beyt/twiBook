@@ -16,12 +16,45 @@ import { useToastContext } from "@hooks/toast";
 import { CustomButton } from "@components/button";
 import { updateProfileSchema } from "@utils/validators/update-profile";
 import { Hint } from "@components/hint";
+import { useUser } from "@hooks/user";
+import { supabase } from "@utils/supabase";
 
 export const Profile = () => {
   const { openToast } = useToastContext();
+  const { twib, booksThisMonth } = useUser();
 
-  const updateProfile = async () => {
-    openToast("Profile updated successfully!", "success");
+  console.log(twib);
+
+  const fullname = `${twib?.firstname} ${twib?.lastname}`;
+
+  const updateProfile = async (
+    fullname?: string,
+    email?: string,
+    username?: string
+  ) => {
+    const name = fullname?.split(" ");
+    const firstName = name?.[0];
+    const lastName = name?.[1];
+
+    try {
+      const { error } = await supabase
+        .from("account")
+        .update({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          username: username,
+        })
+        .eq("id", twib?.id);
+
+      if (!error) {
+        openToast("Profile updated successfully!", "success");
+      } else {
+        openToast(error.message, "error");
+      }
+    } catch (error) {
+      openToast("Something went wrong. Please try again.", "error");
+    }
   };
 
   return (
@@ -44,7 +77,7 @@ export const Profile = () => {
             >
               <HStack justifyContent="space-between" color="var(--alt-text)">
                 <Text fontSize="90px" fontWeight="700">
-                  38
+                  {twib?.books?.length}
                 </Text>
                 <Box mt="-4em">
                   <LibraryBig size="25" />
@@ -70,7 +103,7 @@ export const Profile = () => {
             >
               <HStack justifyContent="space-between" color="var(--alt-text)">
                 <Text fontSize="90px" fontWeight="700">
-                  7
+                  {booksThisMonth}
                   <Box
                     as="span"
                     fontSize="25px"
@@ -85,7 +118,7 @@ export const Profile = () => {
                       color="var(--alt-text)"
                       label="On the free plan, you can only create 15 bookmarks per month"
                     >
-                      <Box as="span">
+                      <Box as="span" marginLeft="10px">
                         /15 <Hint />
                       </Box>
                     </Tooltip>
@@ -129,10 +162,17 @@ export const Profile = () => {
               <HStack spacing={2} my=".8em">
                 <Text fontSize="20px">Current plan: </Text>
                 <Badge
-                  color="var(--warn)"
                   borderRadius="4px"
-                  background="var(--warn-400)"
-                  // border="1px solid var(--warn)"
+                  color={
+                    twib?.haslicense === false
+                      ? "var(--warn)"
+                      : "var(--success)"
+                  }
+                  background={
+                    twib?.haslicense === false
+                      ? "var(--warn-400)"
+                      : "var(--success-400)"
+                  }
                 >
                   <Text my="auto" fontSize="12px" fontWeight="bold">
                     free
@@ -142,11 +182,18 @@ export const Profile = () => {
 
               <Box mt="2em">
                 <Formik
-                  initialValues={{ username: "", fullname: "" }}
+                  initialValues={{
+                    username: twib?.username,
+                    fullname: fullname,
+                    email: twib?.email,
+                  }}
                   validationSchema={updateProfileSchema}
                   onSubmit={async (values, { setSubmitting }) => {
-                    console.log(JSON.stringify(values));
-                    await updateProfile();
+                    await updateProfile(
+                      values.fullname,
+                      values.email,
+                      values.username
+                    );
                     setSubmitting(false);
                   }}
                 >
@@ -166,7 +213,16 @@ export const Profile = () => {
                         <InputField
                           type="text"
                           name="fullname"
-                          placeholder="Caleb Olojo"
+                          placeholder="Schwazz Speckwick"
+                        />
+                      </Box>
+
+                      <Box my=".8em">
+                        <FormLabel color="var(--alt-text)">Email</FormLabel>
+                        <InputField
+                          type="email"
+                          name="email"
+                          placeholder="you@mail.com"
                         />
                       </Box>
 
@@ -180,7 +236,7 @@ export const Profile = () => {
                           background="var(--true-purple)"
                           hoverBg="var(--true-purple)"
                           loading={formik.isSubmitting}
-                          loadingText="submitting"
+                          loadingText="Updating..."
                         >
                           update
                         </CustomButton>
