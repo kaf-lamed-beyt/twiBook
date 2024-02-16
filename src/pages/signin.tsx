@@ -75,7 +75,7 @@ export const SignIn = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider,
       options: {
-        redirectTo: "http://localhost:5173/oauth",
+        redirectTo: `${process.env.APP_URL}/oauth`,
       },
     });
 

@@ -11,7 +11,7 @@ import {
   AccordionPanel,
   VStack,
   Link,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
 import { ModalLayout } from "@components/modal-layout";
@@ -32,6 +32,7 @@ export interface BookmarkCardProps {
     date: string;
   }[];
   onDelete: (bookId: string) => void;
+  pendingDelete: boolean;
 }
 
 export const BookmarkCard = ({
@@ -41,13 +42,15 @@ export const BookmarkCard = ({
   createdAt,
   bookLink,
   bookId,
-  onDelete
+  onDelete,
+  pendingDelete,
 }: BookmarkCardProps) => {
   const truncated =
     title.length > 38 ? `${title.split("").slice(0, 38).join("")}...` : title;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const modalTruncatedTitle = `${title.split("").slice(0, 18).join("")}...`;
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -171,7 +174,7 @@ export const BookmarkCard = ({
         size="md"
         isOpen={isOpen}
         onClose={onClose}
-        title={`Delete ${truncated}?`}
+        title={`Delete ${modalTruncatedTitle}?`}
       >
         <Box>
           <Text color="var(--alt-text)">
@@ -180,6 +183,10 @@ export const BookmarkCard = ({
               {title}
             </Text>
             ?
+          </Text>
+
+          <Text py="1em" color="var(--alt-text)">
+            Please be careful. This action is irreversible!
           </Text>
 
           <Box my="1em">
@@ -191,7 +198,9 @@ export const BookmarkCard = ({
               fontSize="20px"
               width="100%"
               background="var(--danger)"
-              onClick={()  => onDelete(bookId)}
+              loading={pendingDelete}
+              loadingText="Deleting..."
+              onClick={() => onDelete(bookId)}
             >
               Delete
             </CustomButton>

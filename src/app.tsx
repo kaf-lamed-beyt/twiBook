@@ -51,7 +51,7 @@ function App() {
               />
             }
           >
-            get started
+            Get Started
           </CustomButton>
         </Box>
       </Box>

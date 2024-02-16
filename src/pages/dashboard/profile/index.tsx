@@ -18,6 +18,7 @@ import { updateProfileSchema } from "@utils/validators/update-profile";
 import { Hint } from "@components/hint";
 import { useUser } from "@hooks/user";
 import { supabase } from "@utils/supabase";
+import { Quotas } from "@utils/misc";
 
 export const Profile = () => {
   const { openToast } = useToastContext();
@@ -117,7 +118,15 @@ export const Profile = () => {
                       label="On the free plan, you can only create 15 bookmarks per month"
                     >
                       <Box as="span" marginLeft="10px">
-                        /15 <Hint />
+                        /
+                        {twib?.license_type === "free"
+                          ? Quotas.FREE
+                          : twib?.license_type === "basic"
+                          ? Quotas.BASIC
+                          : twib?.license_type === "pro"
+                          ? Quotas.PRO
+                          : Quotas.FREE}
+                        <Hint />
                       </Box>
                     </Tooltip>
                   </Box>
@@ -162,24 +171,30 @@ export const Profile = () => {
                 <Badge
                   borderRadius="4px"
                   color={
-                    twib?.haslicense === false
+                    twib?.has_license === false
                       ? "var(--warn)"
-                      : twib.haslicense === true
+                      : twib.has_license === true
                       ? "var(--success)"
                       : "var(--warn)"
                   }
                   background={
-                    twib?.haslicense === false
+                    twib?.has_license === false
                       ? "var(--warn-400)"
-                      : twib.haslicense === true
+                      : twib.has_license === true &&
+                        twib.license_type === "basic"
                       ? "var(--success-400)"
+                      : twib.has_license === true && twib.license_type === "pro"
+                      ? "var(--true-pruple-600)"
                       : "var(--warn-400)"
                   }
                 >
                   <Text my="auto" fontSize="12px" fontWeight="bold">
-                    {twib.haslicense === true
+                    {twib.has_license === true && twib.license_type === "pro"
                       ? "pro"
-                      : twib.haslicense === false
+                      : twib.has_license === true &&
+                        twib.license_type === "basic"
+                      ? "basic"
+                      : twib.has_license === false
                       ? "free"
                       : "free"}
                   </Text>
@@ -244,7 +259,7 @@ export const Profile = () => {
                           loading={formik.isSubmitting}
                           loadingText="Updating..."
                         >
-                          update
+                          Update
                         </CustomButton>
                       </Box>
                     </Form>

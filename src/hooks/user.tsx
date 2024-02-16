@@ -18,7 +18,6 @@ export const useUser = () => {
   const { data, error, isPending, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
@@ -30,7 +29,8 @@ export const useUser = () => {
       lastname: user.last_name,
       username: user.username,
       signup_date: user.created_at,
-      haslicense: user.haslicense,
+      has_license: user.has_license,
+      license_type: user.license_type,
       books: books,
     };
   });

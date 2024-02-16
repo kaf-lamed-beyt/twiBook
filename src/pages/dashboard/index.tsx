@@ -21,11 +21,12 @@ import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase";
 import { useAuthContext } from "@hooks/auth";
-import { dateFromNow } from "@utils/misc";
+import { Quotas, dateFromNow } from "@utils/misc";
 import { createBookmarkSchema } from "@utils/validators/create-bookmark-schema";
 import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
 import { useUser } from "@hooks/user";
+import { NoBookmarks } from "./components/no-bookmarks";
 
 export const Dashboard = () => {
   const { user } = useAuthContext();
@@ -38,6 +39,9 @@ export const Dashboard = () => {
   const [searchError, setSearchError] = React.useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredBooks, setFilteredBooks] = React.useState<any[]>([]);
+  const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
+
+  console.log(booksThisMonth);
 
   React.useEffect(() => {
     setFilteredBooks(books || []);
@@ -67,13 +71,23 @@ export const Dashboard = () => {
   );
 
   const deleteBook = async (id: string) => {
-    const { error } = await supabase.from("books").delete().eq("book_id", id);
+    try {
+      const { error } = await supabase.from("books").delete().eq("book_id", id);
+      setDeletePending(true);
 
-    if (!error) {
-      openToast("Bookmark deleted successfully!", "success");
-      onClose();
-    } else {
-      openToast(error.message, "error");
+      if (!error) {
+        openToast("Bookmark deleted successfully!", "success");
+        refetchBooks();
+
+        setDeletePending(false);
+        onClose();
+      } else {
+        setDeletePending(false);
+        openToast(error.message, "error");
+      }
+    } catch (error) {
+      setDeletePending(false);
+      openToast("Something went wrong. Please try again.", "error");
     }
   };
 
@@ -100,98 +114,103 @@ export const Dashboard = () => {
   return (
     <>
       <DashboardLayout>
-        <Box py=".8em">
-          <InputGroup my="1.4em" border="none">
-            <InputLeftElement mt=".3em">
-              <Search size="25" color="var(--alt-text)" />
-            </InputLeftElement>
-            <Input
-              py="1.2em"
-              px="1.8em"
-              height="50px"
-              width="100%"
-              color="var(--alt-text)"
-              onChange={(e) => onSearch(e)}
-              background="var(--eerie-black)"
-              placeholder="Search bookmarks..."
-              _focusVisible={{ border: "none" }}
-              border="1px solid var(--matte-black)"
-              _placeholder={{ color: "var(--alt-text)" }}
-              _hover={{ border: "2px solid var(--matte-black)" }}
-            />
-          </InputGroup>
-
-          {searchError !== "" ? (
-            <Text color="var(--alt-text)">{searchError}</Text>
-          ) : null}
-
-          {loading ? (
-            <Center>
-              <Spinner mt="2.5em" color="var(--matte-black)" />
-            </Center>
-          ) : (
-            <Flex gap="1em" flexWrap="wrap" my="2em">
-              {filteredBooks?.map(
-                (
-                  { book_id, book_type, title, book_link, book_created_at },
-                  index
-                ) => {
-                  return (
-                    <BookmarkCard
-                      title={title}
-                      id={book_id}
-                      type={book_type}
-                      bookLink={book_link}
-                      bookId={book_id}
-                      key={`book-${index}-${book_id}`}
-                      onDelete={() => deleteBook(book_id)}
-                      createdAt={dateFromNow(book_created_at)}
-                    />
-                  );
-                }
-              )}
-            </Flex>
-          )}
-
-          <Flex
-            justifyContent="flex-end"
-            mb="1.4em"
-            position="fixed"
-            bottom="-16px"
-            right="20px"
-          >
-            <CustomButton
-              rounded
-              type="button"
-              width="50px"
-              height="50px"
-              onClick={onOpen}
-              hoverBg="var(--true-purple)"
-              background="var(--true-purple)"
-            >
-              <Tooltip
-                placement="left"
-                label="create a simple bookmark"
+        {!filteredBooks ? (
+          <NoBookmarks openModal={onOpen} />
+        ) : (
+          <Box py=".8em">
+            <InputGroup my="1.4em" border="none">
+              <InputLeftElement mt=".3em">
+                <Search size="25" color="var(--alt-text)" />
+              </InputLeftElement>
+              <Input
+                py="1.2em"
+                px="1.8em"
+                height="50px"
+                width="100%"
+                color="var(--alt-text)"
+                onChange={(e) => onSearch(e)}
                 background="var(--eerie-black)"
+                placeholder="Search bookmarks..."
+                _focusVisible={{ border: "none" }}
                 border="1px solid var(--matte-black)"
+                _placeholder={{ color: "var(--alt-text)" }}
+                _hover={{ border: "2px solid var(--matte-black)" }}
+              />
+            </InputGroup>
+
+            {searchError !== "" ? (
+              <Text color="var(--alt-text)">{searchError}</Text>
+            ) : null}
+
+            {loading ? (
+              <Center>
+                <Spinner mt="2.5em" color="var(--matte-black)" />
+              </Center>
+            ) : (
+              <Flex gap="1em" flexWrap="wrap" my="2em">
+                {filteredBooks?.map(
+                  (
+                    { book_id, book_type, title, book_link, book_created_at },
+                    index
+                  ) => {
+                    return (
+                      <BookmarkCard
+                        title={title}
+                        id={book_id}
+                        type={book_type}
+                        bookLink={book_link}
+                        bookId={book_id}
+                        pendingDelete={isDeletePending}
+                        key={`book-${index}-${book_id}`}
+                        onDelete={() => deleteBook(book_id)}
+                        createdAt={dateFromNow(book_created_at)}
+                      />
+                    );
+                  }
+                )}
+              </Flex>
+            )}
+
+            <Flex
+              justifyContent="flex-end"
+              mb="1.4em"
+              position="fixed"
+              bottom="-16px"
+              right="20px"
+            >
+              <CustomButton
+                rounded
+                type="button"
+                width="50px"
+                height="50px"
+                onClick={onOpen}
+                hoverBg="var(--true-purple)"
+                background="var(--true-purple)"
               >
-                <Plus size="55" />
-              </Tooltip>
-            </CustomButton>
-          </Flex>
-        </Box>
+                <Tooltip
+                  placement="left"
+                  label="create a simple bookmark"
+                  background="var(--eerie-black)"
+                  border="1px solid var(--matte-black)"
+                >
+                  <Plus size="55" />
+                </Tooltip>
+              </CustomButton>
+            </Flex>
+          </Box>
+        )}
 
         <ModalLayout
           size="md"
           isOpen={isOpen}
           onClose={onClose}
           title={
-            booksThisMonth === 15 && twib?.haslicense === false
+            booksThisMonth === Quotas.FREE && twib?.has_license === false
               ? "Upgrade to Pro"
               : "Create a simple bookmark"
           }
         >
-          {booksThisMonth === 15 && twib?.haslicense === false ? (
+          {booksThisMonth === Quotas.FREE && twib?.has_license === false ? (
             <Box>
               <Text py=".8em" color="var(--alt-text)">
                 You have exhausted your monthly quota. upgrade to Pro to enjoy

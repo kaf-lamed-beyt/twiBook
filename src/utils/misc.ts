@@ -14,3 +14,9 @@ export const authProviderFromSignIn = getCookie("_prov");
 export const dateFromNow = (value: string) => {
   return dayjs(value).fromNow();
 };
+
+export const Quotas = {
+  FREE: 10,
+  BASIC: 50,
+  PRO: 200,
+};
