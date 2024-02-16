@@ -1,0 +1,54 @@
+:root {
+  --primary: #11151c;
+  --jet-black: #343434;
+  --licorice: #1b1212;
+  --matte-black: #28282b;
+  --oynx: #353935;
+  --alt-text: #a09d9d;
+  --vampire-black: #080808;
+  --eerie-black: #1b1b1b;
+
+  --alte-black: #131316;
+  --alte-grey: rgba(255, 255, 255, 0.08);
+
+  --success: rgba(22, 219, 101, 1);
+  --warn: rgba(255, 214, 10, 1);
+  --danger: rgba(255, 0, 0, 1);
+
+  // --true-purple: rgba(106, 13, 173, 1);
+  --true-purple: var(--purple-500);
+  --light-purple: rgba(177, 151, 252, 1);
+
+  --mixed-purple: #4b0082;
+
+  --true-purple-500: rgba(106, 13, 173, 0.5);
+  --true-purple-600: rgba(106, 13, 173, 0.6);
+  --true-purple-400: rgba(106, 13, 173, 0.4);
+
+  --success-600: rgba(22, 219, 101, 0.6);
+  --success-500: rgba(22, 219, 101, 0.5);
+  --success-400: rgba(22, 219, 101, 0.4);
+
+  --warn-600: rgba(255, 214, 10, 0.6);
+  --warn-500: rgba(255, 214, 10, 0.5);
+  --warn-400: rgba(255, 214, 10, 0.4);
+
+  --danger-600: rgba(255, 0, 0, 0.6);
+  --danger-500: rgba(255, 0, 0, 0.5);
+  --danger-400: rgba(255, 0, 0, 0.4);
+
+  --purple-50: #f5f0ff;
+  --purple-100: #e6d9ff;
+  --purple-200: #d0bfff;
+  --purple-300: #b999ff;
+  --purple-400: #a368fc;
+  --purple-500: #8e3dff;
+  --purple-600: #6926e2;
+  --purple-700: #4919b6;
+  --purple-800: #31137e;
+  --purple-900: #1c0d4b;
+
+  // fonts
+  --lato: "Lato", sans-serif;
+  --quicksand: "Quicksand", sans-serif;
+}
