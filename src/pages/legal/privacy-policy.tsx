@@ -97,8 +97,8 @@ export const PrivacyPolicyPage = () => {
               <strong>Contact Us</strong>
             </ListItem>
             <Text py=".5em" color="var(--alt-text)">
-              If you have any questions about these Terms of Service, please
-              contact us at{" "}
+              If you have any questions or concerns about our Privacy Policy,
+              please contact us at{" "}
               <Link
                 href="mailto:support@twibook.app"
                 textDecoration="underline"
