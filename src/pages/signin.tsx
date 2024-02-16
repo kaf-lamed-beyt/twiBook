@@ -7,7 +7,7 @@ import {
   Divider,
   VStack,
   HStack,
-  AbsoluteCenter,
+  AbsoluteCenter
 } from "@chakra-ui/react";
 import { CustomButton } from "../components/button";
 import React from "react";
@@ -189,101 +189,106 @@ export const SignIn = () => {
   );
 
   return (
-    <Center height="100vh" px={{ base: ".5em" }}>
-      {!otpScreen ? (
-        <Box
-          height="fit-content"
-          width="fit-content"
-          px=".6em"
-          py=".6em"
-          background="var(--eerie-black)"
-          border="1px solid var(--matte-black)"
-          pb="1.4em"
-          borderRadius="6px"
-        >
-          <Text py=".5em" fontSize="x-large">
-            Sign In.
-          </Text>
-          <Text pb="1em" fontSize="15px" color="var(--alt-text)">
-            Don't worry, we'll create an account for you automatically.
-          </Text>
-          <Box mb=".6em">
-            <Formik
-              initialValues={{ email: "" }}
-              validationSchema={signInSchema}
-              onSubmit={async (values, { setSubmitting }) => {
-                await onEmailSignIn(values.email);
-                setSubmitting(false);
-              }}
-            >
-              {(formik) => (
-                <Form>
-                  <Box>
-                    <InputField type="email" name="email" placeholder="email" />
+    <React.Fragment>
+      <Center height="100vh" px={{ base: ".5em" }}>
+        {!otpScreen ? (
+          <Box
+            height="fit-content"
+            width="fit-content"
+            px=".6em"
+            py=".6em"
+            background="var(--eerie-black)"
+            border="1px solid var(--matte-black)"
+            pb="1.4em"
+            borderRadius="6px"
+          >
+            <Text py=".5em" fontSize="x-large">
+              Sign In.
+            </Text>
+            <Text pb="1em" fontSize="15px" color="var(--alt-text)">
+              Don't worry, we'll create an account for you automatically.
+            </Text>
+            <Box mb=".6em">
+              <Formik
+                initialValues={{ email: "" }}
+                validationSchema={signInSchema}
+                onSubmit={async (values, { setSubmitting }) => {
+                  await onEmailSignIn(values.email);
+                  setSubmitting(false);
+                }}
+              >
+                {(formik) => (
+                  <Form>
+                    <Box>
+                      <InputField
+                        type="email"
+                        name="email"
+                        placeholder="email"
+                      />
 
-                    <Box mt="1.4em">
-                      <CustomButton
-                        type="submit"
-                        height="50px"
-                        width="100%"
-                        fontSize="16px"
-                        fontWeight="normal"
-                        background="var(--true-purple)"
-                        hoverBg="var(--true-purple)"
-                        loading={formik.isSubmitting}
-                      >
-                        Continue with Email
-                      </CustomButton>
+                      <Box mt="1.4em">
+                        <CustomButton
+                          type="submit"
+                          height="50px"
+                          width="100%"
+                          fontSize="16px"
+                          fontWeight="normal"
+                          background="var(--true-purple)"
+                          hoverBg="var(--true-purple)"
+                          loading={formik.isSubmitting}
+                        >
+                          Continue with Email
+                        </CustomButton>
+                      </Box>
                     </Box>
-                  </Box>
-                </Form>
-              )}
-            </Formik>
-          </Box>
+                  </Form>
+                )}
+              </Formik>
+            </Box>
 
-          <Box my="1.4em" position="relative" padding="4">
-            <Divider borderColor="var(--alt-text)" />
-            <AbsoluteCenter
-              px="4"
-              color="var(--alt-text)"
-              background="var(--eerie-black)"
-            >
-              OR
-            </AbsoluteCenter>
-          </Box>
+            <Box my="1.4em" position="relative" padding="4">
+              <Divider borderColor="var(--alt-text)" />
+              <AbsoluteCenter
+                px="4"
+                color="var(--alt-text)"
+                background="var(--eerie-black)"
+              >
+                OR
+              </AbsoluteCenter>
+            </Box>
 
-          <VStack spacing={6}>
-            <CustomButton
-              type="button"
-              height="50px"
-              width="100%"
-              fontWeight="normal"
-              variant="outline"
-              fontSize="16px"
-              leftIcon={<GrTwitter size="25" color="#26a7de" />}
-              hoverBg="var(--matte-black)"
-              background="var(--matte-black)"
-              onClick={() => OAuthSignIn("twitter")}
-            >
-              Continue with Twitter
-            </CustomButton>
+            <VStack spacing={6}>
+              <CustomButton
+                type="button"
+                height="50px"
+                width="100%"
+                fontWeight="normal"
+                variant="outline"
+                fontSize="16px"
+                leftIcon={<GrTwitter size="25" color="#26a7de" />}
+                hoverBg="var(--matte-black)"
+                background="var(--matte-black)"
+                onClick={() => OAuthSignIn("twitter")}
+              >
+                Continue with Twitter
+              </CustomButton>
 
-            <CustomButton
-              type="button"
-              height="50px"
-              width="100%"
-              fontWeight="normal"
-              variant="outline"
-              fontSize="16px"
-              leftIcon={<FcGoogle size="25" />}
-              hoverBg="var(--matte-black)"
-              background="var(--matte-black)"
-              onClick={() => OAuthSignIn("google")}
-            >
-              Continue with Google
-            </CustomButton>
+              <CustomButton
+                type="button"
+                height="50px"
+                width="100%"
+                fontWeight="normal"
+                variant="outline"
+                fontSize="16px"
+                leftIcon={<FcGoogle size="25" />}
+                hoverBg="var(--matte-black)"
+                background="var(--matte-black)"
+                onClick={() => OAuthSignIn("google")}
+              >
+                Continue with Google
+              </CustomButton>
 
-            {/* <CustomButton
+              {/* <CustomButton
               type="button"
               height="50px"
               width="100%"
@@ -297,11 +302,12 @@ export const SignIn = () => {
             >
               Continue with GitHub
             </CustomButton> */}
-          </VStack>
-        </Box>
-      ) : (
-        otp
-      )}
-    </Center>
+            </VStack>
+          </Box>
+        ) : (
+          otp
+        )}
+      </Center>
+    </React.Fragment>
   );
 };
