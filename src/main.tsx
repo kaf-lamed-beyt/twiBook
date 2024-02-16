@@ -12,6 +12,8 @@ import { AuthProvider } from "@context/auth-provider.tsx";
 import { Oauth } from "@pages/oauth.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
+import { TermsOfUsePage } from "@pages/legal/terms-of-use.tsx";
+import { PrivacyPolicyPage } from "@pages/legal/privacy-policy.tsx";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +21,16 @@ const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <RouteErrorComponent />,
+  },
+  {
+    path: "/legal/terms-of-use",
+    element: <TermsOfUsePage />,
+    errorElement: <RouteErrorComponent />,
+  },
+  {
+    path: "/legal/privacy-policy",
+    element: <PrivacyPolicyPage />,
     errorElement: <RouteErrorComponent />,
   },
   {

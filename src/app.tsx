@@ -1,6 +1,6 @@
 import { CustomButton } from "./components/button";
 import { BadgeDollarSign, MoveRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Text,
   Box,
@@ -140,8 +140,12 @@ function App() {
             </Text>
 
             <HStack spacing={6} color="var(--alt-text)">
-              <Text>Terms of Use</Text>
-              <Text>Privacy Policy</Text>
+              <Link to="/legal/terms-of-use">
+                <Text cursor="pointer">Terms of Use</Text>
+              </Link>
+              <Link to="/legal/privacy-policy">
+                <Text cursor="pointer">Privacy Policy</Text>
+              </Link>
             </HStack>
           </Flex>
         </Box>{" "}
