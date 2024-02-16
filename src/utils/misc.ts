@@ -20,3 +20,5 @@ export const Quotas = {
   BASIC: 50,
   PRO: 200,
 };
+
+export const lastUpdated = dayjs("02/16/2024").format("MMM DD, YYYY");

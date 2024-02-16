@@ -38,7 +38,7 @@ export const NoBookmarks = ({ openModal }: NoBookmarksProps) => {
             chrome extension
           </Link>{" "}
           to create a{" "}
-          <Box as="span" _hover={{ cursor: "help" }}>
+          <Box as="span" _hover={{ cursor: "pointer" }}>
             <Tooltip
               placement="top"
               border="1px solid var(--matte-black)"
@@ -53,7 +53,7 @@ export const NoBookmarks = ({ openModal }: NoBookmarksProps) => {
             </Tooltip>
           </Box>{" "}
           bookmark or use the button below to create a{" "}
-          <Box as="span" _hover={{ cursor: "help" }}>
+          <Box as="span" _hover={{ cursor: "pointer" }}>
             <Tooltip
               placement="right"
               width="280px"
