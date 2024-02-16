@@ -4,7 +4,7 @@ export const Hint = () => {
   return (
     <Box
       as="span"
-      py=".1em"
+      py=".05em"
       px=".4em"
       fontSize="14px"
       borderRadius="50%"

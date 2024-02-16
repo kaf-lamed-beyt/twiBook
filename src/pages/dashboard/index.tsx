@@ -114,7 +114,7 @@ export const Dashboard = () => {
   return (
     <>
       <DashboardLayout>
-        {!filteredBooks ? (
+        {filteredBooks.length === 0 ? (
           <NoBookmarks openModal={onOpen} />
         ) : (
           <Box py=".8em">

@@ -80,7 +80,6 @@ export const DashboardHeader = () => {
           <Avatar
             name={username}
             textTransform="uppercase"
-            border="2px solid var(--true-purple-500)"
             src={
               avatarUrl
                 ? avatarUrl

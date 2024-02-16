@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital;wght@0;100;0;300;0;400;0;700;0;900;1;400&family=Quicksand:wght@300;400;500;600;700&display=swap");
 @import "./variables";
 @import "./interactions.scss";
 
@@ -6,13 +5,13 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: var(--lato);
+  font-family: var(--livic);
 }
 
 #root {
   color: #fff;
   background: #000;
-  border: 1px solid #000;
+  // border: 1px solid #000;
 }
 
 .moveX {

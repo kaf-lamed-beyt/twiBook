@@ -20,7 +20,7 @@ import { ExternalLink, Flame, ShieldAlert, Trash2 } from "lucide-react";
 export interface BookmarkCardProps {
   id: string;
   createdAt: string;
-  type: "detailed" | "simple";
+  type?: "detailed" | "simple";
   title: string;
   bookLink: string;
   bookId: string;
