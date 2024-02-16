@@ -1,6 +1,4 @@
-import { BookmarkCardProps } from "@pages/dashboard/components/bookmark-card";
-
-export const Bookmarks: BookmarkCardProps[] = [
+export const Bookmarks = [
   {
     id: crypto.randomUUID(),
     title: "Weird musings around Vite",
@@ -81,4 +79,37 @@ export const Bookmarks: BookmarkCardProps[] = [
     bookLink: "https://twitter.com",
     bookId: "123",
   },
+];
+
+export const FAQS = [
+  {
+    id: crypto.randomUUID(),
+    question: "What is this?",
+    answer:
+      "twiBook is a tool you can use to save tweets you find interesting on Twitter.",
+  },
+  {
+    id: crypto.randomUUID(),
+    question: "What is the point? Twitter already has that covered.",
+    answer:
+      "Yes. You are correct. But, with twiBook, you can carry out various actions on your saved bookmarks. From searching, to organizing and sorting them.",
+  },
+  {
+    id: crypto.randomUUID(),
+    question: "How can I use it?",
+    answer:
+      "Click on the 'Get started' button above to create an account. Then proceed to grab/copy the link to any tweet and create a simple bookmark with our dashboard.",
+  },
+  {
+    id: crypto.randomUUID(),
+    question: "I can only create 10 bookmarks?",
+    answer:
+      "Yes. On the free plan, you are entitled to only 10 bookmarks in a month. To increase your quota, consider upgrading to the basic Plan",
+  },
+  // {
+  //   id: crypto.randomUUID(),
+  //   question: "Isn't this stressful?",
+  //   answer:
+  //     "Well, a liitle bit. But, that's what you get on the Free plan. Upgrade to the Pro plan to enjoy our chrome extension that takes care of the process without leaving twitter.",
+  // },
 ];

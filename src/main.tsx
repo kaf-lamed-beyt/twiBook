@@ -18,11 +18,7 @@ const queryClient = new QueryClient();
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    ),
+    element: <App />,
     errorElement: <RouteErrorComponent />,
   },
   {
