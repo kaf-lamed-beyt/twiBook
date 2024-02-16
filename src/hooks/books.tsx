@@ -13,7 +13,8 @@ export const useBooks = () => {
   const { isPending, data, error, refetch } = useQuery({
     queryKey: ["twibooks"],
     queryFn: getBooks,
-    enabled: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   const sortedBooks = data?.sort((a, b) => {

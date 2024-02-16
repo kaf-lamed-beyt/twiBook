@@ -23,8 +23,6 @@ export const Profile = () => {
   const { openToast } = useToastContext();
   const { twib, booksThisMonth } = useUser();
 
-  console.log(twib);
-
   const fullname = `${twib?.firstname} ${twib?.lastname}`;
 
   const updateProfile = async (
@@ -166,16 +164,24 @@ export const Profile = () => {
                   color={
                     twib?.haslicense === false
                       ? "var(--warn)"
-                      : "var(--success)"
+                      : twib.haslicense === true
+                      ? "var(--success)"
+                      : "var(--warn)"
                   }
                   background={
                     twib?.haslicense === false
                       ? "var(--warn-400)"
-                      : "var(--success-400)"
+                      : twib.haslicense === true
+                      ? "var(--success-400)"
+                      : "var(--warn-400)"
                   }
                 >
                   <Text my="auto" fontSize="12px" fontWeight="bold">
-                    free
+                    {twib.haslicense === true
+                      ? "pro"
+                      : twib.haslicense === false
+                      ? "free"
+                      : "free"}
                   </Text>
                 </Badge>
               </HStack>

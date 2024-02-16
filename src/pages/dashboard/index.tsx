@@ -34,16 +34,14 @@ export const Dashboard = () => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const { books, loading, refetchBooks } = useBooks();
 
-  const [bookmarks, setBookmarks] = React.useState(books);
-
-  React.useEffect(() => {
-    setBookmarks(bookmarks);
-  }, [bookmarks]);
-
   const [, setSearchTerm] = React.useState<string>("");
   const [searchError, setSearchError] = React.useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [filteredBooks, setFilteredBooks] = React.useState<any[]>(books || []);
+  const [filteredBooks, setFilteredBooks] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    setFilteredBooks(books || []);
+  }, [books]);
 
   const createSimpleBookmark = React.useCallback(
     async (title: string, link?: string) => {
@@ -59,13 +57,13 @@ export const Dashboard = () => {
       if (!error) {
         openToast(`Bookmarked successfully!"`, "success");
         refetchBooks();
-        setBookmarks(books);
+        setFilteredBooks(books || []);
         onClose();
       } else {
         openToast(error.message, "error");
       }
     },
-    [books, onClose, openToast, refetchBooks, user?.id]
+    [onClose, books, openToast, refetchBooks, user?.id]
   );
 
   const deleteBook = async (id: string) => {
@@ -82,7 +80,7 @@ export const Dashboard = () => {
   const debouncedSearch = debounce((searchQuery: string) => {
     setSearchTerm(searchQuery.toLowerCase());
 
-    const filtered = bookmarks?.filter((book) =>
+    const filtered = books?.filter((book) =>
       book.title?.toLowerCase().includes(searchQuery)
     );
 

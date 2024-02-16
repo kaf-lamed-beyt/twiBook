@@ -18,7 +18,8 @@ export const useUser = () => {
   const { data, error, isPending, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    enabled: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const userData = data?.map((user) => {
