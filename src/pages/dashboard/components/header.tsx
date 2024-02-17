@@ -13,8 +13,10 @@ import { LogOut, User } from "lucide-react";
 import { useGreeting } from "@hooks/greeting";
 import { useAuthContext } from "@hooks/auth";
 import { authProviderFromSignIn } from "@utils/misc";
+import { useUser } from "@hooks/user";
 
 export const DashboardHeader = () => {
+  const { twib } = useUser();
   const message = useGreeting();
   const { user, logout } = useAuthContext();
 
@@ -27,9 +29,11 @@ export const DashboardHeader = () => {
 
   const fallbackU = localStorage.getItem("twbu");
 
-  if (!identity) {
+  if (!identity && twib?.username === "") {
     const usr = user?.email?.split("@")[0];
-    username = usr ? usr : fallbackU;
+    username = usr ? usr : fallbackU?.split("@")[0];
+  } else {
+    username = twib?.username;
   }
 
   if (identity?.provider === "twitter") {

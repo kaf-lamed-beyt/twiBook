@@ -41,8 +41,6 @@ export const Dashboard = () => {
   const [filteredBooks, setFilteredBooks] = React.useState<any[]>([]);
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
 
-  console.log(booksThisMonth);
-
   React.useEffect(() => {
     setFilteredBooks(books || []);
   }, [books]);
