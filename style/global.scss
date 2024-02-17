@@ -8,6 +8,10 @@
   font-family: var(--livic);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 #root {
   color: #fff;
   background: #000;

@@ -18,7 +18,7 @@ export const dateFromNow = (value: string) => {
 export const Quotas = {
   FREE: 10,
   BASIC: 50,
-  PRO: 200,
+  PRO: 150,
 };
 
 export const lastUpdated = dayjs("02/16/2024").format("MMM DD, YYYY");

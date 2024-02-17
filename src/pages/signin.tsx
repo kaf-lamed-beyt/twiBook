@@ -192,9 +192,9 @@ export const SignIn = () => {
   return (
     <React.Fragment>
       <MetaData
+        url="twibook.netlify.app"
         pageTitle="Sign In &mdash; twiBook"
         previewImage="https://res.cloudinary.com/meje/image/upload/v1708159678/twb-prev_wklhoz.png"
-        url="twibook.netlify.app"
         description="Twitter bookmarks alternative. Save, organize and sort tweets. Bookmark twwets by copying the link to a tweet and save it in your twiBook dashboard."
       />
 

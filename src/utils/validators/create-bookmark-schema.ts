@@ -7,3 +7,8 @@ export const createBookmarkSchema = Yup.object({
     "Invalid link. Links should be from 'https://twitter.com' or 'https://x.com`"
   ),
 });
+
+export const createBookmarkSchema_LICENSED = Yup.object({
+  bookmarkTitle: Yup.string().required("A bookmark title is required"),
+  bookmarkLink: Yup.string().required("A book mark link is required"),
+});

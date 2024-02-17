@@ -15,9 +15,26 @@ import {
 } from "@chakra-ui/react";
 import { FAQS } from "@utils/data";
 import React from "react";
+import { PricingSection } from "@pages/components/pricing";
+import { useInView } from "@react-spring/web";
+import { Animated } from "./externals";
 
 function App() {
   const navigate = useNavigate();
+
+  const [ref, heroImgStyle] = useInView(
+    () => ({
+      config: { duration: 300, delay: 2 },
+      from: { transform: `scale(0.7)`, opacity: 0.5 },
+      to: {
+        transform: `scale(1)`,
+        opacity: 1,
+      },
+    }),
+    {
+      rootMargin: "-40% 0%",
+    }
+  );
 
   return (
     <React.Fragment>
@@ -56,27 +73,31 @@ function App() {
             Get Started
           </CustomButton>
 
-          <CustomButton
-            type="button"
-            hoverBg="var(--matte-black)"
-            background="var(--matte-black)"
-            onClick={() => navigate("/signin")}
-            rightIcon={<BadgeDollarSign size="23px" />}
-          >
-            Pricing
-          </CustomButton>
+          <a href="#pricing">
+            <CustomButton
+              type="button"
+              hoverBg="var(--matte-black)"
+              background="var(--matte-black)"
+              rightIcon={<BadgeDollarSign size="23px" />}
+            >
+              Pricing
+            </CustomButton>
+          </a>
         </Flex>
-        <Box
+        <Animated.Box
+          ref={ref}
           my="2em"
           mt={{ lg: "8em", md: "6em", base: "2em" }}
           px={{ lg: "8em", base: "1em", md: "4em" }}
+          style={heroImgStyle}
         >
           <Image
             src="/twb-dash-one.png"
             alt="twiBook dashboard"
             objectFit="contain"
           />
-        </Box>
+        </Animated.Box>
+        {/* faqs */}
         <Box
           my="2em"
           mt="4em"
@@ -128,6 +149,14 @@ function App() {
             })}{" "}
           </Accordion>
         </Box>
+        {/* pricing */}
+        <Box
+          mt={{ lg: "8em", md: "6em", base: "2em" }}
+          px={{ lg: "14em", base: "1em", md: "2em" }}
+        >
+          <PricingSection />
+        </Box>
+        {/* footer */}
         <Box borderTop="1px solid var(--matte-black)" mt="5em">
           <Flex
             as="footer"
