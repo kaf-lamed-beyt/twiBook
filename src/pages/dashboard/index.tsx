@@ -70,14 +70,14 @@ export const Dashboard = () => {
 
   const deleteBook = async (id: string) => {
     try {
-      const { error } = await supabase.from("books").delete().eq("book_id", id);
       setDeletePending(true);
+      const { error } = await supabase.from("books").delete().eq("book_id", id);
 
       if (!error) {
+        setDeletePending(false);
         openToast("Bookmark deleted successfully!", "success");
         refetchBooks();
 
-        setDeletePending(false);
         onClose();
       } else {
         setDeletePending(false);
@@ -96,11 +96,12 @@ export const Dashboard = () => {
       book.title?.toLowerCase().includes(searchQuery)
     );
 
+    setFilteredBooks(filtered || []);
+
     if (filtered?.length === 0) {
       setSearchError("No bookmarks with this title exist.");
     } else {
       setSearchError("");
-      setFilteredBooks(filtered || []);
     }
   }, 300);
 
@@ -112,7 +113,7 @@ export const Dashboard = () => {
   return (
     <>
       <DashboardLayout>
-        {filteredBooks.length === 0 ? (
+        {filteredBooks.length === 0 && books?.length === 0 ? (
           <NoBookmarks openModal={onOpen} />
         ) : (
           <Box py=".8em">

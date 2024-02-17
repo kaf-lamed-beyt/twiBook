@@ -48,7 +48,8 @@ export const BookmarkCard = ({
   const truncated =
     title.length > 38 ? `${title.split("").slice(0, 38).join("")}...` : title;
 
-  const modalTruncatedTitle = `${title.split("").slice(0, 18).join("")}...`;
+  const modalTruncatedTitle =
+    title.length > 18 ? `${title.split("").slice(0, 18).join("")}...` : title;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
