@@ -2,8 +2,50 @@ import { Box, HStack, SimpleGrid, Text } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
 import { PLANS } from "@utils/data";
 import { Sparkle } from "lucide-react";
+import { useTrail } from "@react-spring/web";
+import { Animated } from "@externals/index";
+import React from "react";
 
 export const PricingSection = () => {
+  const [inView, setInView] = React.useState<boolean>(false);
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0.5,
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
+  const pricingSprings = useTrail(3, {
+    config: { duration: 300, delay: 3 },
+    from: {
+      opacity: 0,
+      transform: inView ? "translateY(0px)" : "translateY(200px)",
+    },
+    to: {
+      opacity: inView ? 1 : 0,
+      transform: inView ? "translateY(0px)" : "translateY(200px)",
+    },
+  });
+
   return (
     <Box id="pricing">
       <Text
@@ -23,11 +65,13 @@ export const PricingSection = () => {
       >
         {PLANS.map(({ id, name, price, benefits }, index) => {
           return (
-            <Box
+            <Animated.Box
               key={`twb-plan-${index}-${id}`}
               id={id}
               py=".8em"
+              ref={ref}
               px="2em"
+              style={pricingSprings[index]}
               width={{ lg: "420px", md: "100%", base: "100%" }}
               height="495px"
               borderRadius="8px"
@@ -47,7 +91,7 @@ export const PricingSection = () => {
                   {name}
                 </Text>
                 <Text fontSize="28px">
-                  {price}{" "}
+                  {price}
                   <Box as="span" color="var(--alt-text)" fontSize="16px">
                     /month
                   </Box>
@@ -82,7 +126,7 @@ export const PricingSection = () => {
                   Get Started
                 </CustomButton>
               </Box>
-            </Box>
+            </Animated.Box>
           );
         })}
       </SimpleGrid>

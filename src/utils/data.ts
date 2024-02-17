@@ -122,7 +122,7 @@ export const PLANS = [
     benefits: [
       "Your dashboard",
       "Up to 50 bookmarks per month",
-      "Simple and detailed bookmarks",
+      "Bookmarks not limited to Twitter",
     ],
   },
   {
@@ -143,10 +143,10 @@ export const PLANS = [
     price: "~$14.99",
     benefits: [
       "Your dashboard",
-      "Simple and detailed bookmarks",
-      "Bookmarks not limited to Twitter",
       "Chrome extension",
       "Unlimited bookmarks",
+      "Simple and detailed bookmarks",
+      "Bookmarks not limited to Twitter",
     ],
   },
 ];

@@ -1,46 +1,18 @@
-import { TextEncoder, TextDecoder } from "text-encoding";
-import crypto from "crypto";
+import * as forge from "node-forge";
 
-export const passPhrase = new TextEncoder().encode(
-  process.env.PROT_KEY as string
-);
-const algorithm = "aes-256-ecb";
+const keyPair = forge.pki.rsa.generateKeyPair({ bits: 2048 });
 
 export const protector = (value: string) => {
-  const secret_msg = new TextEncoder().encode(value);
+  const publicKey = keyPair.publicKey;
+  const encrypted = publicKey.encrypt(value);
 
-  const cipher = crypto.createCipheriv(
-    algorithm,
-    passPhrase,
-    new Uint8Array(0)
-  );
-  const encrypted = Buffer.concat([cipher.update(secret_msg), cipher.final()]);
-
-  return btoa(String.fromCharCode(...new Uint16Array(encrypted.buffer)));
+  return forge.util.encode64(encrypted);
 };
 
-// antagonist helps us get the decrypted values
-export const antagonist = (protectedValue: string) => {
-  try {
-    const secret_msg = new Uint8Array(
-      atob(protectedValue)
-        .split("")
-        .map((char) => char.charCodeAt(0))
-    );
+export const antagonist = (value: string) => {
+  const privateKey = keyPair.privateKey;
+  const encryptedValue = forge.util.decode(value);
+  const decryptedValue = privateKey.decrypt(encryptedValue);
 
-    const decipher = crypto.createDecipheriv(
-      algorithm,
-      passPhrase,
-      new Uint8Array(0)
-    );
-    const decrypted = Buffer.concat([
-      decipher.update(secret_msg),
-      decipher.final(),
-    ]);
-
-    return new TextDecoder().decode(decrypted);
-  } catch (error) {
-    console.error("Decryption error:", error);
-    return null;
-  }
+  return decryptedValue;
 };
