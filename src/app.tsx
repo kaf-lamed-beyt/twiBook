@@ -41,10 +41,11 @@ function App() {
       <>
         <Text
           as="h1"
-          pt="2em"
+          pt={{ lg: "2em", md: "2em", base: "4em" }}
           textAlign="center"
-          fontSize={{ base: "26px", md: "45px", lg: "100px" }}
+          fontSize={{ base: "43px", md: "45px", lg: "100px" }}
           fontWeight="900"
+          lineHeight={{ base: "42px" }}
         >
           Twitter
           <Box as="span" mx=".2em" py=".1em" color="var(--true-purple)">
@@ -108,7 +109,7 @@ function App() {
             textTransform="capitalize"
             textAlign="center"
             fontWeight="500"
-            fontSize={{ base: "18px", md: "22px", lg: "36px" }}
+            fontSize={{ base: "22px", md: "22px", lg: "36px" }}
           >
             frequently asked questions
           </Text>

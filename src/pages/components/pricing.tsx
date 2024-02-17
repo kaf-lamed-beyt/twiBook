@@ -2,9 +2,9 @@ import { Box, HStack, SimpleGrid, Text } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
 import { PLANS } from "@utils/data";
 import { Sparkle } from "lucide-react";
-import { useTrail } from "@react-spring/web";
 import { Animated } from "@externals/index";
 import React from "react";
+import { useTrail } from "@react-spring/web";
 
 export const PricingSection = () => {
   const [inView, setInView] = React.useState<boolean>(false);
@@ -46,15 +46,32 @@ export const PricingSection = () => {
     },
   });
 
+  // const [ref, pricingSprings] = useInView(
+  //   () => ({
+  //     config: { duration: 200 },
+  //     from: {
+  //       opacity: 0,
+  //       transform: "translateY(200px)",
+  //     },
+  //     to: {
+  //       opacity: 0,
+  //       transform: "translateY(0px)",
+  //     },
+  //   }),
+  //   {
+  //     rootMargin: "-40% 0%",
+  //   }
+  // );
+
   return (
-    <Box id="pricing">
+    <Box id="pricing" ref={ref}>
       <Text
         pb="1em"
         textAlign="center"
         fontWeight="500"
-        fontSize={{ base: "18px", md: "22px", lg: "36px" }}
+        fontSize={{ base: "22px", md: "22px", lg: "36px" }}
       >
-        twiBook Plans
+        Find the plan that's right for you.
       </Text>
 
       <SimpleGrid
@@ -69,7 +86,6 @@ export const PricingSection = () => {
               key={`twb-plan-${index}-${id}`}
               id={id}
               py=".8em"
-              ref={ref}
               px="2em"
               style={pricingSprings[index]}
               width={{ lg: "420px", md: "100%", base: "100%" }}
