@@ -139,7 +139,7 @@ export const PricingSection = () => {
                   hoverBg="var(--matte-black)"
                   background="var(--matte-black)"
                 >
-                  Get Started
+                  {index === 2 ? "Contact Support" : "Get Started"}
                 </CustomButton>
               </Box>
             </Animated.Box>
