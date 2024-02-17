@@ -113,3 +113,40 @@ export const FAQS = [
   //     "Well, a liitle bit. ago But, that's what you get on the Free plan. Upgrade to the Pro plan to enjoy our chrome extension that takes care of the process without leaving twitter.",
   // },
 ];
+
+export const PLANS = [
+  {
+    id: crypto.randomUUID(),
+    name: "Basic",
+    price: "$3.99",
+    benefits: [
+      "Your dashboard",
+      "Up to 50 bookmarks per month",
+      "Simple and detailed bookmarks",
+    ],
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Pro",
+    price: "$7.99",
+    benefits: [
+      "Your dashboard",
+      "Chrome extension",
+      "Up to 150 bookmarks per month",
+      "Simple and detailed bookmarks",
+      "Bookmarks not limited to Twitter",
+    ],
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Custom",
+    price: "~$14.99",
+    benefits: [
+      "Your dashboard",
+      "Simple and detailed bookmarks",
+      "Bookmarks not limited to Twitter",
+      "Chrome extension",
+      "Unlimited bookmarks",
+    ],
+  },
+];

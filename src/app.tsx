@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { FAQS } from "@utils/data";
 import React from "react";
+import { PricingSection } from "@pages/components/pricing";
 
 function App() {
   const navigate = useNavigate();
@@ -56,15 +57,16 @@ function App() {
             Get Started
           </CustomButton>
 
-          <CustomButton
-            type="button"
-            hoverBg="var(--matte-black)"
-            background="var(--matte-black)"
-            onClick={() => navigate("/signin")}
-            rightIcon={<BadgeDollarSign size="23px" />}
-          >
-            Pricing
-          </CustomButton>
+          <a href="#pricing">
+            <CustomButton
+              type="button"
+              hoverBg="var(--matte-black)"
+              background="var(--matte-black)"
+              rightIcon={<BadgeDollarSign size="23px" />}
+            >
+              Pricing
+            </CustomButton>
+          </a>
         </Flex>
         <Box
           my="2em"
@@ -77,6 +79,7 @@ function App() {
             objectFit="contain"
           />
         </Box>
+        {/* faqs */}
         <Box
           my="2em"
           mt="4em"
@@ -128,6 +131,14 @@ function App() {
             })}{" "}
           </Accordion>
         </Box>
+        {/* pricing */}
+        <Box
+          mt={{ lg: "8em", md: "6em", base: "2em" }}
+          px={{ lg: "14em", base: "1em", md: "2em" }}
+        >
+          <PricingSection />
+        </Box>
+        {/* footer */}
         <Box borderTop="1px solid var(--matte-black)" mt="5em">
           <Flex
             as="footer"
