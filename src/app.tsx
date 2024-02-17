@@ -55,14 +55,15 @@ function App() {
         </Text>
         <Text
           textAlign="center"
+          py=".8em"
           fontSize={{ base: "16px", md: "22px", lg: "36px" }}
         >
           Save tweets. Come back and quote them later.
         </Text>
         <Flex
-          gap="1.4em"
+          gap="1.2em"
           justifyContent="center"
-          mt={{ base: "1em", md: "3em", lg: "3em" }}
+          mt={{ base: "1em", md: "3em", lg: "1em" }}
         >
           <CustomButton
             type="button"
