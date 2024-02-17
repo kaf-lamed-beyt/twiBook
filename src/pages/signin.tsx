@@ -133,7 +133,6 @@ export const SignIn = () => {
 
   const decryptedEmail = localStorage.getItem("email");
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const waitlist = (
     <Box
       height="fit-content"
@@ -188,6 +187,7 @@ export const SignIn = () => {
     </Box>
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const otp = (
     <Box className="slide-in-right" transition="all .1s ease-in">
       <HStack
@@ -378,7 +378,7 @@ export const SignIn = () => {
             </VStack>
           </Box>
         ) : (
-          otp
+          waitlist
         )}
       </Center>
     </React.Fragment>
