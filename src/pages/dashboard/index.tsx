@@ -27,6 +27,7 @@ import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
 import { useUser } from "@hooks/user";
 import { NoBookmarks } from "./components/no-bookmarks";
+import { protector } from "@utils/protector";
 
 export const Dashboard = () => {
   const { user } = useAuthContext();
@@ -50,9 +51,9 @@ export const Dashboard = () => {
       const { error } = await supabase.from("books").insert({
         id: `${user?.id}`,
         title: title,
-        book_link: link,
         book_type: "simple",
         book_id: crypto.randomUUID(),
+        book_link: protector(link as string),
         book_created_at: new Date().toISOString(),
       });
 
