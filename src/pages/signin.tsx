@@ -7,7 +7,7 @@ import {
   Divider,
   VStack,
   HStack,
-  AbsoluteCenter
+  AbsoluteCenter,
 } from "@chakra-ui/react";
 import { CustomButton } from "../components/button";
 import React from "react";
@@ -24,6 +24,7 @@ import { setCookie } from "cookies-next";
 import { GrTwitter } from "react-icons/gr";
 import { authCookieOptions } from "@utils/misc";
 import { Provider } from "@supabase/supabase-js";
+import { MetaData } from "@components/metadata";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -190,6 +191,13 @@ export const SignIn = () => {
 
   return (
     <React.Fragment>
+      <MetaData
+        pageTitle="Sign In &mdash; twiBook"
+        previewImage="https://res.cloudinary.com/meje/image/upload/v1708159678/twb-prev_wklhoz.png"
+        url="twibook.netlify.app"
+        description="Twitter bookmarks alternative. Save, organize and sort tweets. Bookmark twwets by copying the link to a tweet and save it in your twiBook dashboard."
+      />
+
       <Center height="100vh" px={{ base: ".5em" }}>
         {!otpScreen ? (
           <Box

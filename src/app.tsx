@@ -24,7 +24,7 @@ function App() {
       <>
         <Text
           as="h1"
-          pt="1em"
+          pt="2em"
           textAlign="center"
           fontSize={{ base: "26px", md: "45px", lg: "100px" }}
           fontWeight="900"
