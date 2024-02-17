@@ -43,7 +43,7 @@ function App() {
           as="h1"
           pt={{ lg: "2em", md: "2em", base: "4em" }}
           textAlign="center"
-          fontSize={{ base: "43px", md: "45px", lg: "100px" }}
+          fontSize={{ base: "42px", md: "45px", lg: "100px" }}
           fontWeight="900"
           lineHeight={{ base: "42px" }}
         >

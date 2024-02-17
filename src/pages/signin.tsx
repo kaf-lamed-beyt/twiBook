@@ -264,7 +264,7 @@ export const SignIn = () => {
       />
 
       <Center height="100vh" px={{ base: ".5em" }}>
-        {!otpScreen ? (
+        {otpScreen ? (
           <Box
             height="fit-content"
             width="fit-content"
