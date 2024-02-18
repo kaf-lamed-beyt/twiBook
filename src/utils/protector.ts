@@ -11,7 +11,7 @@ export const protector = (value: string) => {
 
 export const antagonist = (value: string) => {
   const privateKey = keyPair.privateKey;
-  const encryptedValue = forge.util.decode(value);
+  const encryptedValue = forge.util.decode64(value);
   const decryptedValue = privateKey.decrypt(encryptedValue);
 
   return decryptedValue;
