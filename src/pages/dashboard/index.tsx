@@ -27,7 +27,7 @@ import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
 import { useUser } from "@hooks/user";
 import { NoBookmarks } from "./components/no-bookmarks";
-import { protector } from "@utils/protector";
+import { antagonist, protector } from "@utils/protector";
 
 export const Dashboard = () => {
   const { user } = useAuthContext();
@@ -158,7 +158,7 @@ export const Dashboard = () => {
                         title={title}
                         id={book_id}
                         type={book_type}
-                        bookLink={book_link}
+                        bookLink={antagonist(book_link ?? "")}
                         bookId={book_id}
                         pendingDelete={isDeletePending}
                         key={`book-${index}-${book_id}`}
