@@ -27,14 +27,11 @@ export const Profile = () => {
   const fullname = `${twib?.firstname} ${twib?.lastname}`;
 
   const updateProfile = async (
-    fullname?: string,
+    firstName?: string,
+    lastName?: string,
     email?: string,
     username?: string
   ) => {
-    const name = fullname?.split(" ");
-    const firstName = name?.[0];
-    const lastName = name?.[1];
-
     try {
       const { error } = await supabase
         .from("account")
@@ -210,8 +207,14 @@ export const Profile = () => {
                   }}
                   validationSchema={updateProfileSchema}
                   onSubmit={async (values, { setSubmitting }) => {
+                    const name = values.fullname.split(" ");
+
+                    const firstName = name?.[0];
+                    const lastName = name?.[1];
+
                     await updateProfile(
-                      values.fullname,
+                      firstName,
+                      lastName,
                       values.email,
                       values.username
                     );

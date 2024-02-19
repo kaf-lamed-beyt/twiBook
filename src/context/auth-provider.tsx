@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@utils/supabase";
 import { User } from "@supabase/supabase-js";
 import { authCookieOptions } from "@utils/misc";
+import * as forge from "node-forge";
 
 export interface AuthProviderProps {
   children: React.ReactNode;
@@ -48,6 +49,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           user: session?.user || user,
           isAuthenticated: isLoggedIn,
         });
+
+        const generateAndStoreKeyPair = async () => {
+          const keyPair = forge.pki.rsa.generateKeyPair({
+            bits: 2048,
+          });
+
+          const publicKeyPem = forge.pki.publicKeyToPem(keyPair.publicKey);
+          const privateKeyPem = forge.pki.privateKeyToPem(keyPair.privateKey);
+
+          const { data: userData } = await supabase.auth.getUser();
+
+          const { data: rsaData } = await supabase
+            .from("rk")
+            .select("*")
+            .single();
+
+          if (rsaData) return null;
+
+          await supabase.from("rk").insert({
+            id: userData?.user?.id,
+            public_key_pem: publicKeyPem,
+            private_key_pem: privateKeyPem,
+          });
+        };
+
+        generateAndStoreKeyPair();
 
         setCookie(
           "_as",

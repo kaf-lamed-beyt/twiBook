@@ -32,10 +32,9 @@ export const DashboardHeader = () => {
   if (!identity && twib?.username === "") {
     const usr = user?.email?.split("@")[0];
     username = usr ? usr : fallbackU?.split("@")[0];
-  } else if (
-    identity?.provider !== "twitter" &&
-    identity?.provider !== "google"
-  ) {
+  }
+
+  if (identity?.provider !== "twitter" && identity?.provider !== "google") {
     username = twib?.username;
   }
 

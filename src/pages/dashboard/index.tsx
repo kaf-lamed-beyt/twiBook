@@ -20,17 +20,15 @@ import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase";
-import { useAuthContext } from "@hooks/auth";
 import { Quotas, dateFromNow } from "@utils/misc";
 import { createBookmarkSchema } from "@utils/validators/create-bookmark-schema";
 import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
 import { useUser } from "@hooks/user";
 import { NoBookmarks } from "./components/no-bookmarks";
-import { antagonist, protector } from "@utils/protector";
+import { protector, antagonist } from "@utils/protector";
 
 export const Dashboard = () => {
-  const { user } = useAuthContext();
   const { booksThisMonth, twib } = useUser();
   const { openToast } = useToastContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
@@ -43,17 +41,29 @@ export const Dashboard = () => {
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    const fetchAndDecryptLinks = async () => {
+      const linksArray = await Promise.all(
+        filteredBooks.map(async (book) => {
+          return await antagonist(book?.book_link, twib?.id as string);
+        })
+      );
+
+      console.log(linksArray);
+    };
+
+    fetchAndDecryptLinks();
+
     setFilteredBooks(books || []);
-  }, [books]);
+  }, [books, filteredBooks, twib?.id]);
 
   const createSimpleBookmark = React.useCallback(
-    async (title: string, link?: string) => {
+    async (title: string, link: string) => {
       const { error } = await supabase.from("books").insert({
-        id: `${user?.id}`,
+        id: `${twib?.id}`,
         title: title,
         book_type: "simple",
         book_id: crypto.randomUUID(),
-        book_link: protector(link as string),
+        book_link: await protector(link, twib?.id),
         book_created_at: new Date().toISOString(),
       });
 
@@ -66,7 +76,7 @@ export const Dashboard = () => {
         openToast(error.message, "error");
       }
     },
-    [onClose, books, openToast, refetchBooks, user?.id]
+    [onClose, books, openToast, refetchBooks, twib?.id]
   );
 
   const deleteBook = async (id: string) => {
@@ -158,8 +168,8 @@ export const Dashboard = () => {
                         title={title}
                         id={book_id}
                         type={book_type}
-                        bookLink={antagonist(book_link ?? "")}
                         bookId={book_id}
+                        bookLink={book_link}
                         pendingDelete={isDeletePending}
                         key={`book-${index}-${book_id}`}
                         onDelete={() => deleteBook(book_id)}

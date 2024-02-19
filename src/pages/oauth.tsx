@@ -46,7 +46,7 @@ export const Oauth = () => {
     };
 
     exchangeTokenForUser();
-  }, [authenticator, location.hash, navigate]);
+  }, [authenticator, location.hash, navigate, openToast]);
 
   return (
     <Center height="100vh">
