@@ -1,20 +1,32 @@
-import Select from "react-select";
+import { Text } from "@chakra-ui/react";
 import makeAnimated from "react-select/animated";
+import Select from "react-select";
 
 const animatedComponent = makeAnimated();
 
 interface SelectProps {
   placeholder: string;
-  options: object[];
-  //   onFilter: (month: Month) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange: (selectedOption: any) => void;
 }
 
-export const SelectField = ({ options, placeholder }: SelectProps) => {
+export const SelectField = ({
+  options,
+  placeholder,
+  onChange,
+}: SelectProps) => {
   return (
     <Select
       components={animatedComponent}
       placeholder={placeholder}
       options={options}
+      noOptionsMessage={() => (
+        <Text color="var(--alt-text)">No options found</Text>
+      )}
+      onChange={onChange}
+      isDisabled={false}
       styles={{
         control: (baseStyles) => ({
           ...baseStyles,
@@ -54,6 +66,7 @@ export const SelectField = ({ options, placeholder }: SelectProps) => {
         placeholder: (baseStyles) => ({
           ...baseStyles,
           fontSize: "15px",
+          color: "var(--alt-text)",
         }),
         menu: (baseStyles) => ({
           ...baseStyles,

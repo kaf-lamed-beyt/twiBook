@@ -43,8 +43,9 @@ export const filterBooks = (books: Books) => {
       return books.filter((book) => book?.book_type === type);
     },
 
-    byMonth: (month: Month) => {
-      const targetMonth = months[month];
+    byMonth: (month: number) => {
+      const targetMonth = month;
+
       return books.filter(
         (book) => dayjs(book?.book_created_at).month() === targetMonth
       );

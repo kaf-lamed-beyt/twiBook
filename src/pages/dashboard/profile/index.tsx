@@ -19,6 +19,7 @@ import { Hint } from "@components/hint";
 import { useUser } from "@hooks/user";
 import { supabase } from "@utils/supabase";
 import { Quotas } from "@utils/misc";
+import { MetaData } from "@components/metadata";
 
 export const Profile = () => {
   const { openToast } = useToastContext();
@@ -54,225 +55,234 @@ export const Profile = () => {
   };
 
   return (
-    <DashboardLayout>
-      <Box py=".8em" mt="1.4em">
-        <Flex gap="4em" flexWrap={{ base: "wrap", lg: "nowrap", md: "wrap" }}>
-          <Stack
-            spacing={4}
-            direction={{ base: "column", lg: "column", md: "row" }}
-            width={{ base: "100%", md: "100%", lg: "50%" }}
-            flexWrap={{ base: "wrap", md: "nowrap", lg: "wrap" }}
-          >
-            <Box
-              px="1.2em"
-              py=".5em"
-              borderRadius="8px"
-              background="var(--eerie-black)"
-              border="2px solid var(--matte-black)"
-              width={{ lg: "100%", md: "48%", base: "100%" }}
+    <>
+      <MetaData url="twibook.app" pageTitle="Profile &mdash; twiBook" />
+
+      <DashboardLayout>
+        <Box py=".8em" mt="1.4em">
+          <Flex gap="4em" flexWrap={{ base: "wrap", lg: "nowrap", md: "wrap" }}>
+            <Stack
+              spacing={4}
+              direction={{ base: "column", lg: "column", md: "row" }}
+              width={{ base: "100%", md: "100%", lg: "50%" }}
+              flexWrap={{ base: "wrap", md: "nowrap", lg: "wrap" }}
             >
-              <HStack justifyContent="space-between" color="var(--alt-text)">
-                <Text fontSize="90px" fontWeight="700">
-                  {twib?.books?.length}
-                </Text>
-                <Box mt="-4em">
-                  <LibraryBig size="25" />
-                </Box>
-              </HStack>
-              <Text
-                py=".6em"
-                float="right"
-                fontSize={{ base: "18px", lg: "25px", md: "18px" }}
-                color="var(--alt-text)"
+              <Box
+                px="1.2em"
+                py=".5em"
+                borderRadius="8px"
+                background="var(--eerie-black)"
+                border="1px solid var(--matte-black)"
+                width={{ lg: "100%", md: "48%", base: "100%" }}
               >
-                Total bookmarks
-              </Text>
-            </Box>
-
-            <Box
-              px="1.2em"
-              py=".5em"
-              width={{ lg: "100%", md: "50%", base: "100%" }}
-              borderRadius="8px"
-              background="var(--eerie-black)"
-              border="2px solid var(--matte-black)"
-            >
-              <HStack justifyContent="space-between" color="var(--alt-text)">
-                <Text fontSize="90px" fontWeight="700">
-                  {booksThisMonth}
-                  <Box
-                    as="span"
-                    fontSize="25px"
-                    ml="-12px"
-                    _hover={{ cursor: "pointer" }}
-                  >
-                    <Tooltip
-                      width="276px"
-                      borderRadius="8px"
-                      background="var(--eerie-black)"
-                      border="1px solid var(--matte-black)"
-                      color="var(--alt-text)"
-                      label={`On the free plan, you can only create ${Quotas.FREE} bookmarks per month`}
-                    >
-                      <Box as="span" marginLeft="10px">
-                        /
-                        {twib?.license_type === "free"
-                          ? Quotas.FREE
-                          : twib?.license_type === "basic"
-                          ? Quotas.BASIC
-                          : twib?.license_type === "pro"
-                          ? Quotas.PRO
-                          : Quotas.FREE}
-                        <Hint />
-                      </Box>
-                    </Tooltip>
-                  </Box>
-                </Text>
-                <Box mt="-4em">
-                  <CalendarClock size="25" />
-                </Box>
-              </HStack>
-              <Text
-                py=".6em"
-                float="right"
-                fontSize={{ base: "18px", lg: "25px", md: "18px" }}
-                color="var(--alt-text)"
-              >
-                Bookmarks this month.
-              </Text>
-            </Box>
-          </Stack>
-
-          <Box
-            background="var(--eerie-black)"
-            border="1px solid var(--matte-black)"
-            height="fit-content"
-            width={{ base: "100%", md: "100%", lg: "50%" }}
-            borderRadius="8px"
-            color="var(--alt-text)"
-            pb="1.4em"
-          >
-            <HStack
-              py="1em"
-              px="1.2em"
-              justifyContent="space-between"
-              borderBottom="1px solid var(--matte-black)"
-            >
-              <Text fontSize="20px">Account information</Text>
-              <Settings size="25px" style={{ cursor: "pointer" }} />
-            </HStack>
-
-            <Box py=".8em" px="1.2em">
-              <HStack spacing={2} my=".8em">
-                <Text fontSize="20px">Current plan: </Text>
-                <Badge
-                  borderRadius="4px"
-                  color={
-                    twib?.has_license === false
-                      ? "var(--warn)"
-                      : twib.has_license === true
-                      ? "var(--success)"
-                      : "var(--warn)"
-                  }
-                  background={
-                    twib?.has_license === false
-                      ? "var(--warn-400)"
-                      : twib.has_license === true &&
-                        twib.license_type === "basic"
-                      ? "var(--success-400)"
-                      : twib.has_license === true && twib.license_type === "pro"
-                      ? "var(--true-pruple-600)"
-                      : "var(--warn-400)"
-                  }
-                >
-                  <Text my="auto" fontSize="12px" fontWeight="bold">
-                    {twib.has_license === true && twib.license_type === "pro"
-                      ? "pro"
-                      : twib.has_license === true &&
-                        twib.license_type === "basic"
-                      ? "basic"
-                      : twib.has_license === false
-                      ? "free"
-                      : "free"}
+                <HStack justifyContent="space-between" color="var(--alt-text)">
+                  <Text fontSize="90px" fontWeight="700">
+                    {twib?.books?.length}
                   </Text>
-                </Badge>
+                  <Box mt="-4em">
+                    <LibraryBig size="25" />
+                  </Box>
+                </HStack>
+                <Text
+                  py=".6em"
+                  float="right"
+                  fontSize={{ base: "18px", lg: "25px", md: "18px" }}
+                  color="var(--alt-text)"
+                >
+                  Total bookmarks
+                </Text>
+              </Box>
+
+              <Box
+                px="1.2em"
+                py=".5em"
+                width={{ lg: "100%", md: "50%", base: "100%" }}
+                borderRadius="8px"
+                background="var(--eerie-black)"
+                border="1px solid var(--matte-black)"
+              >
+                <HStack justifyContent="space-between" color="var(--alt-text)">
+                  <Text fontSize="90px" fontWeight="700">
+                    {booksThisMonth}
+                    <Box
+                      as="span"
+                      fontSize="25px"
+                      ml="-12px"
+                      _hover={{ cursor: "pointer" }}
+                    >
+                      <Tooltip
+                        width="276px"
+                        borderRadius="8px"
+                        background="var(--eerie-black)"
+                        border="1px solid var(--matte-black)"
+                        color="var(--alt-text)"
+                        label={`On the free plan, you can only create ${Quotas.FREE} bookmarks per month`}
+                      >
+                        <Box as="span" marginLeft="10px">
+                          /
+                          {twib?.license_type === "free"
+                            ? Quotas.FREE
+                            : twib?.license_type === "basic"
+                            ? Quotas.BASIC
+                            : twib?.license_type === "pro"
+                            ? Quotas.PRO
+                            : Quotas.FREE}
+                          <Hint />
+                        </Box>
+                      </Tooltip>
+                    </Box>
+                  </Text>
+                  <Box mt="-4em">
+                    <CalendarClock size="25" />
+                  </Box>
+                </HStack>
+                <Text
+                  py=".6em"
+                  float="right"
+                  fontSize={{ base: "18px", lg: "25px", md: "18px" }}
+                  color="var(--alt-text)"
+                >
+                  Bookmarks this month.
+                </Text>
+              </Box>
+            </Stack>
+
+            <Box
+              background="var(--eerie-black)"
+              border="1px solid var(--matte-black)"
+              height="fit-content"
+              width={{ base: "100%", md: "100%", lg: "50%" }}
+              borderRadius="8px"
+              color="var(--alt-text)"
+              pb="1.4em"
+            >
+              <HStack
+                py="1em"
+                px="1.2em"
+                justifyContent="space-between"
+                borderBottom="1px solid var(--matte-black)"
+              >
+                <Text fontSize="20px">Account information</Text>
+                <Settings size="25px" style={{ cursor: "pointer" }} />
               </HStack>
 
-              <Box mt="2em">
-                <Formik
-                  initialValues={{
-                    username: twib?.username,
-                    fullname: fullname,
-                    email: twib?.email,
-                  }}
-                  validationSchema={updateProfileSchema}
-                  onSubmit={async (values, { setSubmitting }) => {
-                    const name = values.fullname.split(" ");
+              <Box py=".8em" px="1.2em">
+                <HStack spacing={2} my=".8em">
+                  <Text fontSize="20px">Current plan: </Text>
+                  <Badge
+                    borderRadius="4px"
+                    color={
+                      twib?.has_license === false
+                        ? "var(--warn)"
+                        : twib.has_license === true
+                        ? "var(--success)"
+                        : "var(--warn)"
+                    }
+                    background={
+                      twib?.has_license === false
+                        ? "var(--warn-400)"
+                        : twib.has_license === true &&
+                          twib.license_type === "basic"
+                        ? "var(--success-400)"
+                        : twib.has_license === true &&
+                          twib.license_type === "pro"
+                        ? "var(--true-pruple-600)"
+                        : "var(--warn-400)"
+                    }
+                  >
+                    <Text my="auto" fontSize="12px" fontWeight="bold">
+                      {twib.has_license === true && twib.license_type === "pro"
+                        ? "pro"
+                        : twib.has_license === true &&
+                          twib.license_type === "basic"
+                        ? "basic"
+                        : twib.has_license === false
+                        ? "free"
+                        : "free"}
+                    </Text>
+                  </Badge>
+                </HStack>
 
-                    const firstName = name?.[0];
-                    const lastName = name?.[1];
+                <Box mt="2em">
+                  <Formik
+                    initialValues={{
+                      username: twib?.username,
+                      fullname: fullname,
+                      email: twib?.email,
+                    }}
+                    validationSchema={updateProfileSchema}
+                    onSubmit={async (values, { setSubmitting }) => {
+                      const name = values.fullname.split(" ");
 
-                    await updateProfile(
-                      firstName,
-                      lastName,
-                      values.email,
-                      values.username
-                    );
-                    setSubmitting(false);
-                  }}
-                >
-                  {(formik) => (
-                    <Form>
-                      <Box my=".8em">
-                        <FormLabel color="var(--alt-text)">Username</FormLabel>
-                        <InputField
-                          type="text"
-                          name="username"
-                          placeholder="Enter your preferred username"
-                        />
-                      </Box>
+                      const firstName = name?.[0];
+                      const lastName = name?.[1];
 
-                      <Box my=".8em">
-                        <FormLabel color="var(--alt-text)">Fullname</FormLabel>
-                        <InputField
-                          type="text"
-                          name="fullname"
-                          placeholder="Schwazz Speckwick"
-                        />
-                      </Box>
+                      await updateProfile(
+                        firstName,
+                        lastName,
+                        values.email,
+                        values.username
+                      );
+                      setSubmitting(false);
+                    }}
+                  >
+                    {(formik) => (
+                      <Form>
+                        <Box my=".8em">
+                          <FormLabel color="var(--alt-text)">
+                            Username
+                          </FormLabel>
+                          <InputField
+                            type="text"
+                            name="username"
+                            placeholder="Your user name from Twitter"
+                          />
+                        </Box>
 
-                      <Box my=".8em">
-                        <FormLabel color="var(--alt-text)">Email</FormLabel>
-                        <InputField
-                          type="email"
-                          name="email"
-                          placeholder="you@mail.com"
-                        />
-                      </Box>
+                        <Box my=".8em">
+                          <FormLabel color="var(--alt-text)">
+                            Fullname
+                          </FormLabel>
+                          <InputField
+                            type="text"
+                            name="fullname"
+                            placeholder="Schwazz Speckwick"
+                          />
+                        </Box>
 
-                      <Box float="right" mt=".4em">
-                        <CustomButton
-                          type="submit"
-                          height="50px"
-                          width="150px"
-                          fontSize="20px"
-                          fontWeight="normal"
-                          background="var(--true-purple)"
-                          hoverBg="var(--true-purple)"
-                          loading={formik.isSubmitting}
-                          loadingText="Updating..."
-                        >
-                          Update
-                        </CustomButton>
-                      </Box>
-                    </Form>
-                  )}
-                </Formik>
+                        <Box my=".8em">
+                          <FormLabel color="var(--alt-text)">Email</FormLabel>
+                          <InputField
+                            type="email"
+                            name="email"
+                            placeholder="you@mail.com"
+                          />
+                        </Box>
+
+                        <Box float="right" mt=".4em">
+                          <CustomButton
+                            type="submit"
+                            height="50px"
+                            width="150px"
+                            fontSize="20px"
+                            fontWeight="normal"
+                            background="var(--true-purple)"
+                            hoverBg="var(--true-purple)"
+                            loading={formik.isSubmitting}
+                            loadingText="Updating..."
+                          >
+                            Update
+                          </CustomButton>
+                        </Box>
+                      </Form>
+                    )}
+                  </Formik>
+                </Box>
               </Box>
             </Box>
-          </Box>
-        </Flex>
-      </Box>
-    </DashboardLayout>
+          </Flex>
+        </Box>
+      </DashboardLayout>
+    </>
   );
 };

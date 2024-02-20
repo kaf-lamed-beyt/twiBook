@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import {
   Box,
@@ -23,14 +24,17 @@ import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase";
 import { Quotas, dateFromNow } from "@utils/misc";
-import { createBookmarkSchema } from "@utils/validators/create-bookmark-schema";
+import {
+  createBookmarkSchema,
+  createBookmarkSchema_LICENSED,
+} from "@utils/validators/create-bookmark-schema";
 import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
 import { useUser } from "@hooks/user";
 import { NoBookmarks } from "./components/no-bookmarks";
 import { antagonist, protector } from "@utils/protector";
 import { SelectField } from "@components/select";
-import { bookTypes, months } from "@utils/filter";
+import { BookType, Books, bookTypes, filterBooks, months } from "@utils/filter";
 import { MetaData } from "@components/metadata";
 
 export const Dashboard = () => {
@@ -42,9 +46,11 @@ export const Dashboard = () => {
   const [, setSearchTerm] = React.useState<string>("");
   const [searchError, setSearchError] = React.useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [filteredBooks, setFilteredBooks] = React.useState<any[]>([]);
+  const [filteredBooks, setFilteredBooks] = React.useState<Books>([]);
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
   const [decipheredLinks, setBookLinks] = React.useState<string[]>([]);
+
+  const [filterError, setFilterError] = React.useState<string>("");
 
   React.useEffect(() => {
     setFilteredBooks(books || []);
@@ -55,7 +61,10 @@ export const Dashboard = () => {
     const fetchAndDecryptLinks = async () => {
       const linksArray = await Promise.all(
         filteredBooks.map(async (book) => {
-          return await antagonist(book?.book_link, twib?.id as string);
+          return await antagonist(
+            book?.book_link as string,
+            twib?.id as string
+          );
         }) || []
       );
 
@@ -70,7 +79,10 @@ export const Dashboard = () => {
       const { error } = await supabase.from("books").insert({
         id: `${twib?.id}`,
         title: title,
-        book_type: "simple",
+        book_type:
+          link.includes("twitter") || link.includes("x.com")
+            ? "simple"
+            : "external",
         book_id: crypto.randomUUID(),
         book_link: await protector(link, twib?.id),
         book_created_at: new Date().toISOString(),
@@ -130,8 +142,8 @@ export const Dashboard = () => {
     debouncedSearch(query);
   };
 
-  const monthOptions = Object.keys(months).map((month) => ({
-    value: month,
+  const monthOptions = Object.keys(months).map((month, index) => ({
+    value: index,
     label: month,
   }));
 
@@ -139,6 +151,26 @@ export const Dashboard = () => {
     value: bookType,
     label: bookType,
   }));
+
+  const onMonthFilter = (value: number) => {
+    // @ts-ignore
+    const data = filterBooks(books).byMonth(value);
+    setFilteredBooks(data || []);
+
+    if (data.length === 0) {
+      setFilterError("No bookmarks found with this filter");
+    }
+  };
+
+  const onTypeFilter = (type: BookType) => {
+    // @ts-ignore
+    const data = filterBooks(books).byType(type);
+    setFilteredBooks(data || []);
+
+    if (data.length === 0) {
+      setFilterError("No bookmarks found with this filter");
+    }
+  };
 
   return (
     <>
@@ -178,6 +210,7 @@ export const Dashboard = () => {
                 <Box width={{ lg: "50%", base: "50%", md: "50%" }}>
                   <SelectField
                     options={monthOptions}
+                    onChange={(choice) => onMonthFilter(choice.value)}
                     placeholder="Filter by month"
                   />
                 </Box>
@@ -186,13 +219,22 @@ export const Dashboard = () => {
                   <SelectField
                     options={typeOptions}
                     placeholder="Filter by type"
+                    onChange={(choice) => onTypeFilter(choice.value)}
                   />
                 </Box>
               </HStack>
             </Stack>
 
             {searchError !== "" ? (
-              <Text color="var(--alt-text)">{searchError}</Text>
+              <Text color="var(--alt-text)" textAlign="center" py="1em">
+                {searchError}
+              </Text>
+            ) : null}
+
+            {filterError !== "" && filteredBooks.length === 0 ? (
+              <Text color="var(--alt-text)" textAlign="center" py="1em">
+                {filterError}
+              </Text>
             ) : null}
 
             {loading ? (
@@ -256,15 +298,32 @@ export const Dashboard = () => {
           onClose={onClose}
           title={
             booksThisMonth === Quotas.FREE && twib?.has_license === false
-              ? "Upgrade to Pro"
+              ? `Upgrade to ${
+                  twib.license_type === "free"
+                    ? "Basic"
+                    : twib?.license_type === "basic"
+                    ? "Pro"
+                    : twib?.license_type === "pro"
+                    ? "Custom"
+                    : "Basic"
+                }`
               : "Create a simple bookmark"
           }
         >
-          {booksThisMonth === Quotas.FREE && twib?.has_license === false ? (
+          {(booksThisMonth === Quotas.FREE && twib?.has_license === false) ||
+          (booksThisMonth === Quotas.BASIC && twib?.license_type === "basic") ||
+          (booksThisMonth === Quotas.PRO && twib?.license_type === "pro") ? (
             <Box>
               <Text py=".8em" color="var(--alt-text)">
-                You have exhausted your monthly quota. upgrade to Pro to enjoy
-                using twiBook.
+                You have exhausted your monthly quota. upgrade to{" "}
+                {twib?.license_type === "free"
+                  ? "Basic"
+                  : twib?.license_type === "basic"
+                  ? "Pro"
+                  : twib?.license_type === "pro"
+                  ? "Custom"
+                  : "Basic"}{" "}
+                to do more with twiBook.
               </Text>
 
               <Box my=".4em" mt=".4em">
@@ -296,7 +355,11 @@ export const Dashboard = () => {
           ) : (
             <Formik
               initialValues={{ bookmarkTitle: "", bookmarkLink: "" }}
-              validationSchema={createBookmarkSchema}
+              validationSchema={
+                twib?.license_type === "free" || twib?.has_license === false
+                  ? createBookmarkSchema
+                  : createBookmarkSchema_LICENSED
+              }
               onSubmit={async (values, { setSubmitting }) => {
                 await createSimpleBookmark(
                   values.bookmarkTitle,
