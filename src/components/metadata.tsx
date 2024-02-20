@@ -3,10 +3,9 @@ import { Helmet } from "react-helmet";
 
 interface metaProps {
   url: string;
-  next?: boolean;
   pageTitle: string;
-  description: string;
-  previewImage: string;
+  description?: string;
+  previewImage?: string;
   contentLanguage?: string;
   children?: React.ReactNode;
   contentType?: "website" | "article";
@@ -21,7 +20,7 @@ export const MetaData = ({
   contentLanguage,
 }: metaProps) => {
   return (
-    <Helmet>
+    <Helmet defer>
       <title>{pageTitle}</title>
       <meta name="description" content={description} />
 

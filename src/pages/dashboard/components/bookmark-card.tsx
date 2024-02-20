@@ -15,14 +15,14 @@ import {
 } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
 import { ModalLayout } from "@components/modal-layout";
-import { ExternalLink, Flame, ShieldAlert, Trash2 } from "lucide-react";
+import { ExternalLink, Flame, Globe2, ShieldAlert, Trash2 } from "lucide-react";
 
 export interface BookmarkCardProps {
   id: string;
   createdAt: string;
-  type?: "detailed" | "simple";
+  type?: string;
   title: string;
-  bookLink: string;
+  bookLink: string | undefined;
   bookId: string;
   content?: {
     authorAvatar: string;
@@ -47,9 +47,6 @@ export const BookmarkCard = ({
 }: BookmarkCardProps) => {
   const truncated =
     title.length > 38 ? `${title.split("").slice(0, 38).join("")}...` : title;
-
-  const modalTruncatedTitle =
-    title.length > 18 ? `${title.split("").slice(0, 18).join("")}...` : title;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -77,14 +74,26 @@ export const BookmarkCard = ({
           <Badge
             height="18px"
             borderRadius="4px"
-            color={type === "detailed" ? "var(--success)" : "var(--warn)"}
+            color={
+              type === "detailed"
+                ? "var(--success)"
+                : type === "external"
+                ? "var(--external)"
+                : "var(--warn)"
+            }
             background={
-              type === "detailed" ? "var(--success-400)" : "var(--warn-400)"
+              type === "detailed"
+                ? "var(--success-400)"
+                : type === "external"
+                ? "var(--external-400)"
+                : "var(--warn-400)"
             }
           >
             <HStack spacing={1}>
               {type === "detailed" ? (
                 <Flame size="14" color="var(--success)" />
+              ) : type === "external" ? (
+                <Globe2 size="14" color="var(--external)" />
               ) : (
                 <ShieldAlert size="14" color="var(--warn)" />
               )}
@@ -175,7 +184,7 @@ export const BookmarkCard = ({
         size="md"
         isOpen={isOpen}
         onClose={onClose}
-        title={`Delete ${modalTruncatedTitle}?`}
+        title={`Delete bookmark?`}
       >
         <Box>
           <Text color="var(--alt-text)">

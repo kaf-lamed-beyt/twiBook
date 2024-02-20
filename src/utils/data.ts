@@ -121,6 +121,8 @@ export const PLANS = [
     price: "$3.99",
     benefits: [
       "Your dashboard",
+      "Simple bookmarks",
+      "Filter by month",
       "Up to 50 bookmarks per month",
       "Bookmarks not limited to Twitter",
     ],
@@ -131,9 +133,11 @@ export const PLANS = [
     price: "$7.99",
     benefits: [
       "Your dashboard",
-      "Chrome extension",
+      "Tweet previews",
+      "Simple bookmarks",
+      "Filter by month",
+      "Filter by bookmark type",
       "Up to 150 bookmarks per month",
-      "Simple and detailed bookmarks",
       "Bookmarks not limited to Twitter",
     ],
   },
@@ -144,8 +148,9 @@ export const PLANS = [
     benefits: [
       "Your dashboard",
       "Chrome extension",
+      "Tweet Previews",
+      "All filters included",
       "Unlimited bookmarks",
-      "Simple and detailed bookmarks",
       "Bookmarks not limited to Twitter",
     ],
   },

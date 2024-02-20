@@ -1,18 +1,38 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as forge from "node-forge";
+import { supabase } from "./supabase";
 
-const keyPair = forge.pki.rsa.generateKeyPair({ bits: 2048 });
+export const getKeysFromDB = async (userId: string) => {
+  const { data: keys, error } = await supabase
+    .from("rk")
+    .select("*")
+    .eq("id", userId)
+    .single(); // return as a single object
 
-export const protector = (value: string) => {
-  const publicKey = keyPair.publicKey;
-  const encrypted = publicKey.encrypt(value);
+  if (error || !keys) return null;
 
+  const publicKey = forge.pki.publicKeyFromPem(keys.public_key_pem);
+  const privateKey = forge.pki.privateKeyFromPem(keys.private_key_pem);
+
+  return {
+    publicKey,
+    privateKey,
+  };
+};
+
+export const protector = async (text: string, userId: string) => {
+  const data = await getKeysFromDB(userId);
+  const publicKey = data?.publicKey;
+
+  const encrypted = publicKey?.encrypt(text);
+  // @ts-ignore
   return forge.util.encode64(encrypted);
 };
 
-export const antagonist = (value: string) => {
-  const privateKey = keyPair.privateKey;
-  const encryptedValue = forge.util.decode64(value);
-  const decryptedValue = privateKey.decrypt(encryptedValue);
+export const antagonist = async (value: string, userId: string) => {
+  const data = await getKeysFromDB(userId);
+  const privateKey = data?.privateKey;
 
-  return decryptedValue;
+  const decrypted = privateKey?.decrypt(forge.util.decode64(value));
+  return decrypted;
 };

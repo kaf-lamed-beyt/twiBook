@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import DOMPurify from "dompurify";
 
 export const createBookmarkSchema = Yup.object({
   bookmarkTitle: Yup.string().required("A bookmark title is required"),
@@ -10,5 +11,7 @@ export const createBookmarkSchema = Yup.object({
 
 export const createBookmarkSchema_LICENSED = Yup.object({
   bookmarkTitle: Yup.string().required("A bookmark title is required"),
-  bookmarkLink: Yup.string().required("A book mark link is required"),
+  bookmarkLink: Yup.string().transform((value) => {
+    return DOMPurify.sanitize(value);
+  }),
 });

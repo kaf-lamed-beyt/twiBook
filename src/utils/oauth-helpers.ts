@@ -37,3 +37,9 @@ export const OAuthSignIn = (
     showToast("Something went wrong! Try again.", "error");
   };
 };
+
+export const exchange = async (token: string) => {
+  const { data } = await supabase.auth.getUser(token);
+
+  return data?.user;
+};

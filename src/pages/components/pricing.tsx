@@ -89,7 +89,7 @@ export const PricingSection = () => {
               px="2em"
               style={pricingSprings[index]}
               width={{ lg: "420px", md: "100%", base: "100%" }}
-              height="495px"
+              height="560px"
               borderRadius="8px"
               background="var(--eerie-black)"
               border={
@@ -114,7 +114,7 @@ export const PricingSection = () => {
                 </Text>
               </Box>
 
-              <Box my=".8em" height="250px">
+              <Box my=".8em" height="310px">
                 {benefits.map((item, index) => {
                   return (
                     <HStack spacing={2} py=".6em" key={index}>
