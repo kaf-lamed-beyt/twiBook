@@ -22,3 +22,10 @@ export const Quotas = {
 };
 
 export const lastUpdated = dayjs("02/16/2024").format("MMM DD, YYYY");
+
+export const LEMSQUEEZY_BASE_ENDPOINT = "api.lemonsqueezy.com/v1/";
+export const REQUEST_HEADERS = {
+  Accept: "application/vnd.api+json",
+  "Content-Type": "application/vnd.api+json",
+  Authorization: `Bearer ${process.env.LEMSQUEEZY_KEY}`,
+};

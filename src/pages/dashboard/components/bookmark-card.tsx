@@ -22,7 +22,7 @@ export interface BookmarkCardProps {
   createdAt: string;
   type?: "detailed" | "simple";
   title: string;
-  bookLink: string;
+  bookLink: string | undefined;
   bookId: string;
   content?: {
     authorAvatar: string;
@@ -47,9 +47,6 @@ export const BookmarkCard = ({
 }: BookmarkCardProps) => {
   const truncated =
     title.length > 38 ? `${title.split("").slice(0, 38).join("")}...` : title;
-
-  const modalTruncatedTitle =
-    title.length > 18 ? `${title.split("").slice(0, 18).join("")}...` : title;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -175,7 +172,7 @@ export const BookmarkCard = ({
         size="md"
         isOpen={isOpen}
         onClose={onClose}
-        title={`Delete ${modalTruncatedTitle}?`}
+        title={`Delete bookmark?`}
       >
         <Box>
           <Text color="var(--alt-text)">

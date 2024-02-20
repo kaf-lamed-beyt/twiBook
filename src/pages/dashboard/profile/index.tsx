@@ -112,7 +112,7 @@ export const Profile = () => {
                       background="var(--eerie-black)"
                       border="1px solid var(--matte-black)"
                       color="var(--alt-text)"
-                      label="On the free plan, you can only create 15 bookmarks per month"
+                      label={`On the free plan, you can only create ${Quotas.FREE} bookmarks per month`}
                     >
                       <Box as="span" marginLeft="10px">
                         /

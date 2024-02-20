@@ -10,6 +10,8 @@ import {
   useDisclosure,
   Spinner,
   Center,
+  Stack,
+  HStack,
 } from "@chakra-ui/react";
 import { DashboardLayout } from "./components/layout";
 import { BookmarkCard } from "./components/bookmark-card";
@@ -26,7 +28,10 @@ import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
 import { useUser } from "@hooks/user";
 import { NoBookmarks } from "./components/no-bookmarks";
-import { protector, antagonist } from "@utils/protector";
+import { antagonist, protector } from "@utils/protector";
+import { SelectField } from "@components/select";
+import { bookTypes, months } from "@utils/filter";
+import { MetaData } from "@components/metadata";
 
 export const Dashboard = () => {
   const { booksThisMonth, twib } = useUser();
@@ -39,22 +44,26 @@ export const Dashboard = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredBooks, setFilteredBooks] = React.useState<any[]>([]);
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
+  const [decipheredLinks, setBookLinks] = React.useState<string[]>([]);
 
+  React.useEffect(() => {
+    setFilteredBooks(books || []);
+  }, [books]);
+
+  // decrypted book links
   React.useEffect(() => {
     const fetchAndDecryptLinks = async () => {
       const linksArray = await Promise.all(
         filteredBooks.map(async (book) => {
           return await antagonist(book?.book_link, twib?.id as string);
-        })
+        }) || []
       );
 
-      console.log(linksArray);
+      setBookLinks(linksArray || []);
     };
 
     fetchAndDecryptLinks();
-
-    setFilteredBooks(books || []);
-  }, [books, filteredBooks, twib?.id]);
+  }, [filteredBooks, twib?.id]);
 
   const createSimpleBookmark = React.useCallback(
     async (title: string, link: string) => {
@@ -121,32 +130,66 @@ export const Dashboard = () => {
     debouncedSearch(query);
   };
 
+  const monthOptions = Object.keys(months).map((month) => ({
+    value: month,
+    label: month,
+  }));
+
+  const typeOptions = Object.keys(bookTypes).map((bookType) => ({
+    value: bookType,
+    label: bookType,
+  }));
+
   return (
     <>
+      <MetaData url="twibbok.app" pageTitle="Dashboard &mdash; twiBook" />
+
       <DashboardLayout>
         {filteredBooks.length === 0 && books?.length === 0 ? (
           <NoBookmarks openModal={onOpen} />
         ) : (
           <Box py=".8em">
-            <InputGroup my="1.4em" border="none">
-              <InputLeftElement mt=".3em">
-                <Search size="25" color="var(--alt-text)" />
-              </InputLeftElement>
-              <Input
-                py="1.2em"
-                px="1.8em"
-                height="50px"
-                width="100%"
-                color="var(--alt-text)"
-                onChange={(e) => onSearch(e)}
-                background="var(--eerie-black)"
-                placeholder="Search bookmarks..."
-                _focusVisible={{ border: "none" }}
-                border="1px solid var(--matte-black)"
-                _placeholder={{ color: "var(--alt-text)" }}
-                _hover={{ border: "2px solid var(--matte-black)" }}
-              />
-            </InputGroup>
+            <Stack direction={{ lg: "row", base: "column", md: "column" }}>
+              <Box width={{ lg: "50%", base: "100%", md: "100%" }}>
+                <InputGroup my="1.4em" border="none">
+                  <InputLeftElement mt=".3em">
+                    <Search size="25" color="var(--alt-text)" />
+                  </InputLeftElement>
+                  <Input
+                    py="1.2em"
+                    px="1.8em"
+                    height="50px"
+                    width="100%"
+                    color="var(--alt-text)"
+                    onChange={(e) => onSearch(e)}
+                    background="var(--eerie-black)"
+                    placeholder="Search bookmarks..."
+                    border="1px solid var(--matte-black)"
+                    _placeholder={{ color: "var(--alt-text)" }}
+                    _hover={{ border: "2px solid var(--matte-black)" }}
+                  />
+                </InputGroup>
+              </Box>
+
+              <HStack
+                width={{ lg: "50%", md: "100%", base: "100%" }}
+                marginTop={{ base: "-1em", md: "-1em", lg: "0" }}
+              >
+                <Box width={{ lg: "50%", base: "50%", md: "50%" }}>
+                  <SelectField
+                    options={monthOptions}
+                    placeholder="Filter by month"
+                  />
+                </Box>
+
+                <Box width={{ lg: "50%", base: "50%", md: "50%" }}>
+                  <SelectField
+                    options={typeOptions}
+                    placeholder="Filter by type"
+                  />
+                </Box>
+              </HStack>
+            </Stack>
 
             {searchError !== "" ? (
               <Text color="var(--alt-text)">{searchError}</Text>
@@ -159,17 +202,14 @@ export const Dashboard = () => {
             ) : (
               <Flex gap="1em" flexWrap="wrap" my="2em">
                 {filteredBooks?.map(
-                  (
-                    { book_id, book_type, title, book_link, book_created_at },
-                    index
-                  ) => {
+                  ({ book_id, book_type, title, book_created_at }, index) => {
                     return (
                       <BookmarkCard
                         title={title}
                         id={book_id}
                         type={book_type}
                         bookId={book_id}
-                        bookLink={book_link}
+                        bookLink={decipheredLinks?.[index]}
                         pendingDelete={isDeletePending}
                         key={`book-${index}-${book_id}`}
                         onDelete={() => deleteBook(book_id)}

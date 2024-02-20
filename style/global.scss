@@ -10,6 +10,7 @@
 
 html {
   scroll-behavior: smooth;
+  background: #000;
 }
 
 #root {
@@ -54,4 +55,14 @@ html {
 .sidebar-item.active::after {
   transform: translateY(40px);
   transition: all 0.3s ease-in;
+}
+
+// custom scrollbar
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: var(--matte-black);
 }
