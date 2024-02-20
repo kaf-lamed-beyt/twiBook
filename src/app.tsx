@@ -12,6 +12,7 @@ import {
   AccordionIcon,
   AccordionPanel,
   HStack,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { FAQS } from "@utils/data";
 import React from "react";
@@ -171,6 +172,13 @@ function App() {
             </Text>
 
             <HStack spacing={6} color="var(--alt-text)">
+              <ChakraLink
+                isExternal
+                href="https://twitter.com/usetwibook"
+                _hover={{ cursor: "pointer", textDecoration: "none" }}
+              >
+                <Text cursor="pointer">Twitter</Text>
+              </ChakraLink>
               <Link to="/legal/terms-of-use">
                 <Text cursor="pointer">Terms of Use</Text>
               </Link>
