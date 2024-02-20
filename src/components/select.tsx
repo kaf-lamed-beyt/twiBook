@@ -1,6 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import makeAnimated from "react-select/animated";
 import Select from "react-select";
+import { useUser } from "@hooks/user";
 
 const animatedComponent = makeAnimated();
 
@@ -17,6 +18,8 @@ export const SelectField = ({
   placeholder,
   onChange,
 }: SelectProps) => {
+  const { twib } = useUser();
+
   return (
     <Select
       components={animatedComponent}
@@ -26,7 +29,11 @@ export const SelectField = ({
         <Text color="var(--alt-text)">No options found</Text>
       )}
       onChange={onChange}
-      isDisabled={false}
+      isDisabled={
+        twib?.has_license === false && twib?.license_type === "free"
+          ? true
+          : false
+      }
       styles={{
         control: (baseStyles) => ({
           ...baseStyles,

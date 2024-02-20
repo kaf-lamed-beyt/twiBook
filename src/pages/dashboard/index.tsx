@@ -51,6 +51,10 @@ export const Dashboard = () => {
   const [decipheredLinks, setBookLinks] = React.useState<string[]>([]);
 
   const [filterError, setFilterError] = React.useState<string>("");
+  const [currentTypeFilterValue, setTypeFilterValue] =
+    React.useState<BookType>("simple");
+  const [currentMonthFilterValue, setMonthFilterValue] =
+    React.useState<number>(0);
 
   React.useEffect(() => {
     setFilteredBooks(books || []);
@@ -154,20 +158,32 @@ export const Dashboard = () => {
 
   const onMonthFilter = (value: number) => {
     // @ts-ignore
-    const data = filterBooks(books).byMonth(value);
-    setFilteredBooks(data || []);
+    const filteredByMonth = filterBooks(books).byMonth(value);
 
-    if (data.length === 0) {
-      setFilterError("No bookmarks found with this filter");
+    setMonthFilterValue(value);
+    const filterByTypeAndMonth = filterBooks(filteredByMonth).byType(
+      currentTypeFilterValue
+    );
+
+    setFilteredBooks(filterByTypeAndMonth || []);
+
+    if (filterByTypeAndMonth.length === 0) {
+      setFilterError("You did not create any bookmark in this month");
     }
   };
 
   const onTypeFilter = (type: BookType) => {
     // @ts-ignore
-    const data = filterBooks(books).byType(type);
-    setFilteredBooks(data || []);
+    const filteredByType = filterBooks(books).byType(type);
 
-    if (data.length === 0) {
+    setTypeFilterValue(type);
+    const filteredByMonthAndType = filterBooks(filteredByType).byMonth(
+      currentMonthFilterValue
+    );
+
+    setFilteredBooks(filteredByMonthAndType || []);
+
+    if (filteredByMonthAndType.length === 0) {
       setFilterError("No bookmarks found with this filter");
     }
   };
