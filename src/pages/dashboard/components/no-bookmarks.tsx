@@ -1,4 +1,4 @@
-import { Box, Text, Tooltip, Center, Link, Flex } from "@chakra-ui/react";
+import { Box, Text, Tooltip, Center, Flex } from "@chakra-ui/react";
 import { Library, LibraryBig } from "lucide-react";
 import { CustomButton } from "@components/button";
 import { Hint } from "@components/hint";
@@ -28,15 +28,16 @@ export const NoBookmarks = ({ openModal }: NoBookmarksProps) => {
           fontSize={{ lg: "22px", md: "18px", base: "16px" }}
         >
           Use our{" "}
-          <Link
+          {/* <Link
             isExternal
-            href="#"
+            href=""
             target="_blank"
             color="#fff"
             textDecoration="underline"
-          >
+          > */}
+          <Text as="span" color="#fff" textDecoration="underline">
             chrome extension
-          </Link>{" "}
+          </Text>{" "}
           to create a{" "}
           <Box as="span" _hover={{ cursor: "pointer" }}>
             <Tooltip
