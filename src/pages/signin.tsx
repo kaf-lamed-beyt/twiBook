@@ -73,10 +73,10 @@ export const SignIn = () => {
   };
 
   const onRequestInvite = async (email: string) => {
-    const { error } = await supabase.from("waitlist").insert({ email: email });
+    const { error } = await supabase.auth.admin.inviteUserByEmail(email);
 
     if (!error) {
-      openToast("You'll receive an invite soon", "success");
+      openToast("An invite has been sent to you.", "success");
     } else {
       openToast(error.message, "error");
     }
@@ -133,6 +133,7 @@ export const SignIn = () => {
 
   const decryptedEmail = localStorage.getItem("email");
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const waitlist = (
     <Box
       height="fit-content"
@@ -187,7 +188,6 @@ export const SignIn = () => {
     </Box>
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const otp = (
     <Box className="slide-in-right" transition="all .1s ease-in">
       <HStack
@@ -264,7 +264,7 @@ export const SignIn = () => {
       />
 
       <Center height="100vh" px={{ base: ".5em" }}>
-        {otpScreen ? (
+        {!otpScreen ? (
           <Box
             height="fit-content"
             width="fit-content"
@@ -378,7 +378,7 @@ export const SignIn = () => {
             </VStack>
           </Box>
         ) : (
-          waitlist
+          otp
         )}
       </Center>
     </React.Fragment>

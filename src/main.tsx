@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { TermsOfUsePage } from "@pages/legal/terms-of-use.tsx";
 import { PrivacyPolicyPage } from "@pages/legal/privacy-policy.tsx";
+import { ConfirmEmail } from "@pages/confirm.tsx";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,17 @@ const routes = createBrowserRouter([
         </AuthProvider>
       </ToastProvider>
     ),
+  },
+  {
+    path: "/confirm",
+    element: (
+      <ToastProvider>
+        <AuthProvider>
+          <ConfirmEmail />
+        </AuthProvider>
+      </ToastProvider>
+    ),
+    errorElement: <RouteErrorComponent />,
   },
 ]);
 
