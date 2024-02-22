@@ -9,7 +9,7 @@ export const PrivacyPolicyPage = () => {
         url="twibook.netlify.app"
         pageTitle="Privacy Policy &mdash; twiBook"
         previewImage="https://res.cloudinary.com/meje/image/upload/v1708159678/twb-prev_wklhoz.png"
-        description="Twitter bookmarks alternative. Save, organize and sort tweets. Bookmark twwets by copying the link to a tweet and save it in your twiBook dashboard."
+        description="Twitter bookmarks alternative. Save, organize and sort tweets. Bookmark tweets by copying the link to a tweet and save it in your twiBook dashboard."
       />
 
       <Box

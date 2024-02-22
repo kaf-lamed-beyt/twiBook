@@ -15,6 +15,9 @@ import React from "react";
 import { TermsOfUsePage } from "@pages/legal/terms-of-use.tsx";
 import { PrivacyPolicyPage } from "@pages/legal/privacy-policy.tsx";
 import { ConfirmEmail } from "@pages/confirm.tsx";
+import { ErrorBoundary } from "react-error-boundary";
+import { FallbackUI } from "@components/error-boundary.tsx";
+import { NetworkStatusProvider } from "@context/network-provider.tsx";
 
 const queryClient = new QueryClient();
 
@@ -37,31 +40,41 @@ const routes = createBrowserRouter([
   {
     path: "signin",
     element: (
-      <ToastProvider>
-        <AuthProvider>
-          <SignIn />
-        </AuthProvider>
-      </ToastProvider>
+      <ErrorBoundary FallbackComponent={FallbackUI}>
+        <ToastProvider>
+          <AuthProvider>
+            <SignIn />
+          </AuthProvider>
+        </ToastProvider>
+      </ErrorBoundary>
     ),
   },
   {
     path: "dashboard",
     element: (
-      <ToastProvider>
-        <AuthProvider>
-          <Dashboard />
-        </AuthProvider>
-      </ToastProvider>
+      <ErrorBoundary FallbackComponent={FallbackUI}>
+        <ToastProvider>
+          <AuthProvider>
+            <NetworkStatusProvider>
+              <Dashboard />
+            </NetworkStatusProvider>
+          </AuthProvider>
+        </ToastProvider>
+      </ErrorBoundary>
     ),
   },
   {
     path: "/dashboard/account",
     element: (
-      <ToastProvider>
-        <AuthProvider>
-          <Profile />
-        </AuthProvider>
-      </ToastProvider>
+      <ErrorBoundary FallbackComponent={FallbackUI}>
+        <ToastProvider>
+          <NetworkStatusProvider>
+            <AuthProvider>
+              <Profile />
+            </AuthProvider>
+          </NetworkStatusProvider>
+        </ToastProvider>
+      </ErrorBoundary>
     ),
   },
   {

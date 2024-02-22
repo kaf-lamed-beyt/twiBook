@@ -12,7 +12,7 @@ import {
   Spinner,
   Center,
   Stack,
-  HStack,
+  HStack
 } from "@chakra-ui/react";
 import { DashboardLayout } from "./components/layout";
 import { BookmarkCard } from "./components/bookmark-card";
@@ -26,7 +26,7 @@ import { supabase } from "@utils/supabase";
 import { Quotas, dateFromNow } from "@utils/misc";
 import {
   createBookmarkSchema,
-  createBookmarkSchema_LICENSED,
+  createBookmarkSchema_LICENSED
 } from "@utils/validators/create-bookmark-schema";
 import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
@@ -42,6 +42,7 @@ export const Dashboard = () => {
   const { openToast } = useToastContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
   const { books, loading, refetchBooks } = useBooks();
+
 
   const [, setSearchTerm] = React.useState<string>("");
   const [searchError, setSearchError] = React.useState<string>("");

@@ -42,8 +42,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     user: AuthContextValues["user"]
   ) => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("auth state change data", session);
-
       if (event === "SIGNED_IN") {
         setAuthState({
           user: session?.user || user,

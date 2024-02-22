@@ -46,23 +46,6 @@ export const PricingSection = () => {
     },
   });
 
-  // const [ref, pricingSprings] = useInView(
-  //   () => ({
-  //     config: { duration: 200 },
-  //     from: {
-  //       opacity: 0,
-  //       transform: "translateY(200px)",
-  //     },
-  //     to: {
-  //       opacity: 0,
-  //       transform: "translateY(0px)",
-  //     },
-  //   }),
-  //   {
-  //     rootMargin: "-40% 0%",
-  //   }
-  // );
-
   return (
     <Box id="pricing" ref={ref}>
       <Text

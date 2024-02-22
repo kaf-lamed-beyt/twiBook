@@ -91,6 +91,14 @@ export const FAQS = [
   },
   {
     id: crypto.randomUUID(),
+    question: "How does it work?",
+    answers: [
+      "Find a tweet you from your TL (Timeline or whatever it called these days, lol)",
+      "Copy the tweet's link, give it a title you want to remember it by, and hit the 'Create bookmark' button.",
+    ],
+  },
+  {
+    id: crypto.randomUUID(),
     question: "What is the point? Twitter already has that covered.",
     answers: [
       "Yes. You are correct. But, with twiBook, you can carry out various actions on your saved bookmarks. From searching, to organizing and sorting them.",
