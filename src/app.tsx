@@ -1,5 +1,5 @@
 import { CustomButton } from "./components/button";
-import { BadgeDollarSign, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Text,
@@ -81,7 +81,6 @@ function App() {
               type="button"
               hoverBg="var(--matte-black)"
               background="var(--matte-black)"
-              rightIcon={<BadgeDollarSign size="23px" />}
             >
               Pricing
             </CustomButton>
@@ -117,7 +116,7 @@ function App() {
           </Text>
 
           <Accordion allowToggle my="1.4em">
-            {FAQS.map(({ question, answer, id }, index) => {
+            {FAQS.map(({ question, answers, id }, index) => {
               return (
                 <AccordionItem
                   key={id}
@@ -145,7 +144,13 @@ function App() {
                     </AccordionButton>
                   </h2>
                   <AccordionPanel pb={2} fontSize="16px">
-                    {answer}
+                    {answers.map((answer, index) => {
+                      return (
+                        <Text pb=".6em" key={index}>
+                          {answer}
+                        </Text>
+                      );
+                    })}
                   </AccordionPanel>
                 </AccordionItem>
               );
