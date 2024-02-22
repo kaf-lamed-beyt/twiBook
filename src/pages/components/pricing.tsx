@@ -18,7 +18,7 @@ export const PricingSection = () => {
         }
       },
       {
-        rootMargin: "0px",
+        rootMargin: "40%",
         threshold: 0.5,
       }
     );

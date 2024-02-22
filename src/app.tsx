@@ -170,6 +170,8 @@ function App() {
             as="footer"
             justifyContent="space-between"
             py="1.8em"
+            gap={["1em", "1em"]}
+            flexWrap={{ base: "wrap", lg: "nowrap", md: "nowrap" }}
             px={{ lg: "8em", base: "1em", md: "4em" }}
           >
             <Text color="var(--alt-text)">
