@@ -1,5 +1,5 @@
 import { useToast, Box, Text, Flex } from "@chakra-ui/react";
-import { Ban, Radio } from "lucide-react";
+import { AlertTriangle, Ban, Radio } from "lucide-react";
 import React from "react";
 import { useLocation } from "react-router-dom";
 
@@ -8,7 +8,7 @@ export interface ToastProviderProps {
 }
 
 export type ToastContextValues = {
-  openToast: (message: string, status: "success" | "error") => void;
+  openToast: (message: string, status: "success" | "error" | "warning") => void;
 };
 
 const createToastContext = () =>
@@ -21,7 +21,10 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   const pathname = location.pathname;
   const toastId = `twb-toast-${crypto.randomUUID()}`;
 
-  const showToast = (message: string, status: "success" | "error") => {
+  const showToast = (
+    message: string,
+    status: "success" | "error" | "warning"
+  ) => {
     if (!toast.isActive(toastId)) {
       toast({
         render: () => (
@@ -33,7 +36,11 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
             borderRight="1px solid var(--matte-black)"
             borderBottom="1px solid var(--matte-black)"
             borderLeft={`3px solid ${
-              status === "success" ? "var(--success)" : "var(--danger)"
+              status === "success"
+                ? "var(--success)"
+                : status === "warning"
+                ? "var(--warn)"
+                : "var(--danger)"
             }`}
             borderRadius="4px 6px 6px 4px"
             background="var(--eerie-black)"
@@ -45,6 +52,8 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
                   color="var(--danger)"
                   style={{ marginTop: "3px" }}
                 />
+              ) : status === "warning" ? (
+                <AlertTriangle color="var(--warn)" />
               ) : (
                 <Radio
                   size="20"
