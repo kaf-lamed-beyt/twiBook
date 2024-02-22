@@ -18,29 +18,34 @@ export const NetworkContext = createNetworkContext();
 export const NetworkStatusProvider = ({ children }: NetworkProviderProps) => {
   const network = useNetworkState();
   const { openToast } = useToastContext();
-
-  const values: NetworkContextValues = React.useMemo(
-    () => ({
-      isOnline: network.online,
-      networkType: network.effectiveType,
-    }),
-    [network.effectiveType, network.online]
+  const [prevIsOnline, setPrevIsOnline] = React.useState<boolean | undefined>(
+    undefined
   );
 
   React.useEffect(() => {
-    if (values.isOnline === false) {
-      openToast("You're currently offline. Some features won't work", "error");
-    } else if (values.isOnline === true) {
-      openToast("Back online", "success");
-    } else if (
-      values.networkType === "slow-2g" ||
-      values.networkType === "2g"
-    ) {
-      openToast("Your internet connection is poor", "warning");
+    if (prevIsOnline !== undefined && prevIsOnline !== network.online) {
+      if (network.online === false) {
+        openToast(
+          "You're currently offline. Some features won't work",
+          "error"
+        );
+      } else if (network.online === true) {
+        openToast("Back online", "success");
+      } else if (
+        network.effectiveType === "slow-2g" ||
+        network.effectiveType === "2g"
+      ) {
+        openToast("Your internet connection is poor", "warning");
+      }
     }
-  }, [openToast, values]);
+    setPrevIsOnline(network.online);
+  }, [network.online, openToast, network.effectiveType, prevIsOnline]);
 
   return (
-    <NetworkContext.Provider value={values}>{children}</NetworkContext.Provider>
+    <NetworkContext.Provider
+      value={{ isOnline: network.online, networkType: network.effectiveType }}
+    >
+      {children}
+    </NetworkContext.Provider>
   );
 };

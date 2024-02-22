@@ -14,28 +14,6 @@ export const Sidebar = () => {
   const location = useLocation();
   const pathname = location.pathname;
 
-  // const [springs, api] = useSpring(() => ({
-  //   from: {
-  //     y: 80,
-  //   },
-  //   to: {
-  //     y: 0,
-  //   },
-  // }));
-
-  // const onSelect = (path: string, index: number) => {
-  //   navigate(path);
-
-  //   api.start({
-  //     from: {
-  //       y: 0,
-  //     },
-  //     to: {
-  //       y: index * 40,
-  //     },
-  //   });
-  // };
-
   return (
     <Flex
       py="1em"
@@ -55,6 +33,8 @@ export const Sidebar = () => {
           fontSize={{ lg: "27px", md: "25px" }}
           fontWeight="600"
           display={{ lg: "block", md: "none", base: "none" }}
+          onClick={() => navigate("/")}
+          cursor="pointer"
         >
           twi
           <Text as="span" color="var(--true-purple)" textDecoration="underline">
@@ -63,7 +43,9 @@ export const Sidebar = () => {
         </Text>
 
         <Box
+          onClick={() => navigate("/")}
           height="40px"
+          cursor="pointer"
           width="40px"
           ml={{ base: "-.2em", lg: "4em", md: "" }}
           borderRadius="4px"

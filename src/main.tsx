@@ -68,9 +68,11 @@ const routes = createBrowserRouter([
     element: (
       <ErrorBoundary FallbackComponent={FallbackUI}>
         <ToastProvider>
-          <AuthProvider>
-            <Profile />
-          </AuthProvider>
+          <NetworkStatusProvider>
+            <AuthProvider>
+              <Profile />
+            </AuthProvider>
+          </NetworkStatusProvider>
         </ToastProvider>
       </ErrorBoundary>
     ),

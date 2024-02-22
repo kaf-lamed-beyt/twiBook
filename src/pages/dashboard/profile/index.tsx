@@ -174,29 +174,29 @@ export const Profile = () => {
                     color={
                       twib?.has_license === false
                         ? "var(--warn)"
-                        : twib.has_license === true
+                        : twib?.has_license === true
                         ? "var(--success)"
                         : "var(--warn)"
                     }
                     background={
                       twib?.has_license === false
                         ? "var(--warn-400)"
-                        : twib.has_license === true &&
+                        : twib?.has_license === true &&
                           twib.license_type === "basic"
                         ? "var(--success-400)"
-                        : twib.has_license === true &&
+                        : twib?.has_license === true &&
                           twib.license_type === "pro"
                         ? "var(--true-pruple-600)"
                         : "var(--warn-400)"
                     }
                   >
                     <Text my="auto" fontSize="12px" fontWeight="bold">
-                      {twib.has_license === true && twib.license_type === "pro"
+                      {twib?.has_license === true && twib.license_type === "pro"
                         ? "pro"
-                        : twib.has_license === true &&
+                        : twib?.has_license === true &&
                           twib.license_type === "basic"
                         ? "basic"
-                        : twib.has_license === false
+                        : twib?.has_license === false
                         ? "free"
                         : "free"}
                     </Text>
