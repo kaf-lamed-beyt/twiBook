@@ -135,12 +135,13 @@ export const FAQS = [
 ];
 
 export const HOW_TO_USE = [
-  "First, find any tweet on Twitter. Copy the link to the tweet",
-  "If you're on the Basic plan, you can bookmarks any link on the internet.",
-  "Now that you have copied the link of the tweet. Go int your dashboard",
-  "You should see a 'Create bookmark' button, if you're new to twiBook. Click it and paste the link in the second input field.",
-  "Then proceed to give it a name you can remember it by. And that's all.",
-  "If you no longer need the bookmark. You can delete it at any time.",
+  "First, find any tweet on Twitter. Copy the link of the tweet",
+  "If you're on the Basic plan, you can bookmark any link on the internet.",
+  "Now that you have copied the link of the tweet. Go into your dashboard",
+  "You should see a 'Create bookmark' button, if you're new to twiBook, click on it.",
+  "You should see a dialog with two input fields by now. Paste the link in the second input field.",
+  "Then proceed to give it a name you want to remember bookmark by. And that's all.",
+  "If you no longer need the bookmark, you can delete it at any time.",
 ];
 
 export const PLANS = [
