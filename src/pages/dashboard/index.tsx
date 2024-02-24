@@ -72,6 +72,7 @@ export const Dashboard = () => {
         }) || []
       );
 
+      // @ts-ignore
       setBookLinks(linksArray || []);
     };
 

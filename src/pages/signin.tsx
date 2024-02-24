@@ -72,15 +72,15 @@ export const SignIn = () => {
     }
   };
 
-  const onRequestInvite = async (email: string) => {
-    const { error } = await supabase.auth.admin.inviteUserByEmail(email);
+  // const onRequestInvite = async (email: string) => {
+  //   const { error } = await supabase.auth.admin.inviteUserByEmail(email);
 
-    if (!error) {
-      openToast("An invite has been sent to you.", "success");
-    } else {
-      openToast(error.message, "error");
-    }
-  };
+  //   if (!error) {
+  //     openToast("An invite has been sent to you.", "success");
+  //   } else {
+  //     openToast(error.message, "error");
+  //   }
+  // };
 
   const OAuthSignIn = async (provider: Provider) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -132,61 +132,6 @@ export const SignIn = () => {
   };
 
   const decryptedEmail = localStorage.getItem("email");
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const waitlist = (
-    <Box
-      height="fit-content"
-      width="fit-content"
-      px=".6em"
-      py=".6em"
-      background="var(--eerie-black)"
-      border="1px solid var(--matte-black)"
-      pb="1.4em"
-      borderRadius="6px"
-    >
-      <Text py=".5em" fontSize="x-large">
-        Join Private beta
-      </Text>
-      <Text pb="1em" fontSize="15px" color="var(--alt-text)">
-        Please enter your email. You'll receive an invite soon.
-      </Text>
-
-      <Box mb=".6em">
-        <Formik
-          initialValues={{ email: "" }}
-          validationSchema={signInSchema}
-          onSubmit={async (values, { setSubmitting }) => {
-            await onRequestInvite(values.email);
-            setSubmitting(false);
-          }}
-        >
-          {(formik) => (
-            <Form>
-              <Box>
-                <InputField type="email" name="email" placeholder="email" />
-
-                <Box mt="1.4em">
-                  <CustomButton
-                    type="submit"
-                    height="50px"
-                    width="100%"
-                    fontSize="16px"
-                    fontWeight="normal"
-                    background="var(--true-purple)"
-                    hoverBg="var(--true-purple)"
-                    loading={formik.isSubmitting}
-                  >
-                    Request an Invite
-                  </CustomButton>
-                </Box>
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </Box>
-    </Box>
-  );
 
   const otp = (
     <Box className="slide-in-right" transition="all .1s ease-in">
