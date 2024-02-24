@@ -29,3 +29,9 @@ export const REQUEST_HEADERS = {
   "Content-Type": "application/vnd.api+json",
   Authorization: `Bearer ${process.env.LEMSQUEEZY_KEY}`,
 };
+
+export const extractTweetIdFromLink = (link: string) => {
+  const id = link.split("/status/")[0];
+
+  return id;
+};

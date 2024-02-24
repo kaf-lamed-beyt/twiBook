@@ -104,6 +104,54 @@ export const Dashboard = () => {
     [onClose, books, openToast, refetchBooks, publicKey, twib?.id]
   );
 
+  // const twitter = new Client(process.env.TWITTER_BEARER as string);
+
+  const getTweetById = async () => {
+    try {
+      const response = await fetch(
+        "https://twitter.com/JoshWComeau/status/1757864818877325495"
+      );
+
+      console.log(`tweet ${response.json()}`);
+
+      if (!response.ok) {
+        openToast("Failed to fetch", "error");
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  getTweetById();
+
+  // const createDetailedBookmark = React.useCallback(
+
+  //   async (title: string, link: string) => {
+  //       const tweetId = extractTweetIdFromLink(link)
+
+  //       const {error} = await supabase.from("books").insert({
+  //         id: twib?.id,
+  //         title: title,
+  //         book_type: "detailed",
+  //         book_id: crypto.randomUUID(),
+  //         book_link: await protector(link, publicKey),
+  //         book_created_at: new Date().toISOString(),
+  //       })
+
+  //       if (!error) {
+  //         openToast(`Bookmarked successfully!"`, "success");
+  //         refetchBooks();
+  //         setFilteredBooks(books || []);
+  //         onClose();
+  //       } else {
+  //         openToast(error.message, "error");
+  //       }
+  //     }
+  //   , [])
+
   const deleteBook = async (id: string) => {
     try {
       setDeletePending(true);
