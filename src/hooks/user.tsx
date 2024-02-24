@@ -12,6 +12,27 @@ const getUser = async () => {
   }
 };
 
+const getCurrentSession = async () => {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (!error) {
+    return data;
+  }
+};
+
+export const useSession = () => {
+  const { data, error } = useQuery({
+    queryKey: ["session"],
+    queryFn: getCurrentSession,
+    refetchOnWindowFocus: false,
+  });
+
+  return {
+    error,
+    session: data,
+  };
+};
+
 export const useUser = () => {
   const { books } = useBooks();
 

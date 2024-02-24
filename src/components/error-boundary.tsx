@@ -9,7 +9,7 @@ interface FallbackUIProps {
 export const FallbackUI = ({ error }: FallbackUIProps) => {
   return (
     <Center height="100vh">
-      <Box>
+      <Box textAlign="center">
         <Text my=".8em" fontSize="30px" textAlign="center">
           {error.message}
         </Text>

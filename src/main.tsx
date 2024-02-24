@@ -11,7 +11,6 @@ import { ToastProvider } from "./context/toast-provider.tsx";
 import { AuthProvider } from "@context/auth-provider.tsx";
 import { Oauth } from "@pages/oauth.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
 import { TermsOfUsePage } from "@pages/legal/terms-of-use.tsx";
 import { PrivacyPolicyPage } from "@pages/legal/privacy-policy.tsx";
 import { ConfirmEmail } from "@pages/confirm.tsx";
@@ -101,11 +100,9 @@ const routes = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={routes} />
-      </QueryClientProvider>
-    </ChakraProvider>
-  </React.StrictMode>
+  <ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={routes} />
+    </QueryClientProvider>
+  </ChakraProvider>
 );

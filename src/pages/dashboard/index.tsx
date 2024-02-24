@@ -12,7 +12,7 @@ import {
   Spinner,
   Center,
   Stack,
-  HStack
+  HStack,
 } from "@chakra-ui/react";
 import { DashboardLayout } from "./components/layout";
 import { BookmarkCard } from "./components/bookmark-card";
@@ -26,7 +26,7 @@ import { supabase } from "@utils/supabase";
 import { Quotas, dateFromNow } from "@utils/misc";
 import {
   createBookmarkSchema,
-  createBookmarkSchema_LICENSED
+  createBookmarkSchema_LICENSED,
 } from "@utils/validators/create-bookmark-schema";
 import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
@@ -36,13 +36,13 @@ import { antagonist, protector } from "@utils/protector";
 import { SelectField } from "@components/select";
 import { BookType, Books, bookTypes, filterBooks, months } from "@utils/filter";
 import { MetaData } from "@components/metadata";
+import { useKeys } from "@hooks/rsa_keys";
 
 export const Dashboard = () => {
   const { booksThisMonth, twib } = useUser();
   const { openToast } = useToastContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
   const { books, loading, refetchBooks } = useBooks();
-
 
   const [, setSearchTerm] = React.useState<string>("");
   const [searchError, setSearchError] = React.useState<string>("");
@@ -57,6 +57,8 @@ export const Dashboard = () => {
   const [currentMonthFilterValue, setMonthFilterValue] =
     React.useState<number>(0);
 
+  const { privateKey, publicKey } = useKeys();
+
   React.useEffect(() => {
     setFilteredBooks(books || []);
   }, [books]);
@@ -66,10 +68,7 @@ export const Dashboard = () => {
     const fetchAndDecryptLinks = async () => {
       const linksArray = await Promise.all(
         filteredBooks.map(async (book) => {
-          return await antagonist(
-            book?.book_link as string,
-            twib?.id as string
-          );
+          return await antagonist(book?.book_link as string, privateKey);
         }) || []
       );
 
@@ -77,7 +76,7 @@ export const Dashboard = () => {
     };
 
     fetchAndDecryptLinks();
-  }, [filteredBooks, twib?.id]);
+  }, [filteredBooks, privateKey]);
 
   const createSimpleBookmark = React.useCallback(
     async (title: string, link: string) => {
@@ -89,7 +88,7 @@ export const Dashboard = () => {
             ? "simple"
             : "external",
         book_id: crypto.randomUUID(),
-        book_link: await protector(link, twib?.id),
+        book_link: await protector(link, publicKey),
         book_created_at: new Date().toISOString(),
       });
 
@@ -102,7 +101,7 @@ export const Dashboard = () => {
         openToast(error.message, "error");
       }
     },
-    [onClose, books, openToast, refetchBooks, twib?.id]
+    [onClose, books, openToast, refetchBooks, publicKey, twib?.id]
   );
 
   const deleteBook = async (id: string) => {
