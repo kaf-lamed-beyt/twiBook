@@ -13,8 +13,10 @@ import {
   AccordionPanel,
   HStack,
   Link as ChakraLink,
+  UnorderedList,
+  ListItem,
 } from "@chakra-ui/react";
-import { FAQS } from "@utils/data";
+import { FAQS, HOW_TO_USE } from "@utils/data";
 import React from "react";
 import { PricingSection } from "@pages/components/pricing";
 import { useInView } from "@react-spring/web";
@@ -99,6 +101,32 @@ function App() {
             objectFit="contain"
           />
         </Animated.Box>
+        <Box my="6em" px={{ lg: "12em", base: "1em", md: "4em" }}>
+          <Text
+            fontWeight="500"
+            textAlign="center"
+            textTransform="capitalize"
+            fontSize={{ base: "28px", md: "22px", lg: "36px" }}
+          >
+            How to use twiBook?
+          </Text>
+
+          <UnorderedList my="2em">
+            {HOW_TO_USE?.map((item, index) => {
+              return (
+                <ListItem
+                  key={index}
+                  pb=".8em"
+                  fontSize={{ lg: "22px", md: "18px", base: "16px" }}
+                  color="var(--alt-text)"
+                  listStyleType="none"
+                >
+                  {item}
+                </ListItem>
+              );
+            })}
+          </UnorderedList>
+        </Box>
         {/* faqs */}
         <Box
           my="2em"
@@ -110,7 +138,7 @@ function App() {
             textTransform="capitalize"
             textAlign="center"
             fontWeight="500"
-            fontSize={{ base: "22px", md: "22px", lg: "36px" }}
+            fontSize={{ base: "28px", md: "22px", lg: "36px" }}
           >
             frequently asked questions
           </Text>

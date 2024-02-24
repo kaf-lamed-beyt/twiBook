@@ -52,7 +52,7 @@ export const PricingSection = () => {
         pb="1em"
         textAlign="center"
         fontWeight="500"
-        fontSize={{ base: "22px", md: "22px", lg: "36px" }}
+        fontSize={{ base: "28px", md: "22px", lg: "36px" }}
       >
         Find the plan that's right for you.
       </Text>
