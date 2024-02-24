@@ -133,21 +133,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setAuthState(parsedAuthState);
     }
 
-    if (
-      authState.isAuthenticated === true ||
-      authState.user?.role === "authenticated"
-    ) {
-      navigate("/dashboard");
-    } else if (
-      (pathname.startsWith("/dashboard") && hasCookie("_as") === false) ||
-      (pathname.startsWith("/dashboard") && hasCookie("_gat") === false)
-    ) {
-      openToast("You need to log in.", "error");
-      navigate("/signin");
-    } else if (
-      (pathname === "/signin" && hasCookie("_as") === true) ||
-      (pathname === "/signin" && hasCookie("_gat") === true)
-    ) {
+    if (pathname.startsWith("/dashboard")) {
+      if (authState.isAuthenticated === false) {
+        if (!hasCookie("_gat")) {
+          openToast("You need to log in.", "error");
+          navigate("/signin");
+        }
+      } else {
+        navigate("/dashboard");
+      }
+    } else if (pathname === "/signin" && authState.isAuthenticated === true) {
       navigate("/dashboard");
     }
   }, []);
