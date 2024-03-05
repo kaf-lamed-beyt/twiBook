@@ -10,12 +10,21 @@ import {
   Text,
   AccordionPanel,
   Link,
+  Flex,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
 import { ModalLayout } from "@components/modal-layout";
 import dayjs from "dayjs";
-import { ExternalLink, Flame, Globe2, ShieldAlert, Trash2 } from "lucide-react";
+import {
+  ExternalLink,
+  Reply,
+  Flame,
+  Globe2,
+  ShieldAlert,
+  Trash2,
+} from "lucide-react";
 
 export interface BookmarkCardProps {
   id: string;
@@ -69,8 +78,6 @@ export const BookmarkCard = ({
     : withRightAngle
     ? fullText?.replace(/&gt;/g, ">")
     : fullText;
-
-  console.log(formattedFullText);
 
   return (
     <>
@@ -149,20 +156,33 @@ export const BookmarkCard = ({
                 borderTop="1px solid var(--matte-black)"
               >
                 <Box>
-                  <HStack>
-                    <Box boxSize="50px">
-                      <Image
-                        alt={`${tweetBy?.fullName}'s profile picture`}
-                        borderRadius="full"
-                        src={tweetBy?.profileImage}
-                      />
-                    </Box>
-                    <Box>
-                      <Text fontWeight="bold">{tweetBy?.fullName}</Text>
-                      <Text color="var(--alt-text)" fontSize="15px">
-                        @{tweetBy?.userName}
-                      </Text>
-                    </Box>
+                  <HStack gap={160}>
+                    <Flex gap=".5em">
+                      <Box boxSize="50px">
+                        <Image
+                          alt={`${tweetBy?.fullName}'s profile picture`}
+                          borderRadius="full"
+                          src={tweetBy?.profileImage}
+                        />
+                      </Box>
+                      <Box>
+                        <Text fontWeight="bold">{tweetBy?.fullName}</Text>
+                        <Text color="var(--alt-text)" fontSize="15px">
+                          @{tweetBy?.userName}
+                        </Text>
+                      </Box>
+                    </Flex>
+
+                    {isReply ? (
+                      <Tooltip
+                        placement="auto"
+                        label="This is a reply to a tweet."
+                        background="var(--eerie-black)"
+                        border="1px solid var(--matte-black)"
+                      >
+                        <Reply size="20" color="var(--alt-text)" />
+                      </Tooltip>
+                    ) : null}
                   </HStack>
 
                   <Text
