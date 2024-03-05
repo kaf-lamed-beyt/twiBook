@@ -1,8 +1,8 @@
 import express from "express";
 import ViteExpress from "vite-express";
-import "dotenv/config";
-export const app = express();
 import { Rettiwt } from "rettiwt-api";
+
+export const app = express();
 
 const retwittInstance = new Rettiwt();
 
