@@ -1,13 +1,17 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import { Rettiwt } from "rettiwt-api";
+import "dotenv/config";
 
 export const app = express();
 
 const retwittInstance = new Rettiwt();
 
+const mode =
+  process.env.NODE_ENV === "production" ? "production" : "development";
+
 ViteExpress.config({
-  mode: "production",
+  mode,
 });
 
 ViteExpress.listen(app, 5173, () => console.log("Server is listening..."));
