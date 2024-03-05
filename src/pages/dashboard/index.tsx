@@ -357,7 +357,7 @@ export const Dashboard = () => {
           title={
             booksThisMonth === Quotas.FREE && twib?.has_license === false
               ? `Upgrade to ${
-                  twib.license_type === "free"
+                  twib?.license_type === "free"
                     ? "Basic"
                     : twib?.license_type === "basic"
                     ? "Pro"
@@ -421,7 +421,7 @@ export const Dashboard = () => {
                   : createBookmarkSchema_LICENSED
               }
               onSubmit={async (values, { setSubmitting }) => {
-                twib.license_type === "free"
+                twib?.license_type === "free"
                   ? await createSimpleBookmark(
                       values.bookmarkTitle,
                       values.bookmarkLink
