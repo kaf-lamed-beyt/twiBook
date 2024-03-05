@@ -9,13 +9,22 @@ import {
   Image,
   Text,
   AccordionPanel,
-  VStack,
   Link,
+  Flex,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
 import { ModalLayout } from "@components/modal-layout";
-import { ExternalLink, Flame, Globe2, ShieldAlert, Trash2 } from "lucide-react";
+import dayjs from "dayjs";
+import {
+  ExternalLink,
+  Reply,
+  Flame,
+  Globe2,
+  ShieldAlert,
+  Trash2,
+} from "lucide-react";
 
 export interface BookmarkCardProps {
   id: string;
@@ -25,12 +34,14 @@ export interface BookmarkCardProps {
   bookLink: string | undefined;
   bookId: string;
   content?: {
-    authorAvatar: string;
-    displayName: string;
-    handle: string;
-    tweet: string;
-    date: string;
-  }[];
+    tweetBy: {
+      userName: string;
+      fullName: string;
+      profileImage: string;
+    };
+    fullText: string;
+    createdAt: string;
+  };
   onDelete: (bookId: string) => void;
   pendingDelete: boolean;
 }
@@ -43,12 +54,30 @@ export const BookmarkCard = ({
   bookLink,
   bookId,
   onDelete,
+  content,
   pendingDelete,
 }: BookmarkCardProps) => {
+  const tweetBy = content?.tweetBy;
+  const fullText = content?.fullText;
+  const tweetDate = content?.createdAt;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const truncated =
     title.length > 38 ? `${title.split("").slice(0, 38).join("")}...` : title;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const isReply = fullText?.split(" ")[0].includes("@");
+  const withLeftAngle = fullText?.includes("&lt;");
+  const withRightAngle = fullText?.includes("&gt;");
+
+  const formattedFullText = isReply
+    ? fullText?.split(" ").slice(1).join(" ")
+    : withLeftAngle && withRightAngle
+    ? fullText?.replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    : withLeftAngle
+    ? fullText?.replace(/&lt;/g, "<")
+    : withRightAngle
+    ? fullText?.replace(/&gt;/g, ">")
+    : fullText;
 
   return (
     <>
@@ -127,27 +156,42 @@ export const BookmarkCard = ({
                 borderTop="1px solid var(--matte-black)"
               >
                 <Box>
-                  <HStack>
-                    <Box boxSize="50px">
-                      <Image
-                        alt="dan's photo"
-                        borderRadius="full"
-                        src="https://pbs.twimg.com/profile_images/1735469911843983360/sZ-i1kYG_400x400.jpg"
-                      />
-                    </Box>
-                    <VStack spacing=".3">
-                      <Text fontWeight="bold" ml="-2.3em">
-                        dan's alt
-                      </Text>
-                      <Text color="var(--alt-text)" fontSize="15px">
-                        @dan_abramov
-                      </Text>
-                    </VStack>
+                  <HStack gap={160}>
+                    <Flex gap=".5em">
+                      <Box boxSize="50px">
+                        <Image
+                          alt={`${tweetBy?.fullName}'s profile picture`}
+                          borderRadius="full"
+                          src={tweetBy?.profileImage}
+                        />
+                      </Box>
+                      <Box>
+                        <Text fontWeight="bold">{tweetBy?.fullName}</Text>
+                        <Text color="var(--alt-text)" fontSize="15px">
+                          @{tweetBy?.userName}
+                        </Text>
+                      </Box>
+                    </Flex>
+
+                    {isReply ? (
+                      <Tooltip
+                        placement="auto"
+                        label="This is a reply to a tweet."
+                        background="var(--eerie-black)"
+                        border="1px solid var(--matte-black)"
+                      >
+                        <Reply size="20" color="var(--alt-text)" />
+                      </Tooltip>
+                    ) : null}
                   </HStack>
 
-                  <Text className="tweet" color="#fff" mt=".8em">
-                    However to answer your question — no I wouldn’t expect this
-                    issue to affect HMR later.
+                  <Text
+                    className="tweet"
+                    color="#fff"
+                    mt=".8em"
+                    whiteSpace="pre-line"
+                  >
+                    {formattedFullText}
                   </Text>
                 </Box>
 
@@ -157,12 +201,12 @@ export const BookmarkCard = ({
                   color="var(--alt-text)"
                 >
                   <Text flex="1" pt=".4em" fontSize="15px">
-                    Jun 29, 2019
+                    {dayjs(tweetDate).format("MMM DD, YYYY")}
                   </Text>
                   <Link href={bookLink} isExternal>
                     <ExternalLink size="20" color="var(--alt-text)" />
                   </Link>
-                  <Trash2 size="20" />
+                  <Trash2 size="20" onClick={onOpen} />
                 </HStack>
               </AccordionPanel>
             </AccordionItem>
