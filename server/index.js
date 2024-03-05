@@ -7,11 +7,8 @@ export const app = express();
 
 const retwittInstance = new Rettiwt();
 
-const mode =
-  process.env.NODE_ENV === "production" ? "production" : "development";
-
 ViteExpress.config({
-  mode,
+  mode: "production",
 });
 
 ViteExpress.listen(app, 5173, () => console.log("Server is listening..."));
