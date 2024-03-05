@@ -31,9 +31,9 @@ export const REQUEST_HEADERS = {
 };
 
 export const extractTweetIdFromLink = (link: string) => {
-  const id = link.split("/status/")[0];
+  const id = link.split("/status/");
 
-  return id;
+  return id[1];
 };
 
 // // eslint-disable-next-line @typescript-eslint/no-unused-vars

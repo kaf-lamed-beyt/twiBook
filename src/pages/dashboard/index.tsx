@@ -23,7 +23,7 @@ import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase";
-import { Quotas, dateFromNow } from "@utils/misc";
+import { Quotas, dateFromNow, extractTweetIdFromLink } from "@utils/misc";
 import {
   createBookmarkSchema,
   createBookmarkSchema_LICENSED,
@@ -105,53 +105,36 @@ export const Dashboard = () => {
     [onClose, books, openToast, refetchBooks, publicKey, twib?.id]
   );
 
-  // const twitter = new Client(process.env.TWITTER_BEARER as string);
+  const createDetailedBookmark = React.useCallback(
+    async (title: string, link: string) => {
+      const tweetId = extractTweetIdFromLink(link);
 
-  const getTweetById = async () => {
-    try {
-      const response = await fetch(
-        "https://twitter.com/JoshWComeau/status/1757864818877325495"
-      );
+      const data = await fetch(`/api/twitter?tweetId=${tweetId}`);
+      const response = await data?.json();
 
-      console.log(`tweet ${response.json()}`);
+      if (data) {
+        const { error } = await supabase.from("books").insert({
+          id: twib?.id,
+          title: title,
+          book_type: "detailed",
+          book_id: crypto.randomUUID(),
+          book_link: await protector(link, publicKey),
+          book_created_at: new Date().toISOString(),
+          content: JSON.stringify(response),
+        });
 
-      if (!response.ok) {
-        openToast("Failed to fetch", "error");
+        if (!error) {
+          openToast(`Bookmarked successfully!"`, "success");
+          refetchBooks();
+          setFilteredBooks(books || []);
+          onClose();
+        } else {
+          openToast(error.message, "error");
+        }
       }
-
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // getTweetById();
-
-  // const createDetailedBookmark = React.useCallback(
-
-  //   async (title: string, link: string) => {
-  //       const tweetId = extractTweetIdFromLink(link)
-
-  //       const {error} = await supabase.from("books").insert({
-  //         id: twib?.id,
-  //         title: title,
-  //         book_type: "detailed",
-  //         book_id: crypto.randomUUID(),
-  //         book_link: await protector(link, publicKey),
-  //         book_created_at: new Date().toISOString(),
-  //       })
-
-  //       if (!error) {
-  //         openToast(`Bookmarked successfully!"`, "success");
-  //         refetchBooks();
-  //         setFilteredBooks(books || []);
-  //         onClose();
-  //       } else {
-  //         openToast(error.message, "error");
-  //       }
-  //     }
-  //   , [])
+    },
+    [books, onClose, openToast, publicKey, refetchBooks, twib?.id]
+  );
 
   const deleteBook = async (id: string) => {
     try {
@@ -309,9 +292,17 @@ export const Dashboard = () => {
             ) : (
               <Flex gap="1em" flexWrap="wrap" my="2em">
                 {filteredBooks?.map(
-                  ({ book_id, book_type, title, book_created_at }, index) => {
+                  (
+                    { book_id, book_type, title, book_created_at, content },
+                    index
+                  ) => {
+                    const tweet =
+                      content !== "" ? JSON.parse(content as string) : content;
+                    console.log(tweet);
+
                     return (
                       <BookmarkCard
+                        content={tweet}
                         title={title}
                         id={book_id}
                         type={book_type}
@@ -346,7 +337,9 @@ export const Dashboard = () => {
               >
                 <Tooltip
                   placement="left"
-                  label="create a simple bookmark"
+                  label={`create a ${
+                    twib?.license_type === "free" ? "simple" : "detailed"
+                  } bookmark`}
                   background="var(--eerie-black)"
                   border="1px solid var(--matte-black)"
                 >
@@ -372,7 +365,9 @@ export const Dashboard = () => {
                     ? "Custom"
                     : "Basic"
                 }`
-              : "Create a simple bookmark"
+              : `Create a ${
+                  twib?.license_type === "free" ? "simple" : "detailed"
+                } bookmark`
           }
         >
           {(booksThisMonth === Quotas.FREE && twib?.has_license === false) ||
@@ -426,10 +421,16 @@ export const Dashboard = () => {
                   : createBookmarkSchema_LICENSED
               }
               onSubmit={async (values, { setSubmitting }) => {
-                await createSimpleBookmark(
-                  values.bookmarkTitle,
-                  values.bookmarkLink
-                );
+                twib.license_type === "free"
+                  ? await createSimpleBookmark(
+                      values.bookmarkTitle,
+                      values.bookmarkLink
+                    )
+                  : await createDetailedBookmark(
+                      values.bookmarkTitle,
+                      values.bookmarkLink
+                    );
+
                 setSubmitting(false);
               }}
             >

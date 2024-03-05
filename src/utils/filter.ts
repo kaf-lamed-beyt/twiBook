@@ -11,6 +11,7 @@ export type Books = {
   id: string; // user id
   title: string; // boomark title
   tweet_date: string;
+  content: string | null;
 }[];
 
 export const bookTypes = {
