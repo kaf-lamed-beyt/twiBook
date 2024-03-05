@@ -126,7 +126,7 @@ export const Dashboard = () => {
     }
   };
 
-  getTweetById();
+  // getTweetById();
 
   // const createDetailedBookmark = React.useCallback(
 
