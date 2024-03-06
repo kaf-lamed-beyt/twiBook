@@ -13,11 +13,11 @@ ViteExpress.config({
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, "0.0.0.0", () => {
+const server = app.listen(port, "0.0.0.0", () => {
   console.log(`Server is listening on ${port}`);
 });
 
-// ViteExpress.bind(app, server);
+ViteExpress.bind(app, server);
 
 app.get("/api/twitter", async (req, res) => {
   const { tweetId } = req.query;
