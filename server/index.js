@@ -11,7 +11,11 @@ ViteExpress.config({
   mode: "production",
 });
 
-ViteExpress.listen(app, 5173, () => console.log("Server is listening..."));
+const server = app.listen(5173, "0.0.0.0", () => {
+  console.log("Server is listening...");
+});
+
+ViteExpress.bind(app, server);
 
 app.get("/api/twitter", async (req, res) => {
   const { tweetId } = req.query;
