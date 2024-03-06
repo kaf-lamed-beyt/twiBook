@@ -17,11 +17,11 @@ const server = app.listen(port, "0.0.0.0", () => {
   console.log(`Server is listening on ${port}`);
 });
 
-ViteExpress.bind(app, server);
-
 app.get("/api/twitter", async (req, res) => {
   const { tweetId } = req.query;
   const response = await retwittInstance.tweet.details(tweetId);
 
   res.send(response);
 });
+
+ViteExpress.bind(app, server);
