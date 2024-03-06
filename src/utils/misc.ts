@@ -29,3 +29,64 @@ export const REQUEST_HEADERS = {
   "Content-Type": "application/vnd.api+json",
   Authorization: `Bearer ${process.env.LEMSQUEEZY_KEY}`,
 };
+
+export const extractTweetIdFromLink = (link: string) => {
+  const id = link.split("/status/");
+
+  return id[1];
+};
+
+// // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// const waitlist = (
+//   <Box
+//     height="fit-content"
+//     width="fit-content"
+//     px=".6em"
+//     py=".6em"
+//     background="var(--eerie-black)"
+//     border="1px solid var(--matte-black)"
+//     pb="1.4em"
+//     borderRadius="6px"
+//   >
+//     <Text py=".5em" fontSize="x-large">
+//       Join Private beta
+//     </Text>
+//     <Text pb="1em" fontSize="15px" color="var(--alt-text)">
+//       Please enter your email. You'll receive an invite soon.
+//     </Text>
+
+//     <Box mb=".6em">
+//       <Formik
+//         initialValues={{ email: "" }}
+//         validationSchema={signInSchema}
+//         onSubmit={async (values, { setSubmitting }) => {
+//           await onRequestInvite(values.email);
+//           setSubmitting(false);
+//         }}
+//       >
+//         {(formik) => (
+//           <Form>
+//             <Box>
+//               <InputField type="email" name="email" placeholder="email" />
+
+//               <Box mt="1.4em">
+//                 <CustomButton
+//                   type="submit"
+//                   height="50px"
+//                   width="100%"
+//                   fontSize="16px"
+//                   fontWeight="normal"
+//                   background="var(--true-purple)"
+//                   hoverBg="var(--true-purple)"
+//                   loading={formik.isSubmitting}
+//                 >
+//                   Request an Invite
+//                 </CustomButton>
+//               </Box>
+//             </Box>
+//           </Form>
+//         )}
+//       </Formik>
+//     </Box>
+//   </Box>
+// );

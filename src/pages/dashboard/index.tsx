@@ -23,7 +23,7 @@ import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase";
-import { Quotas, dateFromNow } from "@utils/misc";
+import { Quotas, dateFromNow, extractTweetIdFromLink } from "@utils/misc";
 import {
   createBookmarkSchema,
   createBookmarkSchema_LICENSED,
@@ -72,6 +72,7 @@ export const Dashboard = () => {
         }) || []
       );
 
+      // @ts-ignore
       setBookLinks(linksArray || []);
     };
 
@@ -102,6 +103,37 @@ export const Dashboard = () => {
       }
     },
     [onClose, books, openToast, refetchBooks, publicKey, twib?.id]
+  );
+
+  const createDetailedBookmark = React.useCallback(
+    async (title: string, link: string) => {
+      const tweetId = extractTweetIdFromLink(link);
+
+      const data = await fetch(`/api/twitter?tweetId=${tweetId}`);
+      const response = await data?.json();
+
+      if (data) {
+        const { error } = await supabase.from("books").insert({
+          id: twib?.id,
+          title: title,
+          book_type: "detailed",
+          book_id: crypto.randomUUID(),
+          book_link: await protector(link, publicKey),
+          book_created_at: new Date().toISOString(),
+          content: JSON.stringify(response),
+        });
+
+        if (!error) {
+          openToast(`Bookmarked successfully!"`, "success");
+          refetchBooks();
+          setFilteredBooks(books || []);
+          onClose();
+        } else {
+          openToast(error.message, "error");
+        }
+      }
+    },
+    [books, onClose, openToast, publicKey, refetchBooks, twib?.id]
   );
 
   const deleteBook = async (id: string) => {
@@ -260,9 +292,17 @@ export const Dashboard = () => {
             ) : (
               <Flex gap="1em" flexWrap="wrap" my="2em">
                 {filteredBooks?.map(
-                  ({ book_id, book_type, title, book_created_at }, index) => {
+                  (
+                    { book_id, book_type, title, book_created_at, content },
+                    index
+                  ) => {
+                    const tweet =
+                      content !== "" ? JSON.parse(content as string) : content;
+                    console.log(tweet);
+
                     return (
                       <BookmarkCard
+                        content={tweet}
                         title={title}
                         id={book_id}
                         type={book_type}
@@ -297,7 +337,9 @@ export const Dashboard = () => {
               >
                 <Tooltip
                   placement="left"
-                  label="create a simple bookmark"
+                  label={`create a ${
+                    twib?.license_type === "free" ? "simple" : "detailed"
+                  } bookmark`}
                   background="var(--eerie-black)"
                   border="1px solid var(--matte-black)"
                 >
@@ -315,7 +357,7 @@ export const Dashboard = () => {
           title={
             booksThisMonth === Quotas.FREE && twib?.has_license === false
               ? `Upgrade to ${
-                  twib.license_type === "free"
+                  twib?.license_type === "free"
                     ? "Basic"
                     : twib?.license_type === "basic"
                     ? "Pro"
@@ -323,7 +365,9 @@ export const Dashboard = () => {
                     ? "Custom"
                     : "Basic"
                 }`
-              : "Create a simple bookmark"
+              : `Create a ${
+                  twib?.license_type === "free" ? "simple" : "detailed"
+                } bookmark`
           }
         >
           {(booksThisMonth === Quotas.FREE && twib?.has_license === false) ||
@@ -377,10 +421,16 @@ export const Dashboard = () => {
                   : createBookmarkSchema_LICENSED
               }
               onSubmit={async (values, { setSubmitting }) => {
-                await createSimpleBookmark(
-                  values.bookmarkTitle,
-                  values.bookmarkLink
-                );
+                twib?.license_type === "free"
+                  ? await createSimpleBookmark(
+                      values.bookmarkTitle,
+                      values.bookmarkLink
+                    )
+                  : await createDetailedBookmark(
+                      values.bookmarkTitle,
+                      values.bookmarkLink
+                    );
+
                 setSubmitting(false);
               }}
             >

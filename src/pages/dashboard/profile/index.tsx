@@ -182,19 +182,20 @@ export const Profile = () => {
                       twib?.has_license === false
                         ? "var(--warn-400)"
                         : twib?.has_license === true &&
-                          twib.license_type === "basic"
+                          twib?.license_type === "basic"
                         ? "var(--success-400)"
                         : twib?.has_license === true &&
-                          twib.license_type === "pro"
+                          twib?.license_type === "pro"
                         ? "var(--true-pruple-600)"
                         : "var(--warn-400)"
                     }
                   >
                     <Text my="auto" fontSize="12px" fontWeight="bold">
-                      {twib?.has_license === true && twib.license_type === "pro"
+                      {twib?.has_license === true &&
+                      twib?.license_type === "pro"
                         ? "pro"
                         : twib?.has_license === true &&
-                          twib.license_type === "basic"
+                          twib?.license_type === "basic"
                         ? "basic"
                         : twib?.has_license === false
                         ? "free"
