@@ -6,12 +6,13 @@ import "dotenv/config";
 export const app = express();
 
 const retwittInstance = new Rettiwt();
+const port = process.env.PORT || 3000;
+const mode =
+  process.env.NODE_ENV === "production" ? "production" : "development";
 
 ViteExpress.config({
-  mode: "production",
+  mode,
 });
-
-const port = process.env.PORT || 3000;
 
 const server = app.listen(port, "0.0.0.0", () => {
   console.log(`Server is listening on ${port}`);
