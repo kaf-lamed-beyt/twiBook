@@ -11,8 +11,10 @@ ViteExpress.config({
   mode: "production",
 });
 
-const server = app.listen(5173, "0.0.0.0", () => {
-  console.log("Server is listening...");
+const port = process.env.PORT;
+
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`Server is listening on ${port}`);
 });
 
 ViteExpress.bind(app, server);
