@@ -8,7 +8,7 @@ import { exchange } from "@utils/oauth-helpers";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 
-export const ConfirmEmail = () => {
+export default function ConfirmEmail() {
   const router = useRouter();
   const { openToast } = useToastContext();
   const { authenticator } = useAuthContext();
@@ -45,4 +45,4 @@ export const ConfirmEmail = () => {
       <Text>You&apos;re too awesome! Please, just a moment...</Text>
     </Center>
   );
-};
+}

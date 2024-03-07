@@ -2,7 +2,7 @@ import { Box, OrderedList, Text, ListItem, Link } from "@chakra-ui/react";
 import { MetaData } from "@components/metadata";
 import { lastUpdated } from "@utils/misc";
 
-export const TermsOfUsePage = () => {
+export default function TermsOfUsePage() {
   return (
     <>
       <MetaData
@@ -136,4 +136,4 @@ export const TermsOfUsePage = () => {
       </Box>
     </>
   );
-};
+}
