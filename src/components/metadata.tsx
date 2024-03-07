@@ -1,5 +1,5 @@
+import Head from "next/head";
 import React from "react";
-import { Helmet } from "react-helmet";
 
 interface metaProps {
   url: string;
@@ -20,7 +20,7 @@ export const MetaData = ({
   contentLanguage,
 }: metaProps) => {
   return (
-    <Helmet defer>
+    <Head>
       <title>{pageTitle}</title>
       <meta name="description" content={description} />
 
@@ -43,6 +43,6 @@ export const MetaData = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:site" content={url} />
       <meta name="twitter:image" content={previewImage} />
-    </Helmet>
+    </Head>
   );
 };
