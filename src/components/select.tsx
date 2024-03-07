@@ -7,9 +7,7 @@ const animatedComponent = makeAnimated();
 
 interface SelectProps {
   placeholder: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (selectedOption: any) => void;
 }
 
