@@ -13,12 +13,15 @@ import { LogOut, User } from "lucide-react";
 import { useGreeting } from "@hooks/greeting";
 import { useAuthContext } from "@hooks/auth";
 import { authProviderFromSignIn } from "@utils/misc";
-import { useUser } from "@hooks/user";
+import { useSession, useUser } from "@hooks/user";
 
 export const DashboardHeader = () => {
   const { twib } = useUser();
+  const { session: data } = useSession();
   const message = useGreeting();
   const { user, logout } = useAuthContext();
+
+  const userMetadata = data?.session?.user?.user_metadata;
 
   // use the first part of their email if they don't have a username
   let username;
@@ -38,23 +41,19 @@ export const DashboardHeader = () => {
     username = usr ? usr : fallbackU?.split("@")[0];
   }
 
-  if (identity?.provider !== "twitter" && identity?.provider !== "google") {
-    username = twib?.username;
+  if (authProviderFromSignIn === "twitter") {
+    username = userMetadata?.name;
+    avatarUrl = userMetadata?.avatar_url;
   }
 
-  if (identity?.provider === "twitter") {
-    username = identity?.identity_data?.name;
-    avatarUrl = identity?.identity_data?.avatar_url;
+  if (authProviderFromSignIn === "github") {
+    username = userMetadata?.user_name;
+    avatarUrl = userMetadata?.avatar_url;
   }
 
-  if (identity?.provider === "github") {
-    username = identity?.identity_data?.user_name;
-    avatarUrl = identity?.identity_data?.avatar_url;
-  }
-
-  if (identity?.provider === "google") {
-    username = identity?.identity_data?.full_name.split(" ")[0];
-    avatarUrl = identity?.identity_data?.avatar_url;
+  if (authProviderFromSignIn === "google") {
+    username = userMetadata?.full_name.split(" ")[0];
+    avatarUrl = userMetadata?.avatar_url;
   }
 
   return (

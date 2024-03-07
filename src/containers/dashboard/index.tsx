@@ -11,7 +11,7 @@ import {
   Spinner,
   Center,
   Stack,
-  HStack,
+  HStack
 } from "@chakra-ui/react";
 import { DashboardLayout } from "./components/layout";
 import { BookmarkCard } from "./components/bookmark-card";
@@ -25,7 +25,7 @@ import { supabase } from "@utils/supabase";
 import { Quotas, dateFromNow, extractTweetIdFromLink } from "@utils/misc";
 import {
   createBookmarkSchema,
-  createBookmarkSchema_LICENSED,
+  createBookmarkSchema_LICENSED
 } from "@utils/validators/create-bookmark-schema";
 import debounce from "lodash.debounce";
 import { useBooks } from "@hooks/books";
@@ -48,6 +48,7 @@ export const Dashboard = () => {
   const [filteredBooks, setFilteredBooks] = React.useState<Books>([]);
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
   const [decipheredLinks, setBookLinks] = React.useState<string[]>([]);
+
 
   const [filterError, setFilterError] = React.useState<string>("");
   const [currentTypeFilterValue, setTypeFilterValue] =
@@ -296,7 +297,6 @@ export const Dashboard = () => {
                   ) => {
                     const tweet =
                       content !== "" ? JSON.parse(content as string) : content;
-                    console.log(tweet);
 
                     return (
                       <BookmarkCard

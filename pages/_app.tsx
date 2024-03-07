@@ -20,9 +20,6 @@ export default function App({ Component, pageProps }: AppProps) {
           href="/twb-svg/twb-logo-36x36.svg"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        {/* @ts-ignore */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
       </Head>
       <ChakraProvider>
         <QueryClientProvider client={queryClient}>

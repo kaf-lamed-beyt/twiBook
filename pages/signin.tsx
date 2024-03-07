@@ -292,6 +292,7 @@ export default function SignIn() {
                 leftIcon={<GrTwitter size="25" color="#26a7de" />}
                 hoverBg="var(--matte-black)"
                 background="var(--matte-black)"
+                loadingText="Hyyyy"
                 onClick={() => OAuthSignIn("twitter")}
               >
                 Continue with Twitter
