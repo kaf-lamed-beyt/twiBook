@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import {
   Box,
@@ -14,7 +13,6 @@ import {
   Stack,
   HStack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { DashboardLayout } from "./components/layout";
 import { BookmarkCard } from "./components/bookmark-card";
 import { CustomButton } from "@components/button";
@@ -47,7 +45,6 @@ export const Dashboard = () => {
 
   const [, setSearchTerm] = React.useState<string>("");
   const [searchError, setSearchError] = React.useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredBooks, setFilteredBooks] = React.useState<Books>([]);
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
   const [decipheredLinks, setBookLinks] = React.useState<string[]>([]);
@@ -110,15 +107,8 @@ export const Dashboard = () => {
     async (title: string, link: string) => {
       const tweetId = extractTweetIdFromLink(link);
 
-      const axiosInstance = axios.create({
-        baseURL: "/api",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
-
-      const response = await axiosInstance.get(`/twitter?tweetId=${tweetId}`);
-      const data = response?.data;
+      const response = await fetch(`/api/tweet?tweetId=${tweetId}`);
+      const data = await response.json();
 
       if (data) {
         const { error } = await supabase.from("books").insert({

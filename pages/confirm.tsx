@@ -1,17 +1,18 @@
 import React from "react";
 import { Center, Text } from "@chakra-ui/react";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToastContext } from "@hooks/toast";
 import { useAuthContext } from "@hooks/auth";
 import { setCookie } from "cookies-next";
 import { authCookieOptions } from "@utils/misc";
 import { exchange } from "@utils/oauth-helpers";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 export const ConfirmEmail = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { openToast } = useToastContext();
   const { authenticator } = useAuthContext();
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
 
   React.useEffect(() => {
     const exchangeTokenForUser = async () => {
@@ -25,10 +26,10 @@ export const ConfirmEmail = () => {
 
           const user = await exchange(token);
           authenticator(true, user);
-          navigate("/dashboard");
+          router.push("/dashboard");
           openToast("Email verified!", "success");
         } else {
-          navigate("/signin");
+          router.push("/signin");
           openToast("Something went wrong. Please try again.", "error");
         }
       } catch (error) {
@@ -37,11 +38,11 @@ export const ConfirmEmail = () => {
     };
 
     exchangeTokenForUser();
-  }, [authenticator, navigate, openToast, searchParams]);
+  }, [authenticator, openToast, router, searchParams]);
 
   return (
     <Center height="100vh">
-      <Text>You're too awesome! Please, just a moment...</Text>
+      <Text>You&apos;re too awesome! Please, just a moment...</Text>
     </Center>
   );
 };

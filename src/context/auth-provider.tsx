@@ -1,11 +1,11 @@
 import { useToastContext } from "@hooks/toast";
 import { deleteCookie, hasCookie, setCookie, getCookie } from "cookies-next";
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@utils/supabase";
 import { User } from "@supabase/supabase-js";
 import { authCookieOptions } from "@utils/misc";
 import * as forge from "node-forge";
+import { useRouter } from "next/router";
 
 export interface AuthProviderProps {
   children: React.ReactNode;
@@ -27,9 +27,8 @@ const createAuthContext = () =>
 export const AuthContext = createAuthContext();
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const pathname = location.pathname;
+  const router = useRouter();
+  const pathname = router.pathname;
   const { openToast } = useToastContext();
 
   const [authState, setAuthState] = React.useState<Partial<AuthContextValues>>({
@@ -122,7 +121,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (!error) {
       openToast("Logged out successfully!", "success");
-      navigate("/signin");
+      router.push("/signin");
     }
   };
 
@@ -137,13 +136,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (authState.isAuthenticated === false) {
         if (!hasCookie("_gat")) {
           openToast("You need to log in.", "error");
-          navigate("/signin");
+          router.push("/signin");
         }
       } else {
-        navigate("/dashboard");
+        router.push("/dashboard");
       }
     } else if (pathname === "/signin" && authState.isAuthenticated === true) {
-      navigate("/dashboard");
+      router.push("/dashboard");
     }
   }, []);
 

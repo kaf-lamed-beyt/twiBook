@@ -1,8 +1,8 @@
 import { UnorderedList, Text, Box, Flex } from "@chakra-ui/react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { CustomButton } from "@components/button";
 import { LibraryBig, User } from "lucide-react";
 import { Animated } from "@externals/index";
+import { useRouter } from "next/router";
 
 const SIDEBAR_NAV = [
   { name: "books", icon: <LibraryBig size="25" />, path: "/dashboard" },
@@ -10,9 +10,8 @@ const SIDEBAR_NAV = [
 ];
 
 export const Sidebar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const pathname = location.pathname;
+  const router = useRouter();
+  const pathname = router.pathname;
 
   return (
     <Flex
@@ -33,7 +32,7 @@ export const Sidebar = () => {
           fontSize={{ lg: "27px", md: "25px" }}
           fontWeight="600"
           display={{ lg: "block", md: "none", base: "none" }}
-          onClick={() => navigate("/")}
+          onClick={() => router.push("/")}
           cursor="pointer"
         >
           twi
@@ -43,7 +42,7 @@ export const Sidebar = () => {
         </Text>
 
         <Box
-          onClick={() => navigate("/")}
+          onClick={() => router.push("/")}
           height="40px"
           cursor="pointer"
           width="40px"
@@ -86,7 +85,7 @@ export const Sidebar = () => {
                       background: "var(--matte-black)",
                     }}
                     transition="all .3s ease-in"
-                    onClick={() => navigate(path)}
+                    onClick={() => router.push(path)}
                   >
                     {icon}
                     <Text
