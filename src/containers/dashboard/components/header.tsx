@@ -27,7 +27,11 @@ export const DashboardHeader = () => {
     (user) => user.provider === authProviderFromSignIn
   );
 
-  const fallbackU = localStorage.getItem("twbu");
+  let fallbackU;
+
+  if (typeof window !== "undefined") {
+    fallbackU = localStorage.getItem("twbu");
+  }
 
   if (!identity && twib?.username === "") {
     const usr = user?.email?.split("@")[0];

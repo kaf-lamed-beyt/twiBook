@@ -87,7 +87,7 @@ export default function SignIn() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider,
       options: {
-        redirectTo: `${process.env.APP_URL}/oauth`,
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/oauth`,
       },
     });
 

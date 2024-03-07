@@ -7,7 +7,7 @@ import { useAuthContext } from "@hooks/auth";
 import { exchange } from "@utils/oauth-helpers";
 import { useRouter } from "next/router";
 
-export const Oauth = () => {
+export default function Oauth() {
   const router = useRouter();
   const { openToast } = useToastContext();
   const { authenticator } = useAuthContext();
@@ -45,4 +45,4 @@ export const Oauth = () => {
       <Text>Please wait, while we take you to your dashboard...</Text>
     </Center>
   );
-};
+}

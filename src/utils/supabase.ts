@@ -3,8 +3,8 @@ import { deleteCookie, setCookie } from "cookies-next";
 import { authCookieOptions } from "./misc";
 
 export const supabase = createClient(
-  "https://xrgqkiscpuyunitmzohj.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhyZ3FraXNjcHV5dW5pdG16b2hqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3MDk0MTksImV4cCI6MjAyMjI4NTQxOX0.KkBZ09jgKtzXaQ096lvZhJOpeee0Tvh46UMUWAUKGSs"
+  process.env.NEXT_PUBLIC_PROJECT_URL as string,
+  process.env.NEXT_PUBLIC_PROJECT_KEY as string
 );
 
 supabase.auth.onAuthStateChange((event, session) => {
