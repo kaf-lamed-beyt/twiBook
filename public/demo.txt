@@ -1,6 +1,0 @@
-    <!-- <div class="og-image">
-      <h1>twi<span>Book</span></h1>
-      <p>
-        Save tweets. Come back and <span>"</span>quote<span>"</span> them later.
-      </p>
-    </div> -->
