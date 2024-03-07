@@ -15,7 +15,8 @@ export const FallbackUI = ({ error }: FallbackUIProps) => {
         </Text>
 
         <Text fontSize="30px" color="var(--alt-text)" pb=".6em">
-          Sorry! Something went wrong. But, do not worry. It isn't your fault.
+          Sorry! Something went wrong. But, do not worry. It isn&apos;t your
+          fault.
         </Text>
 
         <Text fontSize="30px" color="var(--alt-text)">

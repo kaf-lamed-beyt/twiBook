@@ -54,7 +54,7 @@ export const PricingSection = () => {
         fontWeight="500"
         fontSize={{ base: "28px", md: "22px", lg: "36px" }}
       >
-        Find the plan that's right for you.
+        Find the plan that&apos;s right for you.
       </Text>
 
       <SimpleGrid

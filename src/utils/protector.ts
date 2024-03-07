@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as forge from "node-forge";
 
 export const protector = async (

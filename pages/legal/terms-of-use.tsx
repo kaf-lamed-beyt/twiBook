@@ -112,7 +112,7 @@ export const TermsOfUsePage = () => {
             <Text py=".5em" color="var(--alt-text)">
               We reserve the right to modify or replace these Terms of Service
               at any time. If a revision is material, we will provide at least
-              30 days' notice prior to any new terms taking effect.
+              30 days&apos; notice prior to any new terms taking effect.
             </Text>
           </Box>
           <Box py=".5em">

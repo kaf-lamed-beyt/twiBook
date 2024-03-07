@@ -19,7 +19,7 @@ export const NoBookmarks = ({ openModal }: NoBookmarksProps) => {
           color="var(--alt-text)"
           fontSize={{ lg: "22px", md: "18px", base: "16px" }}
         >
-          You don't have any bookmarks yet.
+          You don&apos;t have any bookmarks yet.
         </Text>
 
         <Text
