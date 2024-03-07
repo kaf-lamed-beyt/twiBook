@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import {
   Box,
@@ -47,7 +46,6 @@ export const Dashboard = () => {
 
   const [, setSearchTerm] = React.useState<string>("");
   const [searchError, setSearchError] = React.useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredBooks, setFilteredBooks] = React.useState<Books>([]);
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
   const [decipheredLinks, setBookLinks] = React.useState<string[]>([]);

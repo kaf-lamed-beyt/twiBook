@@ -9,25 +9,26 @@ import {
   HStack,
   AbsoluteCenter,
 } from "@chakra-ui/react";
-import { CustomButton } from "../components/button";
+import { CustomButton } from "../src/components/button";
 import React from "react";
-import { supabase } from "../utils/supabase";
+import { supabase } from "../src/utils/supabase";
 import { Formik, Form } from "formik";
 import { InputField } from "@components/input-field";
 import { signInSchema } from "@utils/validators/auth-schema";
 import { MoveLeft } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
-import { useToastContext } from "../hooks/toast";
+import { useToastContext } from "../src/hooks/toast";
 import { useAuthContext } from "@hooks/auth";
 import { setCookie } from "cookies-next";
 import { GrTwitter } from "react-icons/gr";
 import { authCookieOptions } from "@utils/misc";
 import { Provider } from "@supabase/supabase-js";
 import { MetaData } from "@components/metadata";
+import { useRouter } from "next/router";
 
-export const SignIn = () => {
-  const navigate = useNavigate();
+export default function SignIn() {
+  const router = useRouter();
+
   const [pin, setPin] = React.useState({
     first: "",
     second: "",
@@ -124,14 +125,18 @@ export const SignIn = () => {
       });
 
       setVerifyLoading(false);
-      navigate("/dashboard");
+      router.push("/dashboard");
     } else {
       openToast(error?.message, "error");
       setVerifyLoading(false);
     }
   };
 
-  const decryptedEmail = localStorage.getItem("email");
+  let decryptedEmail;
+
+  if (typeof window !== "undefined") {
+    decryptedEmail = localStorage.getItem("email");
+  }
 
   const otp = (
     <Box className="slide-in-right" transition="all .1s ease-in">
@@ -155,7 +160,7 @@ export const SignIn = () => {
         </Text>
       </Text>
       <Text fontSize="14px" color="var(--alt-text)">
-        It'll expire in 60 seconds.
+        It&apos;ll expire in 60 seconds.
       </Text>
       <Text my=".1em" fontSize="14px" color="var(--alt-text)">
         You can always go back and get another one.
@@ -224,7 +229,8 @@ export const SignIn = () => {
               Sign In.
             </Text>
             <Text pb="1em" fontSize="15px" color="var(--alt-text)">
-              Don't worry, we'll create an account for you automatically.
+              Don&apos;t worry, we&apos;ll create an account for you
+              automatically.
             </Text>
             <Box mb=".6em">
               <Formik
@@ -328,4 +334,4 @@ export const SignIn = () => {
       </Center>
     </React.Fragment>
   );
-};
+}
