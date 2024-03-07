@@ -2,7 +2,7 @@ import { Box, OrderedList, Text, ListItem, Link } from "@chakra-ui/react";
 import { MetaData } from "@components/metadata";
 import { lastUpdated } from "@utils/misc";
 
-export function PrivacyPolicyPage() {
+export default function PrivacyPolicyPage() {
   return (
     <>
       <MetaData
