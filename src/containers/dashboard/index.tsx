@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 import {
   Box,
@@ -46,7 +45,6 @@ export const Dashboard = () => {
 
   const [, setSearchTerm] = React.useState<string>("");
   const [searchError, setSearchError] = React.useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredBooks, setFilteredBooks] = React.useState<Books>([]);
   const [isDeletePending, setDeletePending] = React.useState<boolean>(false);
   const [decipheredLinks, setBookLinks] = React.useState<string[]>([]);
@@ -109,8 +107,8 @@ export const Dashboard = () => {
     async (title: string, link: string) => {
       const tweetId = extractTweetIdFromLink(link);
 
-      const data = await fetch(`/api/twitter?tweetId=${tweetId}`);
-      const response = await data?.json();
+      const response = await fetch(`/api/tweet?tweetId=${tweetId}`);
+      const data = await response.json();
 
       if (data) {
         const { error } = await supabase.from("books").insert({
@@ -120,7 +118,7 @@ export const Dashboard = () => {
           book_id: crypto.randomUUID(),
           book_link: await protector(link, publicKey),
           book_created_at: new Date().toISOString(),
-          content: JSON.stringify(response),
+          content: JSON.stringify(data),
         });
 
         if (!error) {

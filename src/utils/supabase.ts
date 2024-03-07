@@ -3,8 +3,8 @@ import { deleteCookie, setCookie } from "cookies-next";
 import { authCookieOptions } from "./misc";
 
 export const supabase = createClient(
-  process.env.PROJECT_URL as string,
-  process.env.PROJECT_KEY as string
+  process.env.NEXT_PUBLIC_PROJECT_URL as string,
+  process.env.NEXT_PUBLIC_PROJECT_KEY as string
 );
 
 supabase.auth.onAuthStateChange((event, session) => {

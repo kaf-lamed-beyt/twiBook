@@ -1,21 +1,20 @@
 import React from "react";
 import { setCookie } from "cookies-next";
 import { Center, Text } from "@chakra-ui/react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useToastContext } from "@hooks/toast";
 import { authCookieOptions } from "@utils/misc";
 import { useAuthContext } from "@hooks/auth";
 import { exchange } from "@utils/oauth-helpers";
+import { useRouter } from "next/router";
 
-export const Oauth = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+export default function Oauth() {
+  const router = useRouter();
   const { openToast } = useToastContext();
   const { authenticator } = useAuthContext();
 
   React.useEffect(() => {
     const exchangeTokenForUser = async () => {
-      const params = new URLSearchParams(location.hash.slice(1));
+      const params = new URLSearchParams(window.location.hash.slice(1));
       const accessToken = params.get("access_token");
 
       try {
@@ -27,10 +26,10 @@ export const Oauth = () => {
           const user = await exchange(accessToken);
 
           authenticator(true, user);
-          navigate("/dashboard");
+          router.push("/dashboard");
           openToast("Logged in successfully!", "success");
         } else {
-          navigate("/signin");
+          router.push("/signin");
           openToast("something went wrong! Try again.", "error");
         }
       } catch (error) {
@@ -39,11 +38,11 @@ export const Oauth = () => {
     };
 
     exchangeTokenForUser();
-  }, [authenticator, location.hash, navigate, openToast]);
+  }, [authenticator, router, openToast]);
 
   return (
     <Center height="100vh">
       <Text>Please wait, while we take you to your dashboard...</Text>
     </Center>
   );
-};
+}

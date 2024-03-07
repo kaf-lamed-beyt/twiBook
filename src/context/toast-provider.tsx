@@ -1,7 +1,7 @@
 import { useToast, Box, Text, Flex } from "@chakra-ui/react";
 import { AlertTriangle, Ban, Radio } from "lucide-react";
+import { useRouter } from "next/router";
 import React from "react";
-import { useLocation } from "react-router-dom";
 
 export interface ToastProviderProps {
   children: React.ReactNode;
@@ -17,8 +17,8 @@ export const ToastContext = createToastContext();
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
   const toast = useToast();
-  const location = useLocation();
-  const pathname = location.pathname;
+  const router = useRouter();
+  const pathname = router.pathname;
   const toastId = `twb-toast-${crypto.randomUUID()}`;
 
   const showToast = (

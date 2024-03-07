@@ -1,6 +1,6 @@
-import { CustomButton } from "./components/button";
+import { CustomButton } from "../../components/button";
 import { MoveRight } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
 import {
   Text,
   Box,
@@ -18,12 +18,13 @@ import {
 } from "@chakra-ui/react";
 import { FAQS, HOW_TO_USE } from "@utils/data";
 import React from "react";
-import { PricingSection } from "@pages/components/pricing";
+import { PricingSection } from "src/containers/components/pricing";
 import { useInView } from "@react-spring/web";
-import { Animated } from "./externals";
+import { Animated } from "../../externals";
+import { useRouter } from "next/router";
 
 function App() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [ref, heroImgStyle] = useInView(
     () => ({
@@ -72,7 +73,7 @@ function App() {
             type="button"
             hoverBg="var(--true-purple)"
             background="var(--true-purple)"
-            onClick={() => navigate("/signin")}
+            onClick={() => router.push("/signin")}
             rightIcon={<MoveRight size="25px" />}
           >
             Get Started
@@ -214,10 +215,10 @@ function App() {
               >
                 <Text cursor="pointer">Twitter</Text>
               </ChakraLink>
-              <Link to="/legal/terms-of-use">
+              <Link href="/legal/terms-of-use">
                 <Text cursor="pointer">Terms of Use</Text>
               </Link>
-              <Link to="/legal/privacy-policy">
+              <Link href="/legal/privacy-policy">
                 <Text cursor="pointer">Privacy Policy</Text>
               </Link>
             </HStack>

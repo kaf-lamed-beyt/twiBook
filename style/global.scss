@@ -8,15 +8,10 @@
   font-family: var(--livic);
 }
 
-html {
+#root {
   scroll-behavior: smooth;
   background: #000;
-}
-
-#root {
   color: #fff;
-  background: #000;
-  // border: 1px solid #000;
 }
 
 .moveX {

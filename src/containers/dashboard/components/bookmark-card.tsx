@@ -24,6 +24,7 @@ import {
   Globe2,
   ShieldAlert,
   Trash2,
+  Quote,
 } from "lucide-react";
 
 export interface BookmarkCardProps {
@@ -39,6 +40,7 @@ export interface BookmarkCardProps {
       fullName: string;
       profileImage: string;
     };
+    quoted: string;
     fullText: string;
     createdAt: string;
   };
@@ -68,6 +70,7 @@ export const BookmarkCard = ({
   const isReply = fullText?.split(" ")[0].includes("@");
   const withLeftAngle = fullText?.includes("&lt;");
   const withRightAngle = fullText?.includes("&gt;");
+  const isQuotedTweet = content?.quoted;
 
   const formattedFullText = isReply
     ? fullText?.split(" ").slice(1).join(" ")
@@ -181,6 +184,15 @@ export const BookmarkCard = ({
                         border="1px solid var(--matte-black)"
                       >
                         <Reply size="20" color="var(--alt-text)" />
+                      </Tooltip>
+                    ) : isQuotedTweet !== undefined ? (
+                      <Tooltip
+                        placement="auto"
+                        label="This is a quoted tweet."
+                        background="var(--eerie-black)"
+                        border="1px solid var(--matte-black)"
+                      >
+                        <Quote size="20" color="var(--alt-text)" />
                       </Tooltip>
                     ) : null}
                   </HStack>
