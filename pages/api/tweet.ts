@@ -15,5 +15,5 @@ export default async function tweetApiRoute(
   const tweetId: TweetId = req.query.tweetId;
   const response = await retweetInstance.tweet.details(tweetId as string);
 
-  res.send(response);
+  res.status(200).json(response);
 }
