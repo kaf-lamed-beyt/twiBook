@@ -23,6 +23,7 @@
     "@types/react-helmet": "^6.1.11",
     "@uidotdev/usehooks": "^2.4.1",
     "@use-gesture/react": "^10.3.0",
+    "axios": "^1.6.7",
     "cookies-next": "^4.1.1",
     "dayjs": "^1.11.10",
     "dompurify": "^3.0.8",
