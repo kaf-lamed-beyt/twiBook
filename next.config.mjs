@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: "/api/tweet",
-        destination: "https://api.twitter.com",
+        destination: "https://api.twitter.com/1.1",
       },
     ];
   },
