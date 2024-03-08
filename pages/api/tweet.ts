@@ -3,7 +3,10 @@ import { Rettiwt } from "rettiwt-api";
 
 type TweetId = string | string[] | undefined;
 const retweetInstance = new Rettiwt({
-  proxyUrl: new URL(`${process.env.NEXT_PUBLIC_PROXY_URL}`, "/api/tweet"),
+  proxyUrl: new URL(
+    `${process.env.NEXT_PUBLIC_PROXY_URL}/api/tweet`,
+    "/api/tweet"
+  ),
 });
 
 // const retweetInstance = new Rettiwt();
