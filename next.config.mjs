@@ -2,14 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  async rewrites() {
-    return [
-      {
-        source: "/api/tweet",
-        destination: "https://api.twitter.com/1.1",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/tweet",
+  //       destination: "https://api.twitter.com",
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;
