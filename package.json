@@ -8,6 +8,12 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "proxy": {
+    "/api/tweet": {
+      "target": "https://api.twitter.com/1.1",
+      "changeOrigin": true
+    }
+  },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
