@@ -108,17 +108,17 @@ export const Dashboard = () => {
     async (title: string, link: string) => {
       const tweetId = extractTweetIdFromLink(link);
 
-      const tweetInstance = axios.create({
-        baseURL: "/api",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
+      if (tweetId) {
+        const tweetInstance = axios.create({
+          baseURL: "/api",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
 
-      const response = await tweetInstance.get(`/tweet?tweetId=${tweetId}`);
-      const data = await response.data;
+        const response = await tweetInstance.get(`/tweet?tweetId=${tweetId}`);
+        const data = await response.data;
 
-      if (data) {
         const { error } = await supabase.from("books").insert({
           id: twib?.id,
           title: title,
@@ -137,9 +137,19 @@ export const Dashboard = () => {
         } else {
           openToast(error.message, "error");
         }
+      } else {
+        createSimpleBookmark(title, link);
       }
     },
-    [books, onClose, openToast, publicKey, refetchBooks, twib?.id]
+    [
+      books,
+      createSimpleBookmark,
+      onClose,
+      openToast,
+      publicKey,
+      refetchBooks,
+      twib?.id,
+    ]
   );
 
   const deleteBook = async (id: string) => {
