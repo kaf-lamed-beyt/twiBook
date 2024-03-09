@@ -8,12 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "proxy": {
-    "/api/tweet": {
-      "target": "https://api.twitter.com/1.1",
-      "changeOrigin": true
-    }
-  },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
@@ -36,6 +30,7 @@
     "dompurify": "^3.0.8",
     "formik": "^2.4.5",
     "framer-motion": "^11.0.3",
+    "http-proxy-middleware": "^2.0.6",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.320.0",
     "next": "14.1.3",
