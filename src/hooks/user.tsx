@@ -68,11 +68,27 @@ export const useUser = () => {
     return booksThisMonth?.length;
   };
 
+  const matchFreePreviewsThisMonth = () => {
+    const detailedBookmarks = books?.filter((book) => {
+      return book.book_type === "detailed";
+    });
+
+    const detailedBooksThisMonth = detailedBookmarks?.filter(
+      (books) => dayjs(books.book_created_at).month() === month
+    );
+
+    return detailedBooksThisMonth?.length;
+  };
+
   return {
     error,
     loading: isPending,
     twib: userData?.[0],
     refetchUser: refetch,
+    freePreviews:
+      userData?.[0]?.has_license === false
+        ? null
+        : matchFreePreviewsThisMonth(),
     booksThisMonth: matchBookmarksThisMonth(),
   };
 };

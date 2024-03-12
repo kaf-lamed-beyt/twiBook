@@ -38,7 +38,7 @@ import { MetaData } from "@components/metadata";
 import { useKeys } from "@hooks/rsa_keys";
 
 export const Dashboard = () => {
-  const { booksThisMonth, twib } = useUser();
+  const { booksThisMonth, twib, freePreviews } = useUser();
   const { openToast } = useToastContext();
   const { onOpen, isOpen, onClose } = useDisclosure();
   const { books, loading, refetchBooks } = useBooks();
@@ -373,8 +373,12 @@ export const Dashboard = () => {
                     : "Basic"
                 }`
               : `Create a ${
-                  twib?.license_type === "free" ? "simple" : "detailed"
-                } bookmark`
+                  twib?.license_type === "free" &&
+                  // @ts-ignore
+                  freePreviews < Quotas.FREE_PREVIEWS
+                    ? "bookmark"
+                    : "detailed bookmark"
+                }`
           }
         >
           {(booksThisMonth === Quotas.FREE && twib?.has_license === false) ||
@@ -428,12 +432,14 @@ export const Dashboard = () => {
                   : createBookmarkSchema_LICENSED
               }
               onSubmit={async (values, { setSubmitting }) => {
-                twib?.license_type === "free"
-                  ? await createSimpleBookmark(
+                twib?.license_type === "free" &&
+                // @ts-ignore
+                freePreviews < Quotas.FREE_PREVIEWS
+                  ? await createDetailedBookmark(
                       values.bookmarkTitle,
                       values.bookmarkLink
                     )
-                  : await createDetailedBookmark(
+                  : await createSimpleBookmark(
                       values.bookmarkTitle,
                       values.bookmarkLink
                     );

@@ -9,7 +9,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import { DashboardLayout } from "../components/layout";
-import { CalendarClock, LibraryBig, Settings } from "lucide-react";
+import { CalendarClock, LibraryBig, BookOpen, Settings } from "lucide-react";
 import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
@@ -23,7 +23,7 @@ import { MetaData } from "@components/metadata";
 
 export const Profile = () => {
   const { openToast } = useToastContext();
-  const { twib, booksThisMonth } = useUser();
+  const { twib, booksThisMonth, freePreviews } = useUser();
 
   const fullname = `${twib?.firstname} ${twib?.lastname}`;
 
@@ -145,6 +145,57 @@ export const Profile = () => {
                   Bookmarks this month.
                 </Text>
               </Box>
+
+              {twib?.has_license === false || twib?.license_type === "free" ? (
+                <Box
+                  px="1.2em"
+                  py=".5em"
+                  width={{ lg: "100%", md: "50%", base: "100%" }}
+                  borderRadius="8px"
+                  background="var(--eerie-black)"
+                  border="1px solid var(--matte-black)"
+                >
+                  <HStack
+                    justifyContent="space-between"
+                    color="var(--alt-text)"
+                  >
+                    <Text fontSize="90px" fontWeight="700">
+                      {freePreviews}
+                      <Box
+                        as="span"
+                        fontSize="25px"
+                        ml="-12px"
+                        _hover={{ cursor: "pointer" }}
+                      >
+                        <Tooltip
+                          width="276px"
+                          borderRadius="8px"
+                          background="var(--eerie-black)"
+                          border="1px solid var(--matte-black)"
+                          color="var(--alt-text)"
+                          label={`On the free plan, you only get ${Quotas.FREE_PREVIEWS} tweet previews per month`}
+                        >
+                          <Box as="span" marginLeft="10px">
+                            /{Quotas.FREE_PREVIEWS}
+                            <Hint />
+                          </Box>
+                        </Tooltip>
+                      </Box>
+                    </Text>
+                    <Box mt="-4em">
+                      <BookOpen size="25" />
+                    </Box>
+                  </HStack>
+                  <Text
+                    py=".6em"
+                    float="right"
+                    fontSize={{ base: "18px", lg: "25px", md: "18px" }}
+                    color="var(--alt-text)"
+                  >
+                    Tweet Previews this month
+                  </Text>
+                </Box>
+              ) : null}
             </Stack>
 
             <Box
@@ -172,14 +223,16 @@ export const Profile = () => {
                   <Badge
                     borderRadius="4px"
                     color={
-                      twib?.has_license === false
+                      twib?.has_license === false ||
+                      twib?.license_type === "free"
                         ? "var(--warn)"
                         : twib?.has_license === true
                         ? "var(--success)"
                         : "var(--warn)"
                     }
                     background={
-                      twib?.has_license === false
+                      twib?.has_license === false ||
+                      twib?.license_type === "free"
                         ? "var(--warn-400)"
                         : twib?.has_license === true &&
                           twib?.license_type === "basic"

@@ -6,8 +6,6 @@ const retweetInstance = new Rettiwt({
   authProxyUrl: new URL(`${process.env.NEXT_PUBLIC_PROXY_URL}` || ""),
 });
 
-// const retweetInstance = new Rettiwt();
-
 export default async function tweetApiRoute(
   req: NextApiRequest,
   res: NextApiResponse
