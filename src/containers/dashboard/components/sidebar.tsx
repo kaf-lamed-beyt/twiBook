@@ -1,6 +1,6 @@
 import { UnorderedList, Text, Box, Flex } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
-import { LibraryBig, User } from "lucide-react";
+import { LibraryBig, Rocket, User } from "lucide-react";
 import { Animated } from "@externals/index";
 import { useRouter } from "next/router";
 
@@ -23,7 +23,7 @@ export const Sidebar = () => {
       className="sidebar-nav"
       justifyContent="space-between"
       borderRight="1px solid var(--matte-black)"
-      width={{ lg: "15%", md: "15%", base: "15%" }}
+      width={{ lg: "15%", md: "10%", base: "12%" }}
     >
       <Box>
         <Text
@@ -65,16 +65,15 @@ export const Sidebar = () => {
                   py=".6em"
                   key={index}
                   listStyleType="none"
-                  // onClick={() => onSelect(path, index)}
                   className={pathname === path ? "sidebar-item" : ""}
                   marginLeft={{ md: "-28px", lg: "0px", base: "3px" }}
                 >
                   <Flex
                     py=".6em"
                     gap=".4em"
-                    ml={{ base: "-2em", md: "-2em", lg: "-.8em" }}
+                    ml={{ base: "-2.4em", md: "-2.8em", lg: "-.8em" }}
                     pl={{ lg: ".6em", md: ".7em", base: ".5em" }}
-                    width={{ base: "42px", lg: "100%", md: "48px" }}
+                    width={{ base: "40px", lg: "100%", md: "43px" }}
                     mx={{ md: "auto" }}
                     borderRadius="6px"
                     background={pathname == path ? "var(--matte-black)" : ""}
@@ -103,7 +102,7 @@ export const Sidebar = () => {
         </Box>
       </Box>
 
-      <Box display={{ lg: "block", md: "block", base: "none" }} px=".8em">
+      <Box display={{ lg: "block", md: "none", base: "none" }} px=".8em">
         <CustomButton
           type="button"
           background="var(--true-purple)"
@@ -114,6 +113,23 @@ export const Sidebar = () => {
           width="100%"
         >
           upgrade
+        </CustomButton>
+      </Box>
+
+      <Box
+        display={{ lg: "none", md: "block", base: "none" }}
+        px={{ md: ".8em", base: ".3em" }}
+      >
+        <CustomButton
+          type="button"
+          background="var(--true-purple)"
+          hoverBg="var(--true-purple)"
+          height="40px"
+          fontSize={{ md: "18px" }}
+          fontWeight="500"
+          width="100%"
+        >
+          <Rocket size="40" />
         </CustomButton>
       </Box>
     </Flex>
