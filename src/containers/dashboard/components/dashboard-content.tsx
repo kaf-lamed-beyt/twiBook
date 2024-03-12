@@ -7,7 +7,11 @@ export const DashboardContent = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Box mt="5em" width="85%" px={{ lg: "1.6em", md: "1em", base: ".6em" }}>
+    <Box
+      mt="5em"
+      width={{ lg: "85%", md: "90%", base: "88%" }}
+      px={{ lg: "1.6em", md: "1em", base: ".6em" }}
+    >
       {children}
     </Box>
   );
