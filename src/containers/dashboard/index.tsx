@@ -36,7 +36,6 @@ import { SelectField } from "@components/select";
 import { BookType, Books, bookTypes, filterBooks, months } from "@utils/filter";
 import { MetaData } from "@components/metadata";
 import { useKeys } from "@hooks/rsa_keys";
-import axios from "axios";
 
 export const Dashboard = () => {
   const { booksThisMonth, twib } = useUser();
@@ -109,15 +108,8 @@ export const Dashboard = () => {
       const tweetId = extractTweetIdFromLink(link);
 
       if (tweetId) {
-        const tweetInstance = axios.create({
-          baseURL: "/api",
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        });
-
-        const response = await tweetInstance.get(`/tweet?tweetId=${tweetId}`);
-        const data = await response.data;
+        const response = await fetch(`/api/tweet?tweetId=${tweetId}`);
+        const data = await response.json();
 
         const { error } = await supabase.from("books").insert({
           id: twib?.id,
