@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@utils/supabase";
+import { supabase } from "@utils/supabase/client";
 import * as forge from "node-forge";
 
 const getKeysFromDB = async () => {

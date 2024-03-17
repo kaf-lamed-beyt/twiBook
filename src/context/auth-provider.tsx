@@ -1,7 +1,7 @@
 import { useToastContext } from "@hooks/toast";
 import { deleteCookie, hasCookie, setCookie, getCookie } from "cookies-next";
 import React from "react";
-import { supabase } from "@utils/supabase";
+import { supabase } from "@utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { authCookieOptions } from "@utils/misc";
 import * as forge from "node-forge";

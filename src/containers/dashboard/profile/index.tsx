@@ -17,7 +17,7 @@ import { CustomButton } from "@components/button";
 import { updateProfileSchema } from "@utils/validators/update-profile";
 import { Hint } from "@components/hint";
 import { useUser } from "@hooks/user";
-import { supabase } from "@utils/supabase";
+import { supabase } from "@utils/supabase/client";
 import { Quotas } from "@utils/misc";
 import { MetaData } from "@components/metadata";
 

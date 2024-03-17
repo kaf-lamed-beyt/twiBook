@@ -21,7 +21,7 @@ import { ModalLayout } from "@components/modal-layout";
 import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
-import { supabase } from "@utils/supabase";
+import { supabase } from "@utils/supabase/client";
 import { Quotas, dateFromNow, extractTweetIdFromLink } from "@utils/misc";
 import {
   createBookmarkSchema,

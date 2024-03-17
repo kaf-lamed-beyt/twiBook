@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@utils/supabase";
+import { supabase } from "@utils/supabase/client";
 import { useBooks } from "./books";
 import dayjs from "dayjs";
 
@@ -86,7 +86,7 @@ export const useUser = () => {
     twib: userData?.[0],
     refetchUser: refetch,
     freePreviews:
-      userData?.[0]?.has_license === false
+      userData?.[0]?.has_license !== false
         ? null
         : matchFreePreviewsThisMonth(),
     booksThisMonth: matchBookmarksThisMonth(),

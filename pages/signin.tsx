@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { CustomButton } from "../src/components/button";
 import React from "react";
-import { supabase } from "../src/utils/supabase";
+import { supabase } from "../src/utils/supabase/client";
 import { Formik, Form } from "formik";
 import { InputField } from "@components/input-field";
 import { signInSchema } from "@utils/validators/auth-schema";
