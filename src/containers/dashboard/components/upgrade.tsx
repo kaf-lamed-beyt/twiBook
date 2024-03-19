@@ -15,6 +15,7 @@ import { usePricing } from "@hooks/use-pricing";
 import { useUser } from "@hooks/user";
 import { BadgeCheck } from "lucide-react";
 import axios from "axios";
+import React from "react";
 
 interface UpgradeProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ interface UpgradeProps {
 
 export type TwibookPlans = {
   planId: string | undefined;
+  variantId: string | undefined;
   planName: string | undefined;
   planPrice: string | undefined;
 };
@@ -31,6 +33,7 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
   const { data: products } = usePricing();
   const { twib } = useUser();
   const { openToast } = useToastContext();
+  // const [loading, setLoading] = React.useState<boolean>(false)
 
   const plans = products?.filter(
     (product: TwibookPlans) => product?.planName !== "Free"
@@ -44,14 +47,18 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
   );
 
   const upgradePlan = async (id: string | undefined) => {
+    openToast("Processing...", "success");
     try {
       const response = await axios.post("/api/get-license", {
         productId: id,
+        userId: twib?.id,
       });
 
-      console.log(response?.data);
+      if (response?.statusText === "OK") {
+        window.open(response?.data?.attributes?.url, "_blank");
+      }
     } catch (error) {
-      openToast("", "error");
+      openToast("An error occured. Please try again", "error");
       console.error(error);
     }
   };
@@ -107,6 +114,8 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
                 type="button"
                 width="100%"
                 height="55px"
+                // @ts-ignore
+                cursor="not-allowed"
                 hoverBg="var(--matte-black)"
                 background="var(--matte-black)"
               >
@@ -130,10 +139,13 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
             borderTop="1px solid var(--matte-black)"
           >
             {monthlyPlans?.map(
-              ({ planId, planName, planPrice }: TwibookPlans) => {
+              (
+                { planId, variantId, planName, planPrice }: TwibookPlans,
+                index: React.Key | null | undefined
+              ) => {
                 return (
                   <Box
-                    key={planId}
+                    key={index}
                     px=".8em"
                     cursor="pointer"
                     background="var(--eerie-black)"
@@ -160,7 +172,7 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
                         height="55px"
                         hoverBg="var(--matte-black)"
                         background="var(--matte-black)"
-                        onClick={() => upgradePlan(planId)}
+                        onClick={() => upgradePlan(variantId)}
                       >
                         Upgrade
                       </CustomButton>

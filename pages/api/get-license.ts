@@ -15,13 +15,13 @@ export default async function licenseApiRout(
     const requestBody = JSON.stringify({
       data: {
         type: "checkouts",
-        // attributes: {
-        //   checkout_data: {
-        //     custom: {
-        //       user_id: sessionData?.user?.id.toString(),
-        //     },
-        //   },
-        // },
+        attributes: {
+          checkout_data: {
+            custom: {
+              user_id: requestData.userId.toString(),
+            },
+          },
+        },
         relationships: {
           store: {
             data: {
@@ -51,12 +51,16 @@ export default async function licenseApiRout(
 
 
     const response = await request.json();
-
-    if (response) {
+    const updateProfile = async () => {
       await supabase.from("account").update({
         has_license: true,
         license_type: "basic"
       })
+    }
+
+    if (response) {
+      console.log("update profile")
+     updateProfile() 
     }
 
     const checkoutUrl = response?.data;

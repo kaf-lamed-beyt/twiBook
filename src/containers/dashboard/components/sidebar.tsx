@@ -21,6 +21,24 @@ export const Sidebar = () => {
   const pathname = router.pathname;
   const { onOpen, isOpen, onClose } = useDisclosure();
 
+  const openBillingDrawer = () => {
+    onOpen()
+
+    router.replace({
+      pathname: router.pathname,
+      query: {
+        ...router.query, 
+        tab: "billing"
+      }
+    }, undefined, {shallow: true})
+  }
+
+  const closeBillingDrawer = () => {
+    onClose()
+
+    router.replace(router.pathname, undefined, {shallow: true})
+  }
+
   return (
     <>
       <Flex
@@ -124,7 +142,7 @@ export const Sidebar = () => {
             fontSize={{ md: "18px", lg: "20px" }}
             fontWeight="500"
             width="100%"
-            onClick={onOpen}
+            onClick={openBillingDrawer}
           >
             upgrade
           </CustomButton>
@@ -148,7 +166,7 @@ export const Sidebar = () => {
         </Box>
       </Flex>
 
-      <Upgrade isOpen={isOpen} onClose={onClose} />
+      <Upgrade isOpen={isOpen} onClose={closeBillingDrawer} />
     </>
   );
 };
