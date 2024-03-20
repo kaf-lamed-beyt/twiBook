@@ -3,12 +3,12 @@ import {
   type CookieOptions,
   serialize,
 } from "@supabase/ssr";
-import { type NextApiRequest, type NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export const createClient = (req: NextApiRequest, res: NextApiResponse) => {
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_PROJECT_URL!,
-    process.env.NEXT_PUBLIC_PROJECT_KEY!,
+    process.env.SERVICE_KEY!,
     {
       cookies: {
         get(name: string) {

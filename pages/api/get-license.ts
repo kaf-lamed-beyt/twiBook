@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createClient } from "@utils/supabase/server";
 
 export default async function licenseApiRout(
   req: NextApiRequest,
@@ -7,7 +6,6 @@ export default async function licenseApiRout(
 ) {
   try {
     const requestData = req.body;
-    const supabase = createClient(req, res);
 
     if (!requestData.productId)
       return res.status(400).json({ message: "Product id is required" });
@@ -49,20 +47,7 @@ export default async function licenseApiRout(
       body: requestBody,
     });
 
-
     const response = await request.json();
-    const updateProfile = async () => {
-      await supabase.from("account").update({
-        has_license: true,
-        license_type: "basic"
-      })
-    }
-
-    if (response) {
-      console.log("update profile")
-     updateProfile() 
-    }
-
     const checkoutUrl = response?.data;
 
     res.status(200).send(checkoutUrl);

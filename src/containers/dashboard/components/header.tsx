@@ -9,13 +9,17 @@ import {
   Text,
   MenuDivider,
 } from "@chakra-ui/react";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Rocket, User } from "lucide-react";
 import { useGreeting } from "@hooks/greeting";
 import { useAuthContext } from "@hooks/auth";
 import { authProviderFromSignIn } from "@utils/misc";
 import { useSession, useUser } from "@hooks/user";
 
-export const DashboardHeader = () => {
+interface HeaderProps {
+  openDrawer: () => void
+}
+
+export const DashboardHeader = ({openDrawer}: HeaderProps) => {
   const { twib } = useUser();
   const { session: data } = useSession();
   const message = useGreeting();
@@ -112,15 +116,28 @@ export const DashboardHeader = () => {
 
           <MenuItem
             px=".8em"
+            background="none"
+            onClick={openDrawer}
+            icon={<Rocket size="22" color="var(--alt-text)" />}
+          >
+            <Text my="auto" color="var(--alt-text)">
+              Upgrade
+            </Text>
+          </MenuItem>
+
+          <MenuItem
+            px=".8em"
             command="⌘X"
             background="none"
             onClick={() => logout()}
-            icon={<LogOut size="25" color="var(--alt-text)" />}
+            icon={<LogOut size="22" color="var(--alt-text)" />}
           >
             <Text my="auto" color="var(--alt-text)">
               Logout
             </Text>
           </MenuItem>
+
+
         </MenuList>
       </Menu>
     </Flex>

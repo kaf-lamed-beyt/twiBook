@@ -1,43 +1,21 @@
-import {
-  UnorderedList,
-  Text,
-  Box,
-  useDisclosure,
-  Flex,
-} from "@chakra-ui/react";
+import { UnorderedList, Text, Box, Flex } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
 import { LibraryBig, Rocket, User } from "lucide-react";
 import { Animated } from "@externals/index";
 import { useRouter } from "next/router";
-import { Upgrade } from "./upgrade";
 
 const SIDEBAR_NAV = [
   { name: "books", icon: <LibraryBig size="25" />, path: "/dashboard" },
   { name: "profile", icon: <User size="25" />, path: "/dashboard/account" },
 ];
 
-export const Sidebar = () => {
+interface SidebarProps {
+  openDrawer: () => void;
+}
+
+export const Sidebar = ({ openDrawer }: SidebarProps) => {
   const router = useRouter();
   const pathname = router.pathname;
-  const { onOpen, isOpen, onClose } = useDisclosure();
-
-  const openBillingDrawer = () => {
-    onOpen()
-
-    router.replace({
-      pathname: router.pathname,
-      query: {
-        ...router.query, 
-        tab: "billing"
-      }
-    }, undefined, {shallow: true})
-  }
-
-  const closeBillingDrawer = () => {
-    onClose()
-
-    router.replace(router.pathname, undefined, {shallow: true})
-  }
 
   return (
     <>
@@ -133,7 +111,11 @@ export const Sidebar = () => {
           </Box>
         </Box>
 
-        <Box display={{ lg: "block", md: "none", base: "none" }} cursor="pointer" px=".8em">
+        <Box
+          display={{ lg: "block", md: "none", base: "none" }}
+          cursor="pointer"
+          px=".8em"
+        >
           <CustomButton
             type="button"
             background="var(--true-purple)"
@@ -142,7 +124,7 @@ export const Sidebar = () => {
             fontSize={{ md: "18px", lg: "20px" }}
             fontWeight="500"
             width="100%"
-            onClick={openBillingDrawer}
+            onClick={openDrawer}
           >
             upgrade
           </CustomButton>
@@ -165,8 +147,6 @@ export const Sidebar = () => {
           </CustomButton>
         </Box>
       </Flex>
-
-      <Upgrade isOpen={isOpen} onClose={closeBillingDrawer} />
     </>
   );
 };

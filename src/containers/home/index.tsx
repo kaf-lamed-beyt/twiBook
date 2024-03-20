@@ -49,7 +49,7 @@ function App() {
           textAlign="center"
           fontSize={{ base: "42px", md: "45px", lg: "100px" }}
           fontWeight="900"
-          lineHeight={{ base: "42px" }}
+          lineHeight={{ base: "42px", lg: "68px" }}
         >
           Twitter
           <Box as="span" mx=".2em" py=".1em" color="var(--true-purple)">

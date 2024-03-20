@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import crypto from "crypto";
 import { buffer } from "micro";
-import { supabase } from "@utils/supabase/client";
+import { createClient } from "@supabase/supabase-js";
 
 export type Events =
   | "order_created"
-  | "subscription_created"
   | "order_refunded"
+  | "subscription_created"
   | "subscription_cancelled";
 
 export const config = {
@@ -20,9 +20,12 @@ export default async function lemonWebhookRoute(
   res: NextApiResponse
 ) {
   try {
-    // Extract body from the request
-    const body = req.body;
-    const eventType = req.headers["X-Event-Name"];
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_PROJECT_URL!,
+      process.env.NEXT_PUBLIC_SERVICE_KEY!
+    );
+
+    const eventType = req.headers["x-event-name"];
 
     // check signature
     const rawBody = (await buffer(req)).toString("utf-8");
@@ -42,17 +45,92 @@ export default async function lemonWebhookRoute(
 
     const parsedBody = JSON.parse(rawBody);
     const isPaymentSuccessful = parsedBody.data.attributes.status === "paid";
+    const userId = parsedBody.meta.custom_data.user_id;
 
-    if (eventType === "order_created") {
-      console.log("yes")
-      const price = parsedBody.data.attributes.subtotal_formatted;
+    if (eventType === "order_created" && isPaymentSuccessful) {
       const licenseType =
-        parsedBody.data.attributes.first_order_item.product_name;
+        parsedBody.data.attributes.first_order_item.product_name.toLowerCase();
+      const currency = parsedBody.data.attributes.currency;
 
-      await supabase.from("account").update({
-        has_license: true,
-        license_type: licenseType,
-      });
+      try {
+        const updateAccount = async () => {
+          const { error } = await supabase
+            .from("account")
+            .update({
+              has_license: true,
+              license_type: licenseType,
+              currency: currency,
+            })
+            .eq("id", userId);
+
+          if (error) {
+            res.json({ message: error });
+            console.error(error);
+          }
+        };
+
+        updateAccount();
+      } catch (error) {
+        res.json({ message: error });
+        console.error(error);
+      }
+    } else if (eventType === "subscription_created") {
+      const renewsAt = parsedBody.data.attributes.renews_at;
+      const cardBrand = parsedBody.data.attributes.card_brand;
+      const subscriptionDate = parsedBody.data.attributes.created_at;
+
+      try {
+        const updateAccount = async () => {
+          const { error } = await supabase
+            .from("account")
+            .update({
+              order_created_at: subscriptionDate,
+              license_expires_at: renewsAt,
+              card_brand: cardBrand,
+            })
+            .eq("id", userId);
+
+          if (error) {
+            res.json({ message: error });
+            console.error(error);
+          }
+        };
+
+        updateAccount();
+      } catch (error) {
+        res.json({ message: error });
+        console.error(error);
+      }
+    } else if (eventType === "subscription_cancelled") {
+      try {
+        const updateAccount = async () => {
+          const { error } = await supabase
+            .from("account")
+            .update({
+              order_created_at: null,
+              sub_cancelled_date: new Date().toISOString(),
+              license_expires_at: null,
+              card_brand: null,
+              has_license: false,
+              license_type: "free",
+            })
+            .eq("id", userId);
+
+          if (error) {
+            res.json({ message: error });
+            console.error(error);
+          }
+        };
+
+        updateAccount();
+      } catch (error) {
+        res.json({ message: error });
+        console.error(error);
+      }
+    } else {
+      return res
+        .status(400)
+        .json({ message: `Unknown event type: ${eventType}` });
     }
 
     res.json({ message: "Webhook received!" });
