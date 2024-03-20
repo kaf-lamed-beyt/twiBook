@@ -33,7 +33,6 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
   const { data: products } = usePricing();
   const { twib } = useUser();
   const { openToast } = useToastContext();
-  // const [loading, setLoading] = React.useState<boolean>(false)
 
   const plans = products?.filter(
     (product: TwibookPlans) => product?.planName !== "Free"
@@ -101,9 +100,9 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
               {twib?.license_type}
             </Text>
             <Text fontSize="28px">
-              $0
+              {twib?.license_price === null ? "$0" : twib?.license_price}
               <Box color="var(--alt-text)" as="span" fontSize="16px">
-                /month
+                {twib?.license_price === "$3.99" || "$8.99" ? "/month" : "/year"}
               </Box>
             </Text>
 

@@ -51,6 +51,7 @@ export default async function lemonWebhookRoute(
       const licenseType =
         parsedBody.data.attributes.first_order_item.product_name.toLowerCase();
       const currency = parsedBody.data.attributes.currency;
+      const price = parsedBody.data.attributes.total_formatted;
 
       try {
         const updateAccount = async () => {
@@ -60,6 +61,7 @@ export default async function lemonWebhookRoute(
               has_license: true,
               license_type: licenseType,
               currency: currency,
+              amount_paid: price,
             })
             .eq("id", userId);
 
@@ -101,7 +103,7 @@ export default async function lemonWebhookRoute(
         res.json({ message: error });
         console.error(error);
       }
-    } else if (eventType === "subscription_cancelled") {
+    } else if (eventType === "subscription_cancelled" || eventType === "subscription_expired") {
       try {
         const updateAccount = async () => {
           const { error } = await supabase
@@ -113,6 +115,7 @@ export default async function lemonWebhookRoute(
               card_brand: null,
               has_license: false,
               license_type: "free",
+              amount_paid: null,
             })
             .eq("id", userId);
 

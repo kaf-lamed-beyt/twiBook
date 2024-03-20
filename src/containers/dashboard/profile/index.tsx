@@ -226,9 +226,9 @@ export const Profile = () => {
                       twib?.has_license === false ||
                       twib?.license_type === "free"
                         ? "var(--warn)"
-                        : twib?.has_license === true
-                        ? "var(--success)"
-                        : "var(--warn)"
+                        : twib?.has_license === true && twib?.license_type === "pro"
+                        ? "var(--true-purple)"
+                        : "var(--success)"
                     }
                     background={
                       twib?.has_license === false ||
@@ -239,7 +239,7 @@ export const Profile = () => {
                         ? "var(--success-400)"
                         : twib?.has_license === true &&
                           twib?.license_type === "pro"
-                        ? "var(--true-pruple-600)"
+                        ? "var(--true-purple-600)"
                         : "var(--warn-400)"
                     }
                   >

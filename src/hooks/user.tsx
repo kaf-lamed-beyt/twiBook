@@ -41,6 +41,7 @@ export const useUser = () => {
     // refetchOnWindowFocus: false,
   });
 
+
   const userData = data?.map((user) => {
     return {
       id: user.id,
@@ -52,6 +53,10 @@ export const useUser = () => {
       has_license: user.has_license,
       license_type: user.license_type,
       books: books,
+      license_expires_at: user.license_expires_at,
+      license_price: user.amount_paid,
+      license_purchase_date: user.order_created_at,
+      sub_cancelled_date: user.sub_cancelled_date,
     };
   });
 
