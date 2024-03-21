@@ -9,8 +9,8 @@ export default async function twitterUserApiRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const user = req.query.user;
-  const response = await retweetInstance.user.details(user);
+  const { user } = req.query;
+  const response = await retweetInstance.user.details(user as string);
 
   res.status(200).json(response);
 }
