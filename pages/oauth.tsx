@@ -26,6 +26,7 @@ export default function Oauth() {
           const user = await exchange(accessToken);
 
           authenticator(true, user);
+          router.prefetch("/dashboard")
           router.push("/dashboard");
           openToast("Logged in successfully!", "success");
         } else {

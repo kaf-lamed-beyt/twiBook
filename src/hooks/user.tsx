@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@utils/supabase";
+import { supabase } from "@utils/supabase/client";
 import { useBooks } from "./books";
 import dayjs from "dayjs";
 
@@ -41,6 +41,7 @@ export const useUser = () => {
     // refetchOnWindowFocus: false,
   });
 
+
   const userData = data?.map((user) => {
     return {
       id: user.id,
@@ -52,6 +53,10 @@ export const useUser = () => {
       has_license: user.has_license,
       license_type: user.license_type,
       books: books,
+      license_expires_at: user.license_expires_at,
+      license_price: user.amount_paid,
+      license_purchase_date: user.order_created_at,
+      sub_cancelled_date: user.sub_cancelled_date,
     };
   });
 
@@ -86,7 +91,7 @@ export const useUser = () => {
     twib: userData?.[0],
     refetchUser: refetch,
     freePreviews:
-      userData?.[0]?.has_license === false
+      userData?.[0]?.has_license !== false
         ? null
         : matchFreePreviewsThisMonth(),
     booksThisMonth: matchBookmarksThisMonth(),

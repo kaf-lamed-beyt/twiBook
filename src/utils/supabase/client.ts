@@ -1,12 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 import { deleteCookie, setCookie } from "cookies-next";
-import { authCookieOptions } from "./misc";
+import { authCookieOptions } from "../misc";
 
 const key = process.env.NEXT_PUBLIC_PROJECT_KEY;
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_PROJECT_URL as string,
   key as string
 );
+
+
 
 supabase.auth.onAuthStateChange((event, session) => {
   if (session && session.provider_token) {

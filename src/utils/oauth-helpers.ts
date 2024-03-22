@@ -1,5 +1,5 @@
 import { Provider } from "@supabase/supabase-js";
-import { supabase } from "./supabase";
+import { supabase } from "./supabase/client";
 import { setCookie } from "cookies-next";
 import { AuthContextValues } from "@context/auth-provider";
 import { ToastContextValues } from "@context/toast-provider";

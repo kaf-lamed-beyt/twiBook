@@ -10,7 +10,7 @@ export const FAQS = [
     id: crypto.randomUUID(),
     question: "How does it work?",
     answers: [
-      "Find a tweet you from your TL (Timeline or whatever it called these days, lol)",
+      "Find a tweet you from your TL (Timeline or whatever it called these days)",
       "Copy the tweet's link, give it a title you want to remember it by, and hit the 'Create bookmark' button.",
     ],
   },
@@ -30,9 +30,9 @@ export const FAQS = [
   },
   {
     id: crypto.randomUUID(),
-    question: "I can only create 10 bookmarks?",
+    question: "I can only create 15 bookmarks?",
     answers: [
-      "Yes. On the free plan, you are entitled to only 10 bookmarks in a month. To increase your quota, consider upgrading to the basic Plan",
+      "Yes. On the free plan, you are entitled to only 15 bookmarks in a month. To increase your quota, consider upgrading to the basic Plan",
     ],
   },
   {
@@ -114,3 +114,16 @@ export const PLANS = [
   //   ],
   // },
 ];
+
+export const YEARLY_PLAN = [
+  {
+    id: crypto.randomUUID(),
+    name: "Basic",
+    price: "$47.88",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Pro",
+    price: "$107.88",
+  },
+]
