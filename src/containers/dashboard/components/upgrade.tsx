@@ -53,8 +53,10 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
         userId: twib?.id,
       });
 
-      if (response?.statusText === "OK") {
-        window.open(response?.data?.attributes?.url, "_blank");
+      if (response) {
+        if (typeof window !== "undefined") {
+          window.open(response?.data?.attributes?.url, "_blank");
+        }
       }
     } catch (error) {
       openToast("An error occured. Please try again", "error");
@@ -102,7 +104,9 @@ export const Upgrade = ({ isOpen, onClose }: UpgradeProps) => {
             <Text fontSize="28px">
               {twib?.license_price === null ? "$0" : twib?.license_price}
               <Box color="var(--alt-text)" as="span" fontSize="16px">
-                {twib?.license_price === "$3.99" || "$8.99" ? "/month" : "/year"}
+                {twib?.license_price === "$3.99" || "$8.99"
+                  ? "/month"
+                  : "/year"}
               </Box>
             </Text>
 
