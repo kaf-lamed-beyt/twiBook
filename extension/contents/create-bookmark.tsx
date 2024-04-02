@@ -11,58 +11,55 @@ import {
   useDisclosure
 } from "@chakra-ui/react"
 import { Form, Formik } from "formik"
-import type { PlasmoCSConfig, PlasmoGetInlineAnchor, PlasmoGetInlineAnchorList } from "plasmo"
+import type { PlasmoCSConfig, PlasmoGetInlineAnchorList } from "plasmo"
 import React from "react"
 
-import { CustomButton } from "~components/button"
-import { InputField } from "~components/input-field"
+import { CustomButton } from "~src/components/button"
+import { InputField } from "~src/components/input-field"
 import { ToastProvider } from "~context/toast-provider"
 import { supabase } from "~core/supabase"
 import { useToastContext } from "~hooks/toast"
+import { getKeysFromDB, protector } from "~utils/protector"
 
-// import { useKeys } from "../../src/hooks/rsa_keys"
-// import {  } from "../../src/hooks/toast"
-// import { useUser } from "../../src/hooks/user"
 import { extractTweetIdFromLink } from "../../src/utils/misc"
 // import { protector } from "../../src/utils/protector"
 import { createBookmarkSchema_LICENSED } from "../../src/utils/validators/create-bookmark-schema"
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*"],
-  all_frames: true
+  all_frames: true,
 }
-
-console.log("should only show on twitter")
 
 export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () => {
   const anchors = document.querySelectorAll('[data-testid="bookmark"]')
 
-  return Array.from(anchors).map((element) => ({
-    element,
-    insertPosition: "afterend"
-  }))
+  return Array.from(anchors).map((element) => {
+    return {
+      element,
+      insertPosition: "beforebegin"
+    }
+  })
 }
-
-export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
-  const anchor = document.querySelector('.tweet-link')
-
-  console.log("anchor", anchor)
-
-  return anchor
-}
-
 
 const CreateBookmark = () => {
-  //   const { publicKey } = useKeys()
-
   const { openToast } = useToastContext()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [tweetLink, setTweetLink] = React.useState<string>("")
+
 
   const openModal = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
     event.stopPropagation()
+    event.preventDefault()
 
     onOpen()
+
+    // const closestElem = event.currentTarget.closest('[data-testid="bookmark"]')
+
+    // console.log("na d closest element be dis", closestElem)
+
+    // const url = event.currentTarget.closest('[data-testid="bookmark"]').getAttribute("data-tweet-link")
+
+    // setTweetLink(url)
   }
 
   const createDetailedBookmark = React.useCallback(
@@ -83,16 +80,18 @@ const CreateBookmark = () => {
         user.license_type === "pro"
       ) {
         const response = await fetch(
-          `https://twibook.app/api/tweet?tweetId=${tweetId}`
+          `/api/tweet?tweetId=${tweetId}`
         )
         const data = await response.json()
+
+        const { publicKey } = await getKeysFromDB()
 
         const { error } = await supabase.from("books").insert({
           id: userId,
           title: title,
           book_type: "detailed",
           book_id: crypto.randomUUID(),
-          book_link: link,
+          book_link: protector(link, publicKey),
           book_created_at: new Date().toISOString(),
           content: JSON.stringify(data)
         })
@@ -118,6 +117,7 @@ const CreateBookmark = () => {
     <ChakraProvider>
       <Button
         type="button"
+        id="twibook__button"
         // @ts-ignore
         onClick={openModal}
         style={{
@@ -153,7 +153,10 @@ const CreateBookmark = () => {
           <ModalCloseButton border="1px solid #28282b" color="#a09d9d" />
           <ModalBody px=".8em" py=".8em">
             <Formik
-              initialValues={{ bookmarkTitle: "", bookmarkLink: "" }}
+              initialValues={{
+                bookmarkTitle: "Untitled bookmark",
+                bookmarkLink: `https://twitter.com${tweetLink}`
+              }}
               validationSchema={createBookmarkSchema_LICENSED}
               onSubmit={async (values, { setSubmitting }) => {
                 await createDetailedBookmark(

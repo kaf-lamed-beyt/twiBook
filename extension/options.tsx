@@ -1,11 +1,8 @@
 import type { Provider, User } from "@supabase/supabase-js"
-import { useState } from "react"
 import { sendToBackground } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 import { supabase } from "~core/supabase"
-
-
 import React from "react"
 
 function IndexOptions() {
@@ -15,9 +12,6 @@ function IndexOptions() {
       area: "local"
     })
   })
-
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
 
   React.useEffect(() => {
     async function init() {
@@ -109,3 +103,5 @@ function IndexOptions() {
 }
 
 export default IndexOptions
+
+
