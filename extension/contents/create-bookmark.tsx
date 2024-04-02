@@ -10,28 +10,41 @@ import {
   ModalOverlay,
   useDisclosure
 } from "@chakra-ui/react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { supabase } from "core/supabase"
 import { Form, Formik } from "formik"
 import type { PlasmoCSConfig, PlasmoGetInlineAnchorList } from "plasmo"
 import React from "react"
 
-import { CustomButton } from "~src/components/button"
-import { InputField } from "~src/components/input-field"
+import { CustomButton } from "~components/button"
+import { InputField } from "~components/input-field"
 import { ToastProvider } from "~context/toast-provider"
-import { supabase } from "~core/supabase"
 import { useToastContext } from "~hooks/toast"
-import { getKeysFromDB, protector } from "~utils/protector"
 
-import { extractTweetIdFromLink } from "../../src/utils/misc"
-// import { protector } from "../../src/utils/protector"
+import "../../src/utils/misc"
+
+import { useKeys } from "~hooks/rsa_keys"
+import { protector } from "~utils/protector"
+
 import { createBookmarkSchema_LICENSED } from "../../src/utils/validators/create-bookmark-schema"
 
 export const config: PlasmoCSConfig = {
   matches: ["https://twitter.com/*"],
-  all_frames: true,
+  all_frames: true
 }
+
+const queryClient = new QueryClient()
 
 export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () => {
   const anchors = document.querySelectorAll('[data-testid="bookmark"]')
+  const tweetContainers = document.querySelectorAll('[data-testid="tweet"]')
+
+  tweetContainers.forEach((element) => {
+    const tweetLinkElem = element.querySelector('a[href*="/status/"]')
+    const tweetLink = tweetLinkElem ? tweetLinkElem.getAttribute("href") : null
+
+    element.setAttribute("data-tweet-link", tweetLink)
+  })
 
   return Array.from(anchors).map((element) => {
     return {
@@ -43,9 +56,9 @@ export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () => {
 
 const CreateBookmark = () => {
   const { openToast } = useToastContext()
+  const { publicKey } = useKeys()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [tweetLink, setTweetLink] = React.useState<string>("")
-
 
   const openModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation()
@@ -64,8 +77,6 @@ const CreateBookmark = () => {
 
   const createDetailedBookmark = React.useCallback(
     async (title: string, link: string) => {
-      const tweetId = extractTweetIdFromLink(link)
-
       const { data: session } = await supabase.auth.getSession()
       const userId = session.session.user.id
 
@@ -75,25 +86,17 @@ const CreateBookmark = () => {
         .eq("id", userId)
         .single()
 
-      if (
-        (tweetId && user.has_license === true) ||
-        user.license_type === "pro"
-      ) {
-        const response = await fetch(
-          `/api/tweet?tweetId=${tweetId}`
-        )
-        const data = await response.json()
-
-        const { publicKey } = await getKeysFromDB()
+      if (user.has_license === true || user.license_type === "pro") {
+        if (!publicKey) return
 
         const { error } = await supabase.from("books").insert({
           id: userId,
           title: title,
           book_type: "detailed",
           book_id: crypto.randomUUID(),
-          book_link: protector(link, publicKey),
+          book_link: await protector(link, publicKey),
           book_created_at: new Date().toISOString(),
-          content: JSON.stringify(data)
+          platform: await protector("ext", publicKey)
         })
 
         if (!error) {
@@ -110,7 +113,7 @@ const CreateBookmark = () => {
         openToast(`Upgrade your account to use our extension"`, "error")
       }
     },
-    [onClose, openToast]
+    [onClose, openToast, publicKey]
   )
 
   return (
@@ -210,9 +213,11 @@ const CreateBookmark = () => {
 
 const BookmarkUI = () => {
   return (
-    <ToastProvider>
-      <CreateBookmark />
-    </ToastProvider>
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>
+        <CreateBookmark />
+      </ToastProvider>
+    </QueryClientProvider>
   )
 }
 

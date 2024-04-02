@@ -64,7 +64,8 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
           </Box>
         ),
         duration: 3000,
-        isClosable: true
+        isClosable: true,
+        position: "top"
       })
     }
   }

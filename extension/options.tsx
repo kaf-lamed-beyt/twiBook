@@ -2,7 +2,7 @@ import type { Provider, User } from "@supabase/supabase-js"
 import { sendToBackground } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
-import { supabase } from "~core/supabase"
+import { supabase } from "core/supabase"
 import React from "react"
 
 function IndexOptions() {

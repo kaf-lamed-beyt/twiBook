@@ -1,5 +1,5 @@
 import * as forge from "node-forge"
-import { supabase } from "~core/supabase"
+import { supabase } from "core/supabase"
 
 export const protector = async (
   text: string,
