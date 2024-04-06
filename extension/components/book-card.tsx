@@ -1,6 +1,6 @@
 import { Badge, Box, HStack, Link, Text, useDisclosure } from "@chakra-ui/react"
-import { CustomButton } from "@components/button"
-import { ModalLayout } from "@components/modal-layout"
+import { CustomButton } from "~components/button"
+import { ModalLayout } from "~components/modal-layout"
 import { ExternalLink, Flame, Globe2, ShieldAlert, Trash2 } from "lucide-react"
 
 export interface BookmarkCardProps {
@@ -65,7 +65,7 @@ export const BookmarkCard = ({
         background="var(--eerie-black)"
         border="1px solid var(--matte-black)"
         height="fit-content"
-        width={{ lg: "380px", md: "48%", xl: "24.1%", base: "100%" }}
+        width="100%"
         borderRadius="8px"
         py=".8em"
         px=".6em"
@@ -75,7 +75,7 @@ export const BookmarkCard = ({
           transition: "all .3s ease-in"
         }}>
         <HStack justifyContent="space-between">
-          <Text color="var(--alt-text)" fontSize="14px">
+          <Text color="#a09d9d" fontSize="14px">
             Added {createdAt}
           </Text>
           <Badge
@@ -111,13 +111,13 @@ export const BookmarkCard = ({
         </HStack>
 
         <HStack justifyContent="space-between" mt="1.2em">
-          <Text py=".2em" flex="1">
+          <Text py=".2em" flex="1" color="#a09d9d">
             {truncated}
           </Text>
           <Link href={bookLink} isExternal>
-            <ExternalLink size="20" color="var(--alt-text)" />
+            <ExternalLink size="20" color="#a09d9d" />
           </Link>
-          <Trash2 size="20" color="var(--alt-text)" onClick={onOpen} />
+          <Trash2 size="20" color="#a09d9d" onClick={onOpen} />
         </HStack>
       </Box>
 
@@ -127,7 +127,7 @@ export const BookmarkCard = ({
         onClose={onClose}
         title={`Delete bookmark?`}>
         <Box>
-          <Text color="var(--alt-text)">
+          <Text color="#a09d9d">
             Are you sure you want to delete{" "}
             <Text as="span" color="#fff" fontWeight="bold">
               {title}
@@ -135,7 +135,7 @@ export const BookmarkCard = ({
             ?
           </Text>
 
-          <Text py="1em" color="var(--alt-text)">
+          <Text py="1em" color="#a09d9d">
             Please be careful. This action is irreversible!
           </Text>
 

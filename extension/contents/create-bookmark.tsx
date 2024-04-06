@@ -22,6 +22,7 @@ import { ToastProvider } from "~context/toast-provider"
 import { useToastContext } from "~hooks/toast"
 
 import "../../src/utils/misc"
+import "react-dom/client"
 
 import { useKeys } from "~hooks/rsa_keys"
 import { protector } from "~utils/protector"
@@ -37,16 +38,34 @@ const queryClient = new QueryClient()
 
 export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () => {
   const anchors = document.querySelectorAll('[data-testid="bookmark"]')
-  const tweetContainers = document.querySelectorAll('[data-testid="tweet"]')
-
-  tweetContainers.forEach((element) => {
-    const tweetLinkElem = element.querySelector('a[href*="/status/"]')
-    const tweetLink = tweetLinkElem ? tweetLinkElem.getAttribute("href") : null
-
-    element.setAttribute("data-tweet-link", tweetLink)
-  })
 
   return Array.from(anchors).map((element) => {
+    const tweetContainer = element.closest('[data-testid="tweet"]')
+    const closest = element.parentElement.querySelector("plasmo-csui")
+
+    const tweetLink = tweetContainer
+      .querySelector('a[href*="/status/"]')
+      .getAttribute("href")
+
+    if (closest) {
+      // Wait for the shadow root to become available
+      if (closest.shadowRoot) {
+        // Access the shadow root
+        const shadowRoot = closest.shadowRoot
+        const content = shadowRoot.querySelector("#plasmo-inline")
+
+        if (content) {
+          content.querySelector("button").setAttribute("dtl", tweetLink)
+        } else {
+          console.error("Content within shadow root not found")
+        }
+      } else {
+        console.error("Shadow root not found")
+      }
+    } else {
+      console.error("plasmo-csui element not found")
+    }
+
     return {
       element,
       insertPosition: "beforebegin"
@@ -64,15 +83,10 @@ const CreateBookmark = () => {
     event.stopPropagation()
     event.preventDefault()
 
+    const link = event.currentTarget.getAttribute("dtl")
+    setTweetLink(link || "") // Set to empty string if attribute is not found
+
     onOpen()
-
-    // const closestElem = event.currentTarget.closest('[data-testid="bookmark"]')
-
-    // console.log("na d closest element be dis", closestElem)
-
-    // const url = event.currentTarget.closest('[data-testid="bookmark"]').getAttribute("data-tweet-link")
-
-    // setTweetLink(url)
   }
 
   const createDetailedBookmark = React.useCallback(
@@ -121,12 +135,11 @@ const CreateBookmark = () => {
       <Button
         type="button"
         id="twibook__button"
-        // @ts-ignore
-        onClick={openModal}
+        onClick={(e) => openModal(e)}
         style={{
           background: "#8e3dff",
           height: "30px",
-          width: "100%",
+          width: "fit-content",
           border: "none",
           color: "#fff",
           fontSize: "14px",
