@@ -12,6 +12,7 @@ import {
   Center,
   Stack,
   HStack,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { DashboardLayout } from "./components/layout";
 import { BookmarkCard } from "./components/bookmark-card";
@@ -298,7 +299,7 @@ export const Dashboard = () => {
                 <Spinner mt="2.5em" color="var(--matte-black)" />
               </Center>
             ) : (
-              <Flex gap="1em" flexWrap="wrap" my="2em">
+              <SimpleGrid columns={{xl: 4, lg: 3, md: 2, base: 1}} gap="1em" flexWrap="wrap" my="2em">
                 {filteredBooks?.map(
                   (
                     { book_id, book_type, title, book_created_at, content },
@@ -323,7 +324,7 @@ export const Dashboard = () => {
                     );
                   }
                 )}
-              </Flex>
+              </SimpleGrid>
             )}
 
             <Flex
