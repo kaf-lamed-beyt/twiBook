@@ -130,7 +130,7 @@ export const BookmarkCard = ({
                 <Flame size="14" color="var(--success)" />
               ) : type === "external" ? (
                 <Globe2 size="14" color="var(--external)" />
-              ) : type === "ext" ? (
+              ) : type === "direct" ? (
                 <Puzzle size="14" color="var(--true-purple)" />
               ) : (
                 <ShieldAlert size="14" color="var(--warn)" />
