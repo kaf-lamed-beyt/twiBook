@@ -1,7 +1,8 @@
-import { Box, Text, Tooltip, Center, Flex } from "@chakra-ui/react";
+import { Box, Text, Tooltip, Center, Flex, Link } from "@chakra-ui/react";
 import { Library, LibraryBig } from "lucide-react";
 import { CustomButton } from "@components/button";
 import { Hint } from "@components/hint";
+
 
 export type NoBookmarksProps = {
   openModal: () => void;
@@ -28,32 +29,29 @@ export const NoBookmarks = ({ openModal }: NoBookmarksProps) => {
           fontSize={{ lg: "22px", md: "18px", base: "16px" }}
         >
           Use our{" "}
-          {/* <Link
+          <Link
             isExternal
-            href=""
+            href="https://chromewebstore.google.com/detail/twibook/aldmohfochmepihfkhngifhopkmckpgo"
             target="_blank"
             color="#fff"
             textDecoration="underline"
-          > */}
-          <Text as="span" color="#fff" textDecoration="underline">
-            chrome extension
-          </Text>{" "}
-          to create a{" "}
-          <Box as="span" _hover={{ cursor: "pointer" }}>
+          >
+            <Box as="span" _hover={{ cursor: "pointer" }}>
             <Tooltip
               placement="top"
               border="1px solid var(--matte-black)"
               background="var(--eerie-black)"
               borderRadius="6px"
               color="var(--alt-text)"
-              label="includes tweet content such as: tweet author, date etc."
+              label="This is only available on the paid plans"
             >
               <Box as="span">
-                detailed <Hint />
+                Chrome Extension <Hint />
               </Box>
             </Tooltip>
-          </Box>{" "}
-          bookmark or use the button below to create a{" "}
+          </Box>
+          </Link>
+          to create bookmarks without leaving Twitte or use the button below to create a{" "}
           <Box as="span" _hover={{ cursor: "pointer" }}>
             <Tooltip
               placement="right"

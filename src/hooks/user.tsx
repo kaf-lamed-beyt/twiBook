@@ -60,9 +60,6 @@ export const useUser = () => {
     };
   });
 
-  // check for book marks remaining this month
-  // first step... find bookmarks created this month.
-
   const month = new Date().getMonth();
 
   const matchBookmarksThisMonth = () => {

@@ -80,6 +80,7 @@ export const PLANS = [
     benefits: [
       "Tweet Previews",
       "Simple bookmarks",
+      "Chrome extension",
       "Filter by month",
       "Up to 50 bookmarks per month",
       "Bookmarks not limited to Twitter",
@@ -92,11 +93,9 @@ export const PLANS = [
     benefits: [
       "Tweet previews",
       "Simple bookmarks",
-      // "Filter by month",
-      // "Filter by bookmark type",
+      "Chrome extension",
       "All filters included",
       "Up to 150 bookmarks per month",
-      "Chrome extension (coming soon)",
       "Bookmarks not limited to Twitter",
     ],
   },
@@ -126,4 +125,4 @@ export const YEARLY_PLAN = [
     name: "Pro",
     price: "$107.88",
   },
-]
+];
