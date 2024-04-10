@@ -112,7 +112,7 @@ export const BookmarkCard = ({
                 ? "var(--success)"
                 : type === "external"
                   ? "var(--external)"
-                  : type === "ext"
+                  : type === "direct"
                     ? "var(--true-purple)"
                     : "var(--warn)"
             }
@@ -121,7 +121,7 @@ export const BookmarkCard = ({
                 ? "var(--success-400)"
                 : type === "external"
                   ? "var(--external-400)"
-                  : type === "ext"
+                  : type === "direct"
                     ? "var(--true-purple-400)"
                     : "var(--warn-400)"
             }>
