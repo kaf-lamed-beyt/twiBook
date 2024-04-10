@@ -439,6 +439,11 @@ export const Dashboard = () => {
                       values.bookmarkTitle,
                       values.bookmarkLink
                     )
+                  : twib.license_type === "pro" || twib.license_type === "basic"
+                  ? await createDetailedBookmark(
+                      values.bookmarkTitle,
+                      values.bookmarkLink
+                    )
                   : await createSimpleBookmark(
                       values.bookmarkTitle,
                       values.bookmarkLink

@@ -42,6 +42,19 @@ export default function SignIn() {
   const { openToast } = useToastContext();
   const { authenticator } = useAuthContext();
 
+  React.useEffect(() => {
+    const getUserSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (!error && data.session) {
+        openToast("You're logged in already", "success");
+        router.push("/dashboard");
+      }
+    };
+
+    getUserSession();
+  }, []);
+
   const onPinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -72,16 +85,6 @@ export default function SignIn() {
       setOtpScreen(true);
     }
   };
-
-  // const onRequestInvite = async (email: string) => {
-  //   const { error } = await supabase.auth.admin.inviteUserByEmail(email);
-
-  //   if (!error) {
-  //     openToast("An invite has been sent to you.", "success");
-  //   } else {
-  //     openToast(error.message, "error");
-  //   }
-  // };
 
   const OAuthSignIn = async (provider: Provider) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
