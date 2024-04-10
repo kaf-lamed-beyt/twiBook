@@ -1,6 +1,6 @@
-import { UnorderedList, Text, Box, Flex } from "@chakra-ui/react";
+import { UnorderedList, Text, Box, Flex, Link } from "@chakra-ui/react";
 import { CustomButton } from "@components/button";
-import { LibraryBig, Rocket, User } from "lucide-react";
+import { LibraryBig, Puzzle, Rocket, User } from "lucide-react";
 import { Animated } from "@externals/index";
 import { useRouter } from "next/router";
 
@@ -107,6 +107,45 @@ export const Sidebar = ({ openDrawer }: SidebarProps) => {
                   </Animated.ListItem>
                 );
               })}
+              <Link
+                isExternal
+                _hover={{
+                  textDecoration: "none",
+                }}
+                href="https://chromewebstore.google.com/detail/twibook/aldmohfochmepihfkhngifhopkmckpgo"
+              >
+                <Animated.ListItem
+                  py=".6em"
+                  listStyleType="none"
+                  marginLeft={{ md: "-28px", lg: "0px", base: "3px" }}
+                >
+                  <Flex
+                    py=".6em"
+                    gap=".4em"
+                    ml={{ base: "-2.4em", md: "-2.8em", lg: "-.8em" }}
+                    pl={{ lg: ".6em", md: ".7em", base: ".5em" }}
+                    width={{ base: "40px", lg: "100%", md: "43px" }}
+                    mx={{ md: "auto" }}
+                    borderRadius="6px"
+                    color="var(--alt-text)"
+                    _hover={{
+                      cursor: "pointer",
+                      color: "#fff",
+                      background: "var(--matte-black)",
+                    }}
+                    transition="all .3s ease-in"
+                  >
+                    <Puzzle size="25" />
+                    <Text
+                      my="auto"
+                      textTransform="capitalize"
+                      display={{ lg: "block", md: "none", base: "none" }}
+                    >
+                      extension
+                    </Text>
+                  </Flex>
+                </Animated.ListItem>
+              </Link>
             </UnorderedList>
           </Box>
         </Box>

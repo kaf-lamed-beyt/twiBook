@@ -282,6 +282,7 @@ export const Dashboard = () => {
               </HStack>
             </Stack>
 
+
             {searchError !== "" ? (
               <Text color="var(--alt-text)" textAlign="center" py="1em">
                 {searchError}
