@@ -25,6 +25,7 @@ import {
   ShieldAlert,
   Trash2,
   Quote,
+  Puzzle
 } from "lucide-react";
 
 export interface BookmarkCardProps {
@@ -110,22 +111,27 @@ export const BookmarkCard = ({
               type === "detailed"
                 ? "var(--success)"
                 : type === "external"
-                ? "var(--external)"
-                : "var(--warn)"
+                  ? "var(--external)"
+                  : type === "ext"
+                    ? "var(--true-purple)"
+                    : "var(--warn)"
             }
             background={
               type === "detailed"
                 ? "var(--success-400)"
                 : type === "external"
-                ? "var(--external-400)"
-                : "var(--warn-400)"
-            }
-          >
+                  ? "var(--external-400)"
+                  : type === "ext"
+                    ? "var(--true-purple-400)"
+                    : "var(--warn-400)"
+            }>
             <HStack spacing={1}>
               {type === "detailed" ? (
                 <Flame size="14" color="var(--success)" />
               ) : type === "external" ? (
                 <Globe2 size="14" color="var(--external)" />
+              ) : type === "ext" ? (
+                <Puzzle size="14" color="var(--true-purple)" />
               ) : (
                 <ShieldAlert size="14" color="var(--warn)" />
               )}
