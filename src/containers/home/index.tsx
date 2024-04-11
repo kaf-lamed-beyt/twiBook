@@ -113,6 +113,25 @@ function App() {
           </Text>
 
           <UnorderedList my="2em">
+            <ListItem
+              pb=".8em"
+              fontSize={{ lg: "22px", md: "18px", base: "16px" }}
+              color="var(--alt-text)"
+              listStyleType="none"
+            >
+              Upgrade your account to &quot;Basic&quot; to use our{" "}
+              <ChakraLink
+                isExternal
+                href="https://chromewebstore.google.com/detail/twibook/aldmohfochmepihfkhngifhopkmckpgo"
+                target="_blank"
+                color="#fff"
+                textDecoration="underline"
+              >
+                Chrome extension
+              </ChakraLink>
+              . With it, you can create bookmarks without leaving Twitter or
+              follow the steps below
+            </ListItem>
             {HOW_TO_USE?.map((item, index) => {
               return (
                 <ListItem
