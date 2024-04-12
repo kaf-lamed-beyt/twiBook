@@ -15,6 +15,7 @@ import {
   Link as ChakraLink,
   UnorderedList,
   ListItem,
+  Center
 } from "@chakra-ui/react";
 import { FAQS, HOW_TO_USE } from "@utils/data";
 import React from "react";
@@ -89,6 +90,20 @@ function App() {
             </CustomButton>
           </a>
         </Flex>
+        <Center mt="1.2em">
+          <a
+            href="https://www.producthunt.com/posts/twibook?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-twibook"
+            target="_blank"
+          >
+            <Image
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=451355&theme=light"
+              alt="twiBook - Twitter&#0032;bookmarks&#0032;alternative | Product Hunt"
+              style={{ width: "250px", height: "54px" }}
+              width="250"
+              height="54"
+            />
+          </a>
+        </Center>
         <Animated.Box
           ref={ref}
           my="2em"
