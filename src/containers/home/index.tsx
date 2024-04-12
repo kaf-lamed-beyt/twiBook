@@ -15,7 +15,7 @@ import {
   Link as ChakraLink,
   UnorderedList,
   ListItem,
-  Center
+  Center,
 } from "@chakra-ui/react";
 import { FAQS, HOW_TO_USE } from "@utils/data";
 import React from "react";
@@ -98,9 +98,9 @@ function App() {
             <Image
               src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=451355&theme=light"
               alt="twiBook - Twitter&#0032;bookmarks&#0032;alternative | Product Hunt"
-              style={{ width: "250px", height: "54px" }}
+              style={{ width: "250px", height: "50px" }}
               width="250"
-              height="54"
+              height="50"
             />
           </a>
         </Center>
@@ -221,12 +221,12 @@ function App() {
           </Accordion>
         </Box>
         {/* pricing */}
-        <Box
+        <Center
           mt={{ lg: "8em", md: "6em", base: "2em" }}
-          px={{ lg: "14em", base: "1em", md: "2em" }}
+          // px={{ lg: "14em", base: "1em", md: "2em" }}
         >
           <PricingSection />
-        </Box>
+        </Center>
         {/* footer */}
         <Box borderTop="1px solid var(--matte-black)" mt="5em">
           <Flex

@@ -60,8 +60,7 @@ export const PricingSection = () => {
       <SimpleGrid
         py="1.8em"
         spacing={4}
-        px={{ lg: "4.6em", base: ".6em" }}
-        columns={{ lg: 3, base: 1, md: 2 }}
+        columns={{ "2xl": 3, lg: 3, base: 1, md: 2 }}
       >
         {PLANS.map(({ id, name, price, benefits }, index) => {
           return (
