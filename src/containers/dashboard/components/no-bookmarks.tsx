@@ -51,7 +51,7 @@ export const NoBookmarks = ({ openModal }: NoBookmarksProps) => {
             </Tooltip>
           </Box>
           </Link>
-          to create bookmarks without leaving Twitte or use the button below to create a{" "}
+          to create bookmarks without leaving Twitter or use the button below to create a{" "}
           <Box as="span" _hover={{ cursor: "pointer" }}>
             <Tooltip
               placement="right"
