@@ -16,10 +16,10 @@ import { authProviderFromSignIn } from "@utils/misc";
 import { useSession, useUser } from "@hooks/user";
 
 interface HeaderProps {
-  openDrawer: () => void
+  openDrawer: () => void;
 }
 
-export const DashboardHeader = ({openDrawer}: HeaderProps) => {
+export const DashboardHeader = ({ openDrawer }: HeaderProps) => {
   const { twib } = useUser();
   const { session: data } = useSession();
   const message = useGreeting();
@@ -65,7 +65,7 @@ export const DashboardHeader = ({openDrawer}: HeaderProps) => {
       pb=".8em"
       py=".8em"
       right="0"
-      width="85%"
+      width={{ lg: "85%", base: "88%", md: "90%" }}
       position="fixed"
       className="header"
       zIndex="3"
@@ -136,8 +136,6 @@ export const DashboardHeader = ({openDrawer}: HeaderProps) => {
               Logout
             </Text>
           </MenuItem>
-
-
         </MenuList>
       </Menu>
     </Flex>
