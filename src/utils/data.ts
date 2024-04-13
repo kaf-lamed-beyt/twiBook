@@ -95,6 +95,8 @@ export const PLANS = [
       "Simple bookmarks",
       "Chrome extension",
       "All filters included",
+      "Email reminders (coming soon)",
+      "Export bookmarks from Twitter",
       "Up to 150 bookmarks per month",
       "Bookmarks not limited to Twitter",
     ],
