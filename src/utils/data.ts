@@ -91,14 +91,11 @@ export const PLANS = [
     name: "Pro",
     price: "$7.99",
     benefits: [
-      "Tweet previews",
-      "Simple bookmarks",
-      "Chrome extension",
+      "Everything in 'Basic'",
       "All filters included",
       "Email reminders (coming soon)",
       "Export bookmarks from Twitter",
       "Up to 150 bookmarks per month",
-      "Bookmarks not limited to Twitter",
     ],
   },
   // {
