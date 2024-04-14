@@ -93,8 +93,8 @@ export const PLANS = [
       "Everything in 'Basic'",
       "All filters included",
       "Email reminders (coming soon)",
-      "Export bookmarks from Twitter",
       "Up to 150 bookmarks per month",
+      "Export bookmarks from Twitter (soon)",
     ],
   },
   // {
