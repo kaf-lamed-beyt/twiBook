@@ -93,22 +93,20 @@ export default function BooksReminder({ userName, data }: EmailData) {
           You created 4 bookmarks this week. See them below
         </Text>
 
-        <div style={bookmark}>
-          <p style={bookmarkTitle}>Looku lookuuu</p>
-          <div
+        <div>
+          <Link
             style={{
-              height: "fit-content",
-              margin: "auto 0",
-              textTransform: "uppercase",
-              fontSize: "12px",
-              padding: ".1em .3em",
-              borderRadius: "4px",
-              color: "#8e3dff",
-              background: "rgba(106, 13, 173, 0.4)",
+              color: "rgba(22, 219, 101, 1)",
+              display: "block",
+              fontSize: "18px",
+              margin: "10px 0",
+              textDecoration: "underline",
             }}
           >
-            direct
-          </div>
+            Looku lookuuu
+          </Link>
+
+          <Link style={{ color: "#3772ff" }}>Looku lookuuu</Link>
         </div>
 
         <div

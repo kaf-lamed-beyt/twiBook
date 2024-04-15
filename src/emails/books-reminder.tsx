@@ -105,37 +105,26 @@ export default function BooksReminder({ userName, data }: EmailData) {
               : book.title;
 
           return (
-            <div style={bookmark} key={index}>
-              <p style={bookmarkTitle}>{truncated}</p>
-              <div
-                style={{
-                  height: "fit-content",
-                  margin: "auto 0",
-                  textTransform: "uppercase",
-                  fontSize: "12px",
-                  padding: ".1em .3em",
-                  borderRadius: "4px",
-                  color:
-                    book.book_type === "detailed"
-                      ? "rgba(22, 219, 101, 1)"
-                      : book.book_type === "external"
-                      ? "#3772ff"
-                      : book.book_type === "direct"
-                      ? "#8e3dff"
-                      : "rgba(255, 214, 10, 1)",
-                  background:
-                    book.book_type === "detailed"
-                      ? "rgba(22, 219, 101, 0.4)"
-                      : book.book_type === "external"
-                      ? "rgba(55, 114, 255, 0.4)"
-                      : book.book_type === "direct"
-                      ? "rgba(106, 13, 173, 0.4)"
-                      : "rgba(255, 214, 10, 0.4)",
-                }}
-              >
-                {book.book_type}
-              </div>
-            </div>
+            <Link
+              key={index}
+              style={{
+                color:
+                  book.book_type === "detailed"
+                    ? "rgba(22, 219, 101, 1)"
+                    : book.book_type === "external"
+                    ? "#3772ff"
+                    : book.book_type === "direct"
+                    ? "#8e3dff"
+                    : "rgba(255, 214, 10, 1)",
+                display: "block",
+                fontSize: "18px",
+                margin: "10px 0",
+                textDecoration: "underline",
+              }}
+              href={book.book_link}
+            >
+              {truncated}
+            </Link>
           );
         })}
 
