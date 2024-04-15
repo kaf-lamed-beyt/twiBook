@@ -1,0 +1,14 @@
+name: Weekly Email Reminder
+
+on:
+  schedule:
+    - cron: '0 13 13 4 *'
+
+jobs:
+  send-email-reminder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Email Reminder
+        run: |
+          curl -X POST https://twibook.app/api/bookmarks-reminder
