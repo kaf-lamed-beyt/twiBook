@@ -31,7 +31,11 @@ export const Profile = () => {
   const { openToast } = useToastContext();
   const { twib, booksThisMonth, freePreviews } = useUser();
 
-  const preferences = JSON.parse(twib?.preferences);
+  let preferences
+
+  if (twib?.preferences) {
+   preferences = JSON.parse(twib?.preferences);
+  }
 
   const [accountPreference, setAccountPreference] =
     React.useState<AccountPreference>({
@@ -73,8 +77,6 @@ export const Profile = () => {
   ) => {
     try {
       const newPreference = { weekly_reminders: e.target.checked };
-
-      // Set the state first
       setAccountPreference(newPreference);
 
       const { error } = await supabase
@@ -315,7 +317,7 @@ export const Profile = () => {
                       />
                     ) : (
                       <Checkbox
-                        isChecked={accountPreference.weekly_reminders}
+                        isChecked={accountPreference?.weekly_reminders}
                         onChange={(e) => updateAccountPreference(e)}
                         colorScheme="purple"
                         border="1px solid var(--matte-black)"
