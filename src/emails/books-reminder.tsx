@@ -1,12 +1,11 @@
 import {
   Html,
   Container,
-  Img,
   Head,
   Font,
   Heading,
   Text,
-  Link,
+  Link
 } from "@react-email/components";
 
 const containerStyle = {
@@ -64,27 +63,6 @@ export default function BooksReminder({ userName, data }: EmailData) {
         />
       </Head>
       <Container style={containerStyle}>
-        <div
-          style={{
-            display: "flex",
-            gap: "1.2em",
-            marginTop: "1em",
-            paddingBottom: "1em",
-          }}
-        >
-          <Img src="https://res.cloudinary.com/meje/image/upload/v1713089657/twb-logo-36x36_o2rhya.png" />{" "}
-          <span
-            style={{
-              fontSize: "18px",
-              color: "#000",
-              fontWeight: "bold",
-              marginTop: "9px",
-            }}
-          >
-            twiBook
-          </span>
-        </div>
-
         <Heading style={headingStyle}>Hello {userName}</Heading>
 
         {data.length === 0 ? (
@@ -130,7 +108,6 @@ export default function BooksReminder({ userName, data }: EmailData) {
 
         <div
           style={{
-            textAlign: "center",
             color: "#a09d9d",
             borderTop: "1px solid #cac6c6",
           }}

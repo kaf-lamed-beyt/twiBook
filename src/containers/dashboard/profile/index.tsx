@@ -7,6 +7,7 @@ import {
   HStack,
   Badge,
   FormLabel,
+  Checkbox,
 } from "@chakra-ui/react";
 import { DashboardLayout } from "../components/layout";
 import { CalendarClock, LibraryBig, BookOpen, Settings } from "lucide-react";
@@ -20,10 +21,23 @@ import { useUser } from "@hooks/user";
 import { supabase } from "@utils/supabase/client";
 import { Quotas } from "@utils/misc";
 import { MetaData } from "@components/metadata";
+import React from "react";
+
+interface AccountPreference {
+  weekly_reminders: boolean;
+}
 
 export const Profile = () => {
   const { openToast } = useToastContext();
   const { twib, booksThisMonth, freePreviews } = useUser();
+
+  const preferences = JSON.parse(twib?.preferences);
+
+  const [accountPreference, setAccountPreference] =
+    React.useState<AccountPreference>({
+      weekly_reminders:
+        preferences === null ? false : preferences?.weekly_reminders,
+    });
 
   const fullname = `${twib?.firstname} ${twib?.lastname}`;
 
@@ -46,6 +60,36 @@ export const Profile = () => {
 
       if (!error) {
         openToast("Profile updated successfully!", "success");
+      } else {
+        openToast(error.message, "error");
+      }
+    } catch (error) {
+      openToast("Something went wrong. Please try again.", "error");
+    }
+  };
+
+  const updateAccountPreference = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    try {
+      const newPreference = { weekly_reminders: e.target.checked };
+
+      // Set the state first
+      setAccountPreference(newPreference);
+
+      const { error } = await supabase
+        .from("account")
+        .update({
+          preferences: JSON.stringify(newPreference),
+        })
+        .eq("id", twib?.id);
+
+      if (!error) {
+        if (newPreference.weekly_reminders === true) {
+          openToast("You'll get email reminders", "success");
+        } else {
+          openToast("You won't get reminders again.", "warning");
+        }
       } else {
         openToast(error.message, "error");
       }
@@ -218,44 +262,68 @@ export const Profile = () => {
               </HStack>
 
               <Box py=".8em" px="1.2em">
-                <HStack spacing={2} my=".8em">
-                  <Text fontSize="20px">Current plan: </Text>
-                  <Badge
-                    borderRadius="4px"
-                    color={
-                      twib?.has_license === false ||
-                      twib?.license_type === "free"
-                        ? "var(--warn)"
-                        : twib?.has_license === true && twib?.license_type === "pro"
-                        ? "var(--true-purple)"
-                        : "var(--success)"
-                    }
-                    background={
-                      twib?.has_license === false ||
-                      twib?.license_type === "free"
-                        ? "var(--warn-400)"
-                        : twib?.has_license === true &&
-                          twib?.license_type === "basic"
-                        ? "var(--success-400)"
-                        : twib?.has_license === true &&
-                          twib?.license_type === "pro"
-                        ? "var(--true-purple-600)"
-                        : "var(--warn-400)"
-                    }
-                  >
-                    <Text my="auto" fontSize="12px" fontWeight="bold">
-                      {twib?.has_license === true &&
-                      twib?.license_type === "pro"
-                        ? "pro"
-                        : twib?.has_license === true &&
-                          twib?.license_type === "basic"
-                        ? "basic"
-                        : twib?.has_license === false
-                        ? "free"
-                        : "free"}
-                    </Text>
-                  </Badge>
-                </HStack>
+                <Flex
+                  justifyContent="space-between"
+                  flexFlow={{ lg: "row", md: "row", base: "column" }}
+                >
+                  <HStack spacing={2} my=".8em">
+                    <Text fontSize="20px">Current plan: </Text>
+                    <Badge
+                      borderRadius="4px"
+                      color={
+                        twib?.has_license === false ||
+                        twib?.license_type === "free"
+                          ? "var(--warn)"
+                          : twib?.has_license === true &&
+                            twib?.license_type === "pro"
+                          ? "var(--true-purple)"
+                          : "var(--success)"
+                      }
+                      background={
+                        twib?.has_license === false ||
+                        twib?.license_type === "free"
+                          ? "var(--warn-400)"
+                          : twib?.has_license === true &&
+                            twib?.license_type === "basic"
+                          ? "var(--success-400)"
+                          : twib?.has_license === true &&
+                            twib?.license_type === "pro"
+                          ? "var(--true-purple-600)"
+                          : "var(--warn-400)"
+                      }
+                    >
+                      <Text my="auto" fontSize="12px" fontWeight="bold">
+                        {twib?.has_license === true &&
+                        twib?.license_type === "pro"
+                          ? "pro"
+                          : twib?.has_license === true &&
+                            twib?.license_type === "basic"
+                          ? "basic"
+                          : twib?.has_license === false
+                          ? "free"
+                          : "free"}
+                      </Text>
+                    </Badge>
+                  </HStack>
+
+                  <HStack>
+                    {twib?.has_license === false ? (
+                      <Checkbox
+                        colorScheme="purple"
+                        border="1px solid var(--matte-black)"
+                        isDisabled
+                      />
+                    ) : (
+                      <Checkbox
+                        isChecked={accountPreference.weekly_reminders}
+                        onChange={(e) => updateAccountPreference(e)}
+                        colorScheme="purple"
+                        border="1px solid var(--matte-black)"
+                      />
+                    )}{" "}
+                    <Text fontSize="18px">Opt-in for weekly reminders</Text>
+                  </HStack>
+                </Flex>
 
                 <Box mt="2em">
                   <Formik

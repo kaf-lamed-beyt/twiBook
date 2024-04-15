@@ -57,6 +57,7 @@ export const useUser = () => {
       license_price: user.amount_paid,
       license_purchase_date: user.order_created_at,
       sub_cancelled_date: user.sub_cancelled_date,
+      preferences: user.preferences
     };
   });
 

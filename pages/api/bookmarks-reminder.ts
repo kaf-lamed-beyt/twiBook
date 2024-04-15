@@ -54,11 +54,14 @@ export default async function sendBookmarksReminder(
       .eq("id", user.id)
       .eq("week", thisWeek);
 
-    if (!booksError) {
-      const { data, error } = await resend.emails.send({
+    // @ts-ignore
+    const userPreference = JSON.parse(user?.preference);
+
+    if (!booksError && userPreference.weekly_reminders === true) {
+      const { error } = await resend.emails.send({
         from: "caleb@twibook.app",
         // @ts-ignore
-        to: "belac335@gmail.com",
+        to: user.email,
         subject: `You created ${booksThisWeek?.length} bookmark${
           booksThisWeek?.length > 1 ? "s" : ""
         } this week`,
