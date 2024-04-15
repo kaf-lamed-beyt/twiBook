@@ -81,6 +81,7 @@ export const PLANS = [
       "Everything in 'Free'",
       "Chrome extension",
       "Filter by month",
+      "Weekly Email reminders",
       "Create external bookmarks",
       "Up to 50 bookmarks per month"
     ],
@@ -92,7 +93,7 @@ export const PLANS = [
     benefits: [
       "Everything in 'Basic'",
       "All filters included",
-      "Email reminders (coming soon)",
+      "Weekly Email reminders",
       "Up to 150 bookmarks per month",
       "Export bookmarks from Twitter (soon)",
     ],
