@@ -36,11 +36,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     user: undefined,
   });
 
-  const authenticateUser = (
+  const authenticateUser = async (
     isLoggedIn: boolean,
     user: AuthContextValues["user"]
   ) => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data } = await supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
         setAuthState({
           user: session?.user || user,
@@ -126,11 +126,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   React.useEffect(() => {
-    const storedAuthState = getCookie("_as");
+    const storedAuthState = getCookie("_as")
     if (storedAuthState) {
       const parsedAuthState = JSON.parse(storedAuthState);
       setAuthState(parsedAuthState);
     }
+
 
     if (pathname.startsWith("/dashboard")) {
       if (authState.isAuthenticated === false) {

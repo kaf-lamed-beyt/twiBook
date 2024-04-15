@@ -1,8 +1,12 @@
 import { getCookie } from "cookies-next";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import weekOfYear from "dayjs/plugin/weekOfYear"
 
 dayjs.extend(relativeTime);
+dayjs.extend(weekOfYear)
+
+export const thisWeek = dayjs().week()
 
 export const authCookieOptions = {
   path: "/",
@@ -36,3 +40,4 @@ export const extractTweetIdFromLink = (link: string) => {
 
   return id[1];
 };
+

@@ -23,7 +23,12 @@ import { Form, Formik } from "formik";
 import { InputField } from "@components/input-field";
 import { useToastContext } from "@hooks/toast";
 import { supabase } from "@utils/supabase/client";
-import { Quotas, dateFromNow, extractTweetIdFromLink } from "@utils/misc";
+import {
+  Quotas,
+  dateFromNow,
+  extractTweetIdFromLink,
+  thisWeek,
+} from "@utils/misc";
 import {
   createBookmarkSchema,
   createBookmarkSchema_LICENSED,
@@ -90,6 +95,7 @@ export const Dashboard = () => {
         book_id: crypto.randomUUID(),
         book_link: await protector(link, publicKey),
         book_created_at: new Date().toISOString(),
+        week: thisWeek,
       });
 
       if (!error) {
@@ -110,28 +116,33 @@ export const Dashboard = () => {
 
       if (tweetId) {
         const response = await fetch(`/api/tweet?tweetId=${tweetId}`);
-        const data = await response.json();
 
-        const { error } = await supabase.from("books").insert({
-          id: twib?.id,
-          title: title,
-          book_type: "detailed",
-          book_id: crypto.randomUUID(),
-          book_link: await protector(link, publicKey),
-          book_created_at: new Date().toISOString(),
-          content: JSON.stringify(data),
-        });
+        if (response.ok && response.status === 200) {
+          const data = await response.json();
 
-        if (!error) {
-          openToast(`Bookmarked successfully!"`, "success");
-          refetchBooks();
-          setFilteredBooks(books || []);
-          onClose();
+          const { error } = await supabase.from("books").insert({
+            id: twib?.id,
+            title: title,
+            book_type: "detailed",
+            book_id: crypto.randomUUID(),
+            book_link: await protector(link, publicKey),
+            book_created_at: new Date().toISOString(),
+            content: JSON.stringify(data),
+            week: thisWeek,
+          });
+
+          if (!error) {
+            openToast(`Bookmarked successfully!"`, "success");
+            refetchBooks();
+            setFilteredBooks(books || []);
+            onClose();
+          } else {
+            openToast(error.message, "error");
+          }
         } else {
-          openToast(error.message, "error");
+          openToast("Previews are down, try again later", "warning");
+          createSimpleBookmark(title, link);
         }
-      } else {
-        createSimpleBookmark(title, link);
       }
     },
     [
@@ -282,7 +293,6 @@ export const Dashboard = () => {
               </HStack>
             </Stack>
 
-
             {searchError !== "" ? (
               <Text color="var(--alt-text)" textAlign="center" py="1em">
                 {searchError}
@@ -300,7 +310,12 @@ export const Dashboard = () => {
                 <Spinner mt="2.5em" color="var(--matte-black)" />
               </Center>
             ) : (
-              <SimpleGrid columns={{xl: 4, lg: 3, md: 2, base: 1}} gap="1em" flexWrap="wrap" my="2em">
+              <SimpleGrid
+                columns={{ xl: 4, lg: 3, md: 2, base: 1 }}
+                gap="1em"
+                flexWrap="wrap"
+                my="2em"
+              >
                 {filteredBooks?.map(
                   (
                     { book_id, book_type, title, book_created_at, content },
@@ -441,7 +456,8 @@ export const Dashboard = () => {
                       values.bookmarkTitle,
                       values.bookmarkLink
                     )
-                  : twib?.license_type === "pro" || twib?.license_type === "basic"
+                  : twib?.license_type === "pro" ||
+                    twib?.license_type === "basic"
                   ? await createDetailedBookmark(
                       values.bookmarkTitle,
                       values.bookmarkLink

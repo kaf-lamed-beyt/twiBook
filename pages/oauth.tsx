@@ -6,6 +6,7 @@ import { authCookieOptions } from "@utils/misc";
 import { useAuthContext } from "@hooks/auth";
 import { exchange } from "@utils/oauth-helpers";
 import { useRouter } from "next/router";
+import { supabase } from "@utils/supabase/client";
 
 export default function Oauth() {
   const router = useRouter();
@@ -25,8 +26,41 @@ export default function Oauth() {
 
           const user = await exchange(accessToken);
 
+          if (user) {
+            const { data: userData } = await supabase
+              .from("account")
+              .select("*")
+              .single();
+
+            console.log("user", userData);
+
+            if (userData?.email === "" && userData?.username === null) {
+              await supabase
+                .from("account")
+                .update({
+                  email: user?.identities?.[0]?.identity_data?.email,
+                  username: user?.identities?.[0]?.identity_data?.fullname,
+                })
+                .eq("id", user.id);
+            } else if (userData.email === "") {
+              await supabase
+                .from("account")
+                .update({
+                  email: user?.identities?.[0]?.identity_data?.email,
+                })
+                .eq("id", user.id);
+            } else if (userData.username === null) {
+              await supabase
+                .from("account")
+                .update({
+                  username: user?.identities?.[0]?.identity_data?.fullname,
+                })
+                .eq("id", user.id);
+            }
+          }
+
           authenticator(true, user);
-          router.prefetch("/dashboard")
+          router.prefetch("/dashboard");
           router.push("/dashboard");
           openToast("Logged in successfully!", "success");
         } else {

@@ -21,6 +21,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@pages/*": ["src/containers/*"],
       "@context/*": ["src/context/*"],
+      "@emails/*":["src/emails/*"],
       "@components/*": ["src/components/*"],
       "@externals/*": ["src/externals/*"],
       "@dashboard-components/*": ["src/containers/dashboard/components/*"]
