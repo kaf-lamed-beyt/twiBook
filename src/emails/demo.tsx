@@ -11,7 +11,6 @@ import {
 } from "@react-email/components";
 
 const containerStyle = {
-  border: "1px solid #cac6c6",
   padding: ".6em .8em",
   color: "#fff",
   borderRadius: "4px",
@@ -37,10 +36,11 @@ const bookmarkTitle = {
 const bookmark = {
   display: "flex",
   justifyContent: "space-between",
-  margin: "18px 0",
-  height: "45px",
+  gap: "4em",
+  margin: "14px 0",
+  height: "fit-content",
   borderRadius: "6px",
-  padding: ".6em 1em",
+  padding: ".4em 1em",
   background: "#1b1b1b",
 };
 
@@ -74,7 +74,6 @@ export default function BooksReminder({ userName, data }: EmailData) {
             gap: ".6em",
             marginTop: "1em",
             paddingBottom: "1em",
-            borderBottom: "1px solid #cac6c6",
           }}
         >
           <Img src="https://res.cloudinary.com/meje/image/upload/v1713089657/twb-logo-36x36_o2rhya.png" />{" "}
@@ -98,12 +97,11 @@ export default function BooksReminder({ userName, data }: EmailData) {
           <p style={bookmarkTitle}>Looku lookuuu</p>
           <div
             style={{
+              height: "fit-content",
               margin: "auto 0",
-              height: "18px",
               textTransform: "uppercase",
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: ".1em .2em",
+              fontSize: "12px",
+              padding: ".1em .3em",
               borderRadius: "4px",
               color: "#8e3dff",
               background: "rgba(106, 13, 173, 0.4)",

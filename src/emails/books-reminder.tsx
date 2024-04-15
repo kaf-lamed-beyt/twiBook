@@ -34,11 +34,12 @@ const bookmarkTitle = {
 
 const bookmark = {
   display: "flex",
-  justifyContent: "space-between !important",
-  margin: "18px 0",
-  height: "40px",
+  justifyContent: "space-between",
+  gap: "4em",
+  margin: "14px 0",
+  height: "fit-content",
   borderRadius: "6px",
-  padding: ".6em 1em",
+  padding: ".4em 1em",
   background: "#1b1b1b",
 };
 
@@ -66,7 +67,7 @@ export default function BooksReminder({ userName, data }: EmailData) {
         <div
           style={{
             display: "flex",
-            gap: "1em",
+            gap: "1.2em",
             marginTop: "1em",
             paddingBottom: "1em",
           }}
@@ -108,12 +109,11 @@ export default function BooksReminder({ userName, data }: EmailData) {
               <p style={bookmarkTitle}>{truncated}</p>
               <div
                 style={{
-                  margin: "auto 0",
                   height: "fit-content",
+                  margin: "auto 0",
                   textTransform: "uppercase",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  padding: ".1em .2em",
+                  fontSize: "12px",
+                  padding: ".1em .3em",
                   borderRadius: "4px",
                   color:
                     book.book_type === "detailed"
