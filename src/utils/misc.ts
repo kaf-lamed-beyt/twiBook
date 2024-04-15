@@ -6,6 +6,8 @@ import weekOfYear from "dayjs/plugin/weekOfYear"
 dayjs.extend(relativeTime);
 dayjs.extend(weekOfYear)
 
+export const thisWeek = dayjs().week()
+
 export const authCookieOptions = {
   path: "/",
   maxAge: 60 * 6 * 24,

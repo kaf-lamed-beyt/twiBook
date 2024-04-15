@@ -1,4 +1,3 @@
-import { BookmarkCardProps } from "@pages/dashboard/components/bookmark-card";
 import {
   Html,
   Container,
@@ -11,19 +10,20 @@ import {
 } from "@react-email/components";
 
 const containerStyle = {
-  border: "1px solid #28282b",
   padding: ".6em .8em",
   color: "#fff",
-  borderRadius: "6px",
+  borderRadius: "4px",
 };
 
 const headingStyle = {
   fontSize: "22px",
+  color: "#000",
 };
 
 const textStyle = {
   fontSize: "16px",
-  color: "#a09d9d",
+  color: "#000",
+  marginTop: "-10px",
 };
 
 const bookmarkTitle = {
@@ -34,29 +34,22 @@ const bookmarkTitle = {
 
 const bookmark = {
   display: "flex",
-  justifyContent: "space-between",
+  justifyContent: "space-between !important",
   margin: "18px 0",
-  height: "45px",
-  border: "1px solid #28282b",
+  height: "40px",
   borderRadius: "6px",
   padding: ".6em 1em",
+  background: "#1b1b1b",
 };
 
 export interface EmailData {
   userName: string;
-  data: BookmarkCardProps[];
+  data: { book_type: string; title: string; book_link: string }[];
 }
 
 export default function BooksReminder({ userName, data }: EmailData) {
-  // const truncated =
-  // books.title.length > 38 ? `${books.title.split("").slice(0, 38).join("")}...` : books.title;
-
   return (
-    <Html
-      style={{
-        background: "#1b1b1b",
-      }}
-    >
+    <Html>
       <Head>
         <Font
           fontFamily="Livvic"
@@ -72,69 +65,75 @@ export default function BooksReminder({ userName, data }: EmailData) {
       <Container style={containerStyle}>
         <div
           style={{
-            marginTop: "1.2em",
             display: "flex",
-            justifyContent: "center",
-            alignContent: "center",
-            alignItems: "center",
+            gap: "1em",
+            marginTop: "1em",
             paddingBottom: "1em",
-            borderBottom: "1px solid #28282b",
           }}
         >
-          <Img src="https://res.cloudinary.com/meje/image/upload/v1713007034/twb-logo-64x64_hj52xh.png" />
+          <Img src="https://res.cloudinary.com/meje/image/upload/v1713089657/twb-logo-36x36_o2rhya.png" />{" "}
+          <span
+            style={{
+              fontSize: "18px",
+              color: "#000",
+              fontWeight: "bold",
+              marginTop: "9px",
+            }}
+          >
+            twiBook
+          </span>
         </div>
-        <Heading style={headingStyle}>Hello {userName}</Heading>
-        <Text style={textStyle}>
-          You created {data.length} bookmarks this week. See them below
-        </Text>
 
-        {data.map((book: BookmarkCardProps, index: React.Key) => {
+        <Heading style={headingStyle}>Hello {userName}</Heading>
+
+        {data.length === 0 ? (
+          <Text style={textStyle}>
+            You did not create any bookmarks this week
+          </Text>
+        ) : (
+          <Text style={textStyle}>
+            You created {data.length} bookmark{data.length === 1 ? "" : "s"}{" "}
+            this week. See them below
+          </Text>
+        )}
+
+        {data.map((book, index: React.Key) => {
+          const truncated =
+            book.title.length > 38
+              ? `${book.title.split("").slice(0, 38).join("")}...`
+              : book.title;
+
           return (
             <div style={bookmark} key={index}>
-              <p style={bookmarkTitle}>Looku lookuuu</p>
-              {/* <div
-          style={{
-            margin: "auto 0",
-            height: "18px",
-            textTransform: "uppercase",
-            fontSize: "14px",
-            fontWeight: "bold",
-            padding: ".1em .2em",
-            borderRadius: "4px",
-            color: "#8e3dff",
-            background: "rgba(106, 13, 173, 0.4)",
-          }}
-        >
-          direct
-        </div> */}
+              <p style={bookmarkTitle}>{truncated}</p>
               <div
                 style={{
                   margin: "auto 0",
-                  height: "18px",
+                  height: "fit-content",
                   textTransform: "uppercase",
                   fontSize: "14px",
                   fontWeight: "bold",
                   padding: ".1em .2em",
                   borderRadius: "4px",
                   color:
-                    book.type === "detailed"
+                    book.book_type === "detailed"
                       ? "rgba(22, 219, 101, 1)"
-                      : book.type === "external"
+                      : book.book_type === "external"
                       ? "#3772ff"
-                      : book.type === "direct"
+                      : book.book_type === "direct"
                       ? "#8e3dff"
                       : "rgba(255, 214, 10, 1)",
                   background:
-                    book.type === "detailed"
+                    book.book_type === "detailed"
                       ? "rgba(22, 219, 101, 0.4)"
-                      : book.type === "external"
+                      : book.book_type === "external"
                       ? "rgba(55, 114, 255, 0.4)"
-                      : book.type === "direct"
+                      : book.book_type === "direct"
                       ? "rgba(106, 13, 173, 0.4)"
                       : "rgba(255, 214, 10, 0.4)",
                 }}
               >
-                {book.type}
+                {book.book_type}
               </div>
             </div>
           );
@@ -144,7 +143,7 @@ export default function BooksReminder({ userName, data }: EmailData) {
           style={{
             textAlign: "center",
             color: "#a09d9d",
-            borderTop: "1px solid #28282b",
+            borderTop: "1px solid #cac6c6",
           }}
         >
           <Text>
