@@ -1,8 +1,8 @@
 import { Resend } from "resend";
-import dayjs from "dayjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
 import BooksReminder from "@emails/books-reminder";
+import { thisWeek } from "@utils/misc";
 
 export type User = {
   email: string;
@@ -18,7 +18,6 @@ export default async function sendBookmarksReminder(
     process.env.NEXT_PUBLIC_PROJECT_URL!,
     process.env.NEXT_PUBLIC_SERVICE_KEY!
   );
-  const thisWeek = dayjs().week();
 
   // Fetch all users who created bookmarks this week
   const { data: usersWithBookmarks, error: usersError } = await supabase
@@ -44,9 +43,6 @@ export default async function sendBookmarksReminder(
   }
 
   for (const user of users) {
-    // @ts-ignore
-    // if (user.email === "" || !user.email) return;
-
     const { data: booksThisWeek, error: booksError } = await supabase
       .from("books")
       .select()
@@ -54,10 +50,14 @@ export default async function sendBookmarksReminder(
       .eq("id", user.id)
       .eq("week", thisWeek);
 
+    let userPreference;
     // @ts-ignore
-    const userPreference = JSON.parse(user?.preference);
+    if (user?.preferences !== null) {
+      // @ts-ignore
+      userPreference = JSON.parse(user?.preferences ?? "");
+    }
 
-    if (!booksError && userPreference.weekly_reminders === true) {
+    if (!booksError && userPreference?.weekly_reminders === true) {
       const { error } = await resend.emails.send({
         from: "caleb@twibook.app",
         // @ts-ignore
