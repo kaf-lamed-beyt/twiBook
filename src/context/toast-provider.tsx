@@ -53,7 +53,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
                   style={{ marginTop: "3px" }}
                 />
               ) : status === "warning" ? (
-                <AlertTriangle color="var(--warn)" />
+                <AlertTriangle size="20" color="var(--warn)" />
               ) : (
                 <Radio
                   size="20"
