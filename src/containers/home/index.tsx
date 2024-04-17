@@ -134,7 +134,7 @@ function App() {
               color="var(--alt-text)"
               listStyleType="none"
             >
-              Upgrade your account to &quot;Basic&quot; to use our{" "}
+              Use our{" "}
               <ChakraLink
                 isExternal
                 href="https://chromewebstore.google.com/detail/twibook/aldmohfochmepihfkhngifhopkmckpgo"
